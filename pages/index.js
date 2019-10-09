@@ -1,6 +1,6 @@
 import React from "react";
 import TestConfiguration from "../components/testConfiguration/TestConfiguration";
-import Header from "../components/Header";
+import StandardLayout from "../layouts/StandardLayout";
 import TestResults from "../components/results/TestResults";
 import "./index.scss";
 
@@ -55,14 +55,15 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div className="AppContainer">
-				<Header />
-				<TestConfiguration submitTests={this.submitTests} />
-				<TestResults
-					tests={this.state.tests}
-					resultOptions={this.state.resultOptions}
-				/>
-			</div>
+			<StandardLayout>
+				<div className="indexPageContainer">
+					<TestConfiguration submitTests={this.submitTests} />
+					<TestResults
+						tests={this.state.tests}
+						resultOptions={this.state.resultOptions}
+					/>
+				</div>
+			</StandardLayout>
 		);
 	}
 }
