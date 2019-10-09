@@ -1,0 +1,41 @@
+{
+	"name": "wpt-adhoc",
+	"version": "1.0.0",
+	"description": "Uses WebPageTest to test performance of many URLs at once",
+	"main": "index.js",
+	"scripts": {
+		"dev": "next",
+		"build": "next build",
+		"start": "next start"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bbhagan/wpt-adhoc.git"
+	},
+	"keywords": [
+		"WebPageTest",
+		"WPT"
+	],
+	"author": "Brian Hagan",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/bbhagan/wpt-adhoc/issues"
+	},
+	"homepage": "https://github.com/bbhagan/wpt-adhoc#readme",
+	"dependencies": {
+		"@zeit/next-sass": "^1.0.1",
+		"next": "^9.1.1",
+		"node-sass": "^4.12.0",
+		"react": "^16.10.2",
+		"react-dom": "^16.10.2"
+	},
+	"devDependencies": {
+		"eslint": "^6.5.1",
+		"eslint-config-standard": "^14.1.0",
+		"eslint-plugin-import": "^2.18.2",
+		"eslint-plugin-node": "^10.0.0",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-react": "^7.16.0",
+		"eslint-plugin-standard": "^4.0.1"
+	}
+}
