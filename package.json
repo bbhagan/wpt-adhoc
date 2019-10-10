@@ -17,7 +17,7 @@
 		"WPT"
 	],
 	"author": "Brian Hagan",
-	"license": "ISC",
+	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/bbhagan/wpt-adhoc/issues"
 	},

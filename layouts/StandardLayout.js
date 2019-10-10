@@ -1,4 +1,5 @@
-import Masthead from "../components/Masthead";
+import Masthead from "../components/global/Masthead";
+import Footer from "../components/global/Footer";
 import Head from "next/head";
 import "../public/static/scss/global.scss";
 
@@ -11,6 +12,7 @@ class StandardLayout extends React.Component {
 				</Head>
 				<Masthead />
 				{this.props.children}
+				<Footer />
 			</div>
 		);
 	}

@@ -14,7 +14,7 @@ class Masthead extends React.Component {
 								<li className="nav-item active">
 									<Link href="/">
 										<a className="nav-link">
-											Home <span class="sr-only">(current)</span>
+											Home <span className="sr-only">(current)</span>
 										</a>
 									</Link>
 								</li>

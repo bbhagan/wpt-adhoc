@@ -26,7 +26,7 @@ class TestConfigurationURLs extends React.Component {
 		return (
 			<div className="TestConfigurationURLsContainer">
 				{this.props.urls.map((url, idx) => (
-					<div className="form-group">
+					<div key={idx} className="form-group">
 						<input
 							key={idx}
 							type="text"

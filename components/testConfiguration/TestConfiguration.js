@@ -143,18 +143,18 @@ class TestConfiguration extends React.Component {
 									</div>
 
 									<div
-										class="btn-group test-configuration-opener"
+										className="btn-group test-configuration-opener"
 										role="group"
 										onClick={this.handleToggleAdvancedConfig}
 									>
-										<button type="button" class="btn btn-primary">
+										<button type="button" className="btn btn-primary">
 											Test Configuration
 										</button>
-										<div class="btn-group" role="group">
+										<div className="btn-group" role="group">
 											<button
 												id="btnGroupDrop1"
 												type="button"
-												class="btn btn-primary dropdown-toggle"
+												className="btn btn-primary dropdown-toggle"
 												data-toggle="dropdown"
 												aria-haspopup="true"
 												aria-expanded="false"
