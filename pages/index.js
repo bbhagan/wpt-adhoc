@@ -1,9 +1,8 @@
-import React from "react";
 import TestConfiguration from "../components/testConfiguration/TestConfiguration";
 import StandardLayout from "../layouts/StandardLayout";
 import TestResults from "../components/results/TestResults";
 
-class App extends React.Component {
+class index extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -69,4 +68,4 @@ class App extends React.Component {
 	}
 }
 
-export default App;
+export default index;

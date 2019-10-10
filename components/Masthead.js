@@ -9,6 +9,27 @@ class Masthead extends React.Component {
 						<Link href="/">
 							<a className="navbar-brand">Webpagetest Helper</a>
 						</Link>
+						<div className="collapse navbar-collapse" id="navbarColor01">
+							<ul className="navbar-nav mr-auto">
+								<li className="nav-item active">
+									<Link href="/">
+										<a className="nav-link">
+											Home <span class="sr-only">(current)</span>
+										</a>
+									</Link>
+								</li>
+								<li className="nav-item">
+									<Link href="/help">
+										<a className="nav-link">Help</a>
+									</Link>
+								</li>
+								<li className="nav-item">
+									<Link href="/about">
+										<a className="nav-link">About</a>
+									</Link>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</nav>
 			</div>
