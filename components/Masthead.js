@@ -1,12 +1,16 @@
+import Link from "next/link";
+
 class Masthead extends React.Component {
 	render() {
 		return (
 			<div className="MastheadContainer">
-				<div className="container">
-					<header>
-						<h1>Webpagetest Helper</h1>
-					</header>
-				</div>
+				<nav className="navbar navbar-expand-lg navbar-dark bg-light">
+					<div className="container">
+						<Link href="/">
+							<a className="navbar-brand">Webpagetest Helper</a>
+						</Link>
+					</div>
+				</nav>
 			</div>
 		);
 	}

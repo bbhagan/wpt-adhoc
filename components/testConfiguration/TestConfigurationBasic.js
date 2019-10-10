@@ -1,4 +1,5 @@
 import React from "react";
+import TestConfigurationGrouping from "./TestConfigurationGrouping";
 import PropTypes from "prop-types";
 
 class TestConfigurationBasic extends React.Component {
@@ -24,6 +25,7 @@ class TestConfigurationBasic extends React.Component {
 			<div className="TestConfigurationBasicContainer" style={showBlock}>
 				<div className="row">
 					<div className="column">
+						<TestConfigurationGrouping />
 						<label>
 							Mobile/desktop
 							{this.props.testLocations.map((location, idx) => (

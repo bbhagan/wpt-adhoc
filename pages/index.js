@@ -2,7 +2,6 @@ import React from "react";
 import TestConfiguration from "../components/testConfiguration/TestConfiguration";
 import StandardLayout from "../layouts/StandardLayout";
 import TestResults from "../components/results/TestResults";
-import "./index.scss";
 
 class App extends React.Component {
 	constructor(props) {
@@ -57,11 +56,13 @@ class App extends React.Component {
 		return (
 			<StandardLayout>
 				<div className="indexPageContainer">
-					<TestConfiguration submitTests={this.submitTests} />
-					<TestResults
-						tests={this.state.tests}
-						resultOptions={this.state.resultOptions}
-					/>
+					<div className="container">
+						<TestConfiguration submitTests={this.submitTests} />
+						<TestResults
+							tests={this.state.tests}
+							resultOptions={this.state.resultOptions}
+						/>
+					</div>
 				</div>
 			</StandardLayout>
 		);

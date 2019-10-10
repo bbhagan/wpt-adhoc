@@ -1,28 +1,28 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 class TestConfigurationSubmitTests extends React.Component {
+	handleSubmitTests = e => {
+		e.preventDefault();
+		this.props.submitTests();
+	};
 
-   handleSubmitTests = e => {
-      e.preventDefault();
-      this.props.submitTests();
-    };
-
-   render() {
-      return (
-         <div className="TestConfigurationSubmitTestsContainer">
-            <div className="row">
-               <div className="col">
-                  <button onClick={this.handleSubmitTests} className="main">Start Test(s)</button>
-               </div>
-            </div>
-         </div>
-      );
-   }
+	render() {
+		return (
+			<div className="TestConfigurationSubmitTestsContainer">
+				<button
+					onClick={this.handleSubmitTests}
+					className="btn btn-primary btn-lg btn-block"
+				>
+					Start Test(s)
+				</button>
+			</div>
+		);
+	}
 }
 
 TestConfigurationSubmitTests.propTypes = {
-   submitTests: PropTypes.func.isRequired
-}
+	submitTests: PropTypes.func.isRequired
+};
 
 export default TestConfigurationSubmitTests;
