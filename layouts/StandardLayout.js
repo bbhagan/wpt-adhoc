@@ -1,5 +1,6 @@
 import Masthead from "../components/Masthead";
 import Head from "next/head";
+import "../public/static/scss/global.scss";
 
 class StandardLayout extends React.Component {
 	render() {
