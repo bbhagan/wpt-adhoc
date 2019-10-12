@@ -6,6 +6,7 @@ import TestConfigurationSubmitTests from "./TestConfigurationSubmitTests";
 import TestConfigurationBasic from "./TestConfigurationBasic";
 import TestConfigurationAddMoreURLs from "./TestConfigurationAddMoreURLs";
 import TestConfigurationResults from "./TestConfigurationResults";
+import Error from "../global/Error";
 import { resultsOptions } from "../../data/resultsOptionsData";
 import PropTypes from "prop-types";
 import "./testConfiguration.scss";
@@ -26,6 +27,7 @@ class TestConfiguration extends React.Component {
 				{ url: "", index: 2 }
 			],
 			testLocations: [],
+			testLocationFetchError: "",
 			numberOfTests: 2,
 			testResultOptions: resultsOptions,
 			advancedConfigOpen: false,
@@ -72,6 +74,10 @@ class TestConfiguration extends React.Component {
 		this.setState({ testResultOptions: options });
 	};
 
+	closeError = () => {
+		this.setState({ testLocationFetchError: "" });
+	};
+
 	openCloseAdvancedConfig = () => {
 		console.log();
 		if (this.state.advancedConfigOpen) {
@@ -93,7 +99,16 @@ class TestConfiguration extends React.Component {
 
 	componentDidMount = () => {
 		fetch("/api/getLocations")
-			.then(response => response.json())
+			.then(response => {
+				if (response.ok) {
+					return response.json();
+				} else {
+					this.setState({
+						testLocationFetchError: "Locations service unavailable"
+					});
+					throw new Error("Locations service unavailable");
+				}
+			})
 			.then(data => {
 				let testLocations = [];
 				if (data.statusCode === 200) {
@@ -113,10 +128,23 @@ class TestConfiguration extends React.Component {
 					}
 					this.setState({ testLocations: testLocations });
 				}
+			})
+			.catch(e => {
+				console.log(e);
 			});
 	};
 
 	render() {
+		let error;
+		if (this.state.testLocationFetchError) {
+			error = (
+				<Error closeError={this.closeError}>
+					<strong>An error occured fetching WebPageTest locations:</strong>{" "}
+					{this.state.testLocationFetchError}
+				</Error>
+			);
+		}
+
 		return (
 			<div className="TestConfigurationContainer">
 				<div className="wptah-section clearfix">
@@ -124,6 +152,7 @@ class TestConfiguration extends React.Component {
 						<div className="col-lg-12">
 							<div className="jumbotron">
 								<fieldset>
+									{error}
 									<h2>URL(s)</h2>
 									<div className="row">
 										<div className="col-8">
