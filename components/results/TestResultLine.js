@@ -7,8 +7,11 @@ class TestResultLine extends React.Component {
 		return (
 			<tr>
 				<td style={{ border: "1px solid black" }}>Run {this.props.idx + 1}</td>
-				{this.props.resultOptions.map(resultOption => (
-					<td style={{ border: "1px solid black", textAlign: "right" }}>
+				{this.props.resultOptions.map((resultOption, idx) => (
+					<td
+						key={idx}
+						style={{ border: "1px solid black", textAlign: "right" }}
+					>
 						{calcUOMPrecision(
 							this.props.run.firstView[resultOption.wptField],
 							resultOption.uom,

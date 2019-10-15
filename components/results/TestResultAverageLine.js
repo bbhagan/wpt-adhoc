@@ -9,9 +9,12 @@ class TestResultAverageLine extends React.Component {
 				<td style={{ border: "1px solid black" }}>
 					<strong>Avg.</strong>
 				</td>
-				{this.props.resultOptions.map(resultOption => (
-					<td style={{ border: "1px solid black", textAlign: "right" }}>
-						<strong>
+				{this.props.resultOptions.map((resultOption, idx) => (
+					<td
+						key={idx}
+						style={{ border: "1px solid black", textAlign: "right" }}
+					>
+						<strong key={idx}>
 							{calcUOMPrecision(
 								this.props.data[resultOption.wptField],
 								resultOption.uom,

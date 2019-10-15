@@ -1,6 +1,7 @@
 import TestConfiguration from "../components/testConfiguration/TestConfiguration";
 import StandardLayout from "../layouts/StandardLayout";
 import TestResults from "../components/results/TestResults";
+import TestsInProgress from "../components/results/TestsInProgress";
 
 class index extends React.Component {
 	constructor(props) {
@@ -11,7 +12,7 @@ class index extends React.Component {
 		};
 	}
 
-	submitTests = testConfiguration => {
+	submitTests = async testConfiguration => {
 		//populate state's result options with the selected options
 		const selectedResultOptions = [];
 		testConfiguration.testResultOptions.forEach(resultOption => {
@@ -35,20 +36,79 @@ class index extends React.Component {
 			})
 		};
 
-		fetch("/api/submitTests", fetchInit)
-			.then(response => response.json())
-			.then(data => {
-				if (data.statusCode === 200) {
-					data.tests.map(test => {
-						test.completed = false;
-						test.elapsedSeconds = 0;
-						return test;
-					});
-					this.setState({ tests: data.tests });
-				} else {
-					console.log(`Submit tests error: ${data.statusMsg}`);
-				}
+		const res = await fetch("/api/submitTests", fetchInit);
+		const data = await res.json();
+		if (data.statusCode === 200) {
+			data.tests.map(test => {
+				test.completed = false;
+				test.elapsedSeconds = 0;
+				return test;
 			});
+			//intermediate set state, before we start real getting results back
+			this.setState({ tests: data.tests });
+			this.state.tests.forEach(test => {
+				this.watchTest(test);
+			});
+		} else {
+			console.log(`Submit tests error: ${data.statusMsg}`);
+		}
+	};
+
+	watchTest = testToWatch => {
+		console.log(`Entering watchTests ${testToWatch.testId}`);
+
+		setTimeout(async () => {
+			const newTest = await this.fetchTestResults(testToWatch);
+
+			const updatedTests = this.state.tests.map(test => {
+				//not the test we are looking for
+				if (test.testId !== testToWatch.testId) return test;
+
+				//test we are looking for
+				console.log(
+					`Test: ${newTest.testId} completed: ${newTest.completed} elapsed seconds: ${newTest.elapsedSeconds}`
+				);
+				if (!newTest.completed) this.watchTest(newTest);
+				return newTest;
+			});
+			console.log(
+				`Calling setState with test length of ${updatedTests.length}`
+			);
+			this.setState({ tests: updatedTests });
+		}, 2000);
+	};
+
+	fetchTestResults = async test => {
+		console.log(`Sanity check fetchTestResults testId: ${test.testId}`);
+		const res = await fetch(`/api/getTestResults/${test.testId}`);
+		const resJson = await res.json();
+		switch (resJson.statusCode) {
+			//Test complete, data came back
+			case 200:
+				//update the state with new test values
+				test.completed = true;
+				test.behindCount = null;
+				test.data = resJson.data;
+				break;
+			//Test started, not complete
+			case 100:
+				//update the test with elapsed time
+				test.elapsedSeconds = resJson.testElapsedSeconds;
+				test.behindCount = null;
+				break;
+			//Waiting behind other tests
+			case 101:
+				test.behindCount = resJson.behindCount;
+				break;
+			case 400:
+				//test maybe too new to request data on. Retry one time after 5 seconds
+				break;
+			default:
+				console.log(
+					`Error in fetchTestResults, unknown statusCode: ${resJson.statusCode}`
+				);
+		}
+		return test;
 	};
 
 	render() {
@@ -57,8 +117,11 @@ class index extends React.Component {
 				<div className="indexPageContainer">
 					<div className="container">
 						<TestConfiguration submitTests={this.submitTests} />
+						<TestsInProgress
+							tests={this.state.tests.filter(test => test.completed === false)}
+						/>
 						<TestResults
-							tests={this.state.tests}
+							tests={this.state.tests.filter(test => test.completed === true)}
 							resultOptions={this.state.resultOptions}
 						/>
 					</div>
@@ -68,4 +131,7 @@ class index extends React.Component {
 	}
 }
 
+/*
+
+*/
 export default index;
