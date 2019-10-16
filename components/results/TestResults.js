@@ -10,10 +10,10 @@ class TestResults extends React.Component {
 			<div className="TestResultsContainer">
 				<div className="wptah-section clearfix">
 					<h2>{header}</h2>
-					{this.props.tests.map(test => (
+					{this.props.tests.map((test, idx) => (
 						<TestResult
 							test={test}
-							key={test.testId}
+							key={idx}
 							resultOptions={this.props.resultOptions}
 						/>
 					))}

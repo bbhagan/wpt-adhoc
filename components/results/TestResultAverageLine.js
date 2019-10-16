@@ -5,15 +5,12 @@ import { calcUOMPrecision } from "../../public/static/js/MathUtils";
 class TestResultAverageLine extends React.Component {
 	render() {
 		return (
-			<tr>
-				<td style={{ border: "1px solid black" }}>
+			<tr className="table-light">
+				<th scope="row">
 					<strong>Avg.</strong>
-				</td>
+				</th>
 				{this.props.resultOptions.map((resultOption, idx) => (
-					<td
-						key={idx}
-						style={{ border: "1px solid black", textAlign: "right" }}
-					>
+					<td key={idx} style={{ textAlign: "right" }}>
 						<strong key={idx}>
 							{calcUOMPrecision(
 								this.props.data[resultOption.wptField],

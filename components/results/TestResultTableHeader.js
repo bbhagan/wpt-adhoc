@@ -9,14 +9,16 @@ class TestResultTableHeader extends React.Component {
 	};
 	render() {
 		return (
-			<tr>
-				<th style={{ border: "1px solid black" }}></th>
-				{this.props.resultOptions.map((resultOption, idx) => (
-					<th key={idx} style={{ border: "1px solid black" }}>
-						{this.renderCopy(resultOption)}
-					</th>
-				))}
-			</tr>
+			<thead>
+				<tr>
+					<th scope="col"></th>
+					{this.props.resultOptions.map((resultOption, idx) => (
+						<th key={idx} scope="col">
+							{this.renderCopy(resultOption)}
+						</th>
+					))}
+				</tr>
+			</thead>
 		);
 	}
 }

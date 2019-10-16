@@ -5,13 +5,10 @@ import PropTypes from "prop-types";
 class TestResultLine extends React.Component {
 	render() {
 		return (
-			<tr>
-				<td style={{ border: "1px solid black" }}>Run {this.props.idx + 1}</td>
+			<tr className="table-active">
+				<th scope="row">Run {this.props.idx + 1}</th>
 				{this.props.resultOptions.map((resultOption, idx) => (
-					<td
-						key={idx}
-						style={{ border: "1px solid black", textAlign: "right" }}
-					>
+					<td key={idx} style={{ textAlign: "right" }}>
 						{calcUOMPrecision(
 							this.props.run.firstView[resultOption.wptField],
 							resultOption.uom,

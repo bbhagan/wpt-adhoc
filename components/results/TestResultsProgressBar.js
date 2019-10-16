@@ -28,9 +28,18 @@ class TestResultsProgressBar extends React.Component {
 					</div>
 				);
 			} else {
-				setTimeout(() => {
-					return;
-				}, 2000);
+				return (
+					<div className="progress">
+						<div
+							className="progress-bar"
+							role="progressbar"
+							style={{ width: "100%" }}
+							aria-valuenow="25"
+							aria-valuemin="0"
+							aria-valuemax="100"
+						></div>
+					</div>
+				);
 			}
 		} else {
 			return;
