@@ -8,7 +8,7 @@ class TestResults extends React.Component {
 		const header = this.props.tests.length ? "Test Results" : "";
 		return (
 			<div className="TestResultsContainer">
-				<div className="container">
+				<div className="wptah-section clearfix">
 					<h2>{header}</h2>
 					{this.props.tests.map(test => (
 						<TestResult

@@ -1,7 +1,18 @@
-import React from "react";
 import PropTypes from "prop-types";
 
 class TestConfigurationURLs extends React.Component {
+	constructor(props) {
+		super(props);
+		this.urlRefs = this.props.urls.reduce((acc, value) => {
+			acc[value.index] = React.createRef();
+			return acc;
+		}, {});
+	}
+
+	componentDidMount = () => {
+		this.urlRefs[0].current.focus();
+	};
+
 	handleUrlChange = idx => e => {
 		const tempUrls = this.props.urls.map((url, urlIdx) => {
 			if (idx !== urlIdx) return url;
@@ -34,6 +45,7 @@ class TestConfigurationURLs extends React.Component {
 							value={url.url}
 							onChange={this.handleUrlChange(idx)}
 							onBlur={this.handleUrlBlur(idx)}
+							ref={this.urlRefs[url.index]}
 						/>
 					</div>
 				))}

@@ -3,15 +3,15 @@ import PropTypes from "prop-types";
 
 class TestsInProgress extends React.Component {
 	render() {
-		const header = this.props.tests.length ? "Test(s) in Progress" : "";
 		return (
 			<div className="TestsInProgressContainer">
-				<h2>{header}</h2>
-				<ul>
+				<div className="wptah-section clearfix">
+					<h2>Test(s) in Progress</h2>
+
 					{this.props.tests.map((test, idx) => (
 						<TestResultHeaderDescription key={idx} test={test} />
 					))}
-				</ul>
+				</div>
 			</div>
 		);
 	}

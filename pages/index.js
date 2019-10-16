@@ -2,6 +2,7 @@ import TestConfiguration from "../components/testConfiguration/TestConfiguration
 import StandardLayout from "../layouts/StandardLayout";
 import TestResults from "../components/results/TestResults";
 import TestsInProgress from "../components/results/TestsInProgress";
+import TestResultsProgressBar from "../components/results/TestResultsProgressBar";
 
 class index extends React.Component {
 	constructor(props) {
@@ -10,6 +11,7 @@ class index extends React.Component {
 			tests: [],
 			resultOptions: []
 		};
+		this.progressBar = React.createRef();
 	}
 
 	submitTests = async testConfiguration => {
@@ -52,11 +54,14 @@ class index extends React.Component {
 		} else {
 			console.log(`Submit tests error: ${data.statusMsg}`);
 		}
+
+		this.progressBar.current.scrollIntoView({
+			behavior: "smooth",
+			block: "start"
+		});
 	};
 
 	watchTest = testToWatch => {
-		console.log(`Entering watchTests ${testToWatch.testId}`);
-
 		setTimeout(async () => {
 			const newTest = await this.fetchTestResults(testToWatch);
 
@@ -65,21 +70,14 @@ class index extends React.Component {
 				if (test.testId !== testToWatch.testId) return test;
 
 				//test we are looking for
-				console.log(
-					`Test: ${newTest.testId} completed: ${newTest.completed} elapsed seconds: ${newTest.elapsedSeconds}`
-				);
 				if (!newTest.completed) this.watchTest(newTest);
 				return newTest;
 			});
-			console.log(
-				`Calling setState with test length of ${updatedTests.length}`
-			);
 			this.setState({ tests: updatedTests });
-		}, 2000);
+		}, 1500);
 	};
 
 	fetchTestResults = async test => {
-		console.log(`Sanity check fetchTestResults testId: ${test.testId}`);
 		const res = await fetch(`/api/getTestResults/${test.testId}`);
 		const resJson = await res.json();
 		switch (resJson.statusCode) {
@@ -112,18 +110,37 @@ class index extends React.Component {
 	};
 
 	render() {
+		const testsInProgress = this.state.tests.filter(
+			test => test.completed === false
+		);
+		const completedTests = this.state.tests.filter(
+			test => test.completed === true
+		);
+		let testsInProgressComponent;
+		let completedTestsComponent;
+		if (testsInProgress.length) {
+			testsInProgressComponent = <TestsInProgress tests={testsInProgress} />;
+		}
+		if (completedTests) {
+			completedTestsComponent = (
+				<TestResults
+					tests={completedTests}
+					resultOptions={this.state.resultOptions}
+				/>
+			);
+		}
 		return (
 			<StandardLayout>
 				<div className="indexPageContainer">
 					<div className="container">
 						<TestConfiguration submitTests={this.submitTests} />
-						<TestsInProgress
-							tests={this.state.tests.filter(test => test.completed === false)}
+						<div ref={this.progressBar}></div>
+						<TestResultsProgressBar
+							numberOfTestsInProgress={testsInProgress.length}
+							totalNumberOfTests={this.state.tests.length}
 						/>
-						<TestResults
-							tests={this.state.tests.filter(test => test.completed === true)}
-							resultOptions={this.state.resultOptions}
-						/>
+						{testsInProgressComponent}
+						{completedTestsComponent}
 					</div>
 				</div>
 			</StandardLayout>

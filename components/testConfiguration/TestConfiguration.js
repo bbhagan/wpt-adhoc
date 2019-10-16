@@ -1,4 +1,3 @@
-import React from "react";
 import TestConfigurationURLs from "./TestConfigurationURLs";
 import TestConfigurationGrouping from "./TestConfigurationGrouping";
 import TestConfigurationTabs from "./TestConfigurationTabs";
