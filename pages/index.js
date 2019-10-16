@@ -2,7 +2,6 @@ import TestConfiguration from "../components/testConfiguration/TestConfiguration
 import StandardLayout from "../layouts/StandardLayout";
 import TestResults from "../components/results/TestResults";
 import TestsInProgress from "../components/results/TestsInProgress";
-import TestResultsProgressBar from "../components/results/TestResultsProgressBar";
 
 class index extends React.Component {
 	constructor(props) {
@@ -11,7 +10,7 @@ class index extends React.Component {
 			tests: [],
 			resultOptions: []
 		};
-		this.progressBar = React.createRef();
+		this.inProgress = React.createRef();
 	}
 
 	submitTests = async testConfiguration => {
@@ -55,7 +54,7 @@ class index extends React.Component {
 			console.log(`Submit tests error: ${data.statusMsg}`);
 		}
 
-		this.progressBar.current.scrollIntoView({
+		this.inProgress.current.scrollIntoView({
 			behavior: "smooth",
 			block: "start"
 		});
@@ -116,11 +115,7 @@ class index extends React.Component {
 		const completedTests = this.state.tests.filter(
 			test => test.completed === true
 		);
-		let testsInProgressComponent;
 		let completedTestsComponent;
-		if (testsInProgress.length) {
-			testsInProgressComponent = <TestsInProgress tests={testsInProgress} />;
-		}
 		if (completedTests) {
 			completedTestsComponent = (
 				<TestResults
@@ -134,12 +129,11 @@ class index extends React.Component {
 				<div className="indexPageContainer">
 					<div className="container">
 						<TestConfiguration submitTests={this.submitTests} />
-						<div ref={this.progressBar}></div>
-						<TestResultsProgressBar
-							numberOfTestsInProgress={testsInProgress.length}
+						<div ref={this.inProgress}></div>
+						<TestsInProgress
+							tests={testsInProgress}
 							totalNumberOfTests={this.state.tests.length}
 						/>
-						{testsInProgressComponent}
 						{completedTestsComponent}
 					</div>
 				</div>
