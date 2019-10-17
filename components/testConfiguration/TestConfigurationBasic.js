@@ -1,5 +1,5 @@
 import React from "react";
-import TestConfigurationGrouping from "./TestConfigurationGrouping";
+import "./TestConfigurationBasic.scss";
 import PropTypes from "prop-types";
 
 class TestConfigurationBasic extends React.Component {
@@ -23,38 +23,49 @@ class TestConfigurationBasic extends React.Component {
 		const showBlock = { display: this.props.shown ? "block" : "none" };
 		return (
 			<div className="TestConfigurationBasicContainer" style={showBlock}>
-				<div className="row">
-					<div className="column">
-						<TestConfigurationGrouping />
-						<label>
-							Mobile/desktop
-							{this.props.testLocations.map((location, idx) => (
-								<div key={idx}>
-									<input
-										key={idx}
-										type="checkbox"
-										value={location.location}
-										onChange={this.handleLocationChange(idx)}
-										checked={location.active === true ? "checked" : ""}
-									/>
-									&nbsp;{location.label} ({location.location})
-								</div>
-							))}
-						</label>
-					</div>
+				<div className="form-group">
+					<label>
+						Grouping
+						<select
+							className="form-control form-control-sm"
+							id="test-configuration-grouping"
+						>
+							<option value="mobVsDesk">None (Just run the tests)</option>
+							<option value="mobVsDesk">Mobile Vs. Desktop</option>
+							<option value="mobVsDesk">Competative Analysis</option>
+							<option value="mobVsDesk">Before &amp; After</option>
+						</select>
+					</label>
 				</div>
-				<div className="row">
-					<div className="column">
-						<label>
-							Number of tests
-							<input
-								type="text"
-								value={this.props.numberOfTests}
-								size="2"
-								onChange={this.handleChangeNumberOfTests}
-							/>
-						</label>
-					</div>
+
+				<div className="form-group">
+					<label>
+						Mobile/desktop
+						{this.props.testLocations.map((location, idx) => (
+							<div key={idx}>
+								<input
+									key={idx}
+									type="checkbox"
+									value={location.location}
+									onChange={this.handleLocationChange(idx)}
+									checked={location.active === true ? "checked" : ""}
+								/>
+								&nbsp;{location.label} ({location.location})
+							</div>
+						))}
+					</label>
+				</div>
+
+				<div className="form-group">
+					<label>
+						Number of tests
+						<input
+							type="text"
+							value={this.props.numberOfTests}
+							size="2"
+							onChange={this.handleChangeNumberOfTests}
+						/>
+					</label>
 				</div>
 			</div>
 		);

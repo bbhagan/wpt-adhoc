@@ -48,7 +48,7 @@ export const resultsOptions = [
 		decimalPlacePrecision: 2
 	},
 	{
-		name: "DOM Content Loaded Event End",
+		name: "DOM Content Load Event End",
 		wptField: "domContentLoadedEventEnd",
 		type: "uncommon",
 		active: false,
@@ -56,7 +56,7 @@ export const resultsOptions = [
 		decimalPlacePrecision: 2
 	},
 	{
-		name: "DOM Content Loaded Event End Adj",
+		name: "DOM Content Load Event End Adj",
 		wptField: "domContentLoadedEventEndAdjusted",
 		type: "synthetic",
 		active: false,
@@ -108,7 +108,7 @@ export const resultsOptions = [
 		decimalPlacePrecision: 2
 	},
 	{
-		name: "DOM Content Loaded Event Start",
+		name: "DOM Content Load Event Start",
 		wptField: "domContentLoadedEventStart",
 		type: "uncommon",
 		active: false,
@@ -116,7 +116,7 @@ export const resultsOptions = [
 		decimalPlacePrecision: 2
 	},
 	{
-		name: "DOM Content Loaded Event Start Adj",
+		name: "DOM Content Load Event Start Adj",
 		wptField: "domContentLoadedEventStartAdjusted",
 		type: "synthetic",
 		active: false,

@@ -4,7 +4,7 @@ class TestConfigurationTabs extends React.Component {
 	render() {
 		return (
 			<div className="TestConfigurationTabsContainer">
-				<ul className="nav nav-tabs" style={{ marginTop: "1rem" }}>
+				<ul className="nav nav-tabs" style={{ margin: "1rem 0" }}>
 					<li className="nav-item">
 						<a
 							className={
@@ -12,7 +12,7 @@ class TestConfigurationTabs extends React.Component {
 									? "nav-link active"
 									: "nav-link"
 							}
-							onClick={() => this.props.updateTab("basic")}
+							onClick={e => this.props.updateTab(e, "basic")}
 							data-toggle="tab"
 							href="#"
 						>
@@ -26,7 +26,7 @@ class TestConfigurationTabs extends React.Component {
 									? "nav-link active"
 									: "nav-link"
 							}
-							onClick={() => this.props.updateTab("results")}
+							onClick={e => this.props.updateTab(e, "results")}
 							data-toggle="tab"
 							href="#"
 						>

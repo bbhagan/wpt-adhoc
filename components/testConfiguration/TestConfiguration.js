@@ -1,10 +1,9 @@
 import TestConfigurationURLs from "./TestConfigurationURLs";
-import TestConfigurationGrouping from "./TestConfigurationGrouping";
-import TestConfigurationTabs from "./TestConfigurationTabs";
 import TestConfigurationSubmitTests from "./TestConfigurationSubmitTests";
-import TestConfigurationBasic from "./TestConfigurationBasic";
+import TestConfigurationModal from "./TestConfigurationModal";
+
 import TestConfigurationAddMoreURLs from "./TestConfigurationAddMoreURLs";
-import TestConfigurationResults from "./TestConfigurationResults";
+
 import Error from "../global/Error";
 import { resultsOptions } from "../../data/resultsOptionsData";
 import PropTypes from "prop-types";
@@ -29,8 +28,7 @@ class TestConfiguration extends React.Component {
 			testLocationFetchError: "",
 			numberOfTests: 2,
 			testResultOptions: resultsOptions,
-			advancedConfigOpen: false,
-			selectedTab: "basic"
+			advancedConfigOpen: false
 		};
 	}
 
@@ -65,40 +63,12 @@ class TestConfiguration extends React.Component {
 		this.setState({ numberOfTests: numberOfTests });
 	};
 
-	updateTab = (e, tabName) => {
-		e.preventDefault();
-		this.setState({ selectedTab: tabName });
-	};
-
 	updateTestResultOptions = options => {
 		this.setState({ testResultOptions: options });
 	};
 
 	closeError = () => {
 		this.setState({ testLocationFetchError: "" });
-	};
-
-	openCloseAdvancedConfig = () => {
-		console.log();
-		if (this.state.advancedConfigOpen) {
-			return {
-				height: "430px",
-				overflow: "hidden",
-				opacity: 1,
-				transition: "height .3s",
-				backgroundColor: "#DF691A",
-				paddingLeft: "1rem"
-			};
-		} else {
-			return {
-				height: 0,
-				overflow: "hidden",
-				opacity: 0,
-				transition: "height .3s",
-				backgroundColor: "#DF691A",
-				paddingLeft: "1rem"
-			};
-		}
 	};
 
 	componentDidMount = () => {
@@ -175,48 +145,27 @@ class TestConfiguration extends React.Component {
 										</div>
 									</div>
 
-									<div
-										className="btn-group test-configuration-opener"
-										role="group"
+									<button
+										type="button"
+										className="btn btn-primary test-configuration-opener"
 										onClick={this.handleToggleAdvancedConfig}
 									>
-										<button type="button" className="btn btn-primary">
-											Test Configuration
-										</button>
-										<div className="btn-group" role="group">
-											<button
-												id="btnGroupDrop1"
-												type="button"
-												className="btn btn-primary dropdown-toggle"
-												data-toggle="dropdown"
-												aria-haspopup="true"
-												aria-expanded="false"
-											></button>
-										</div>
-									</div>
-
-									<div style={this.openCloseAdvancedConfig()}>
-										<TestConfigurationTabs
-											selectedTab={this.state.selectedTab}
-											updateTab={this.updateTab}
-										/>
-										<TestConfigurationBasic
-											testLocations={this.state.testLocations}
-											updateLocations={this.updateLocations}
-											numberOfTests={this.state.numberOfTests}
-											updateNumberOfTests={this.updateNumberOfTests}
-											shown={this.state.selectedTab === "basic"}
-										/>
-										<TestConfigurationResults
-											testResultOptions={this.state.testResultOptions}
-											updateTestResultOptions={this.updateTestResultOptions}
-											shown={this.state.selectedTab === "results"}
-										/>
-									</div>
+										Test Configuration
+									</button>
 								</fieldset>
 							</div>
 						</div>
 					</div>
+					<TestConfigurationModal
+						testLocations={this.state.testLocations}
+						updateLocations={this.updateLocations}
+						numberOfTests={this.state.numberOfTests}
+						updateNumberOfTests={this.updateNumberOfTests}
+						testResultOptions={this.state.testResultOptions}
+						updateTestResultOptions={this.updateTestResultOptions}
+						openClose={this.state.advancedConfigOpen}
+						handleClose={this.handleToggleAdvancedConfig}
+					/>
 				</div>
 			</div>
 		);
