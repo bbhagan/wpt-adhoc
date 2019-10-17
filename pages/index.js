@@ -1,4 +1,5 @@
 import TestConfiguration from "../components/testConfiguration/TestConfiguration";
+import TestConfigurationModal from "../components/testConfiguration/TestConfigurationModal";
 import StandardLayout from "../layouts/StandardLayout";
 import TestResults from "../components/results/TestResults";
 import TestsInProgress from "../components/results/TestsInProgress";
@@ -129,6 +130,7 @@ class index extends React.Component {
 				<div className="indexPageContainer">
 					<div className="container">
 						<TestConfiguration submitTests={this.submitTests} />
+						<TestConfigurationModal />
 						<div ref={this.inProgress}></div>
 						<TestsInProgress
 							tests={testsInProgress}

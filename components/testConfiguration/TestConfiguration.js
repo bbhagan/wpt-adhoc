@@ -65,7 +65,8 @@ class TestConfiguration extends React.Component {
 		this.setState({ numberOfTests: numberOfTests });
 	};
 
-	updateTab = tabName => {
+	updateTab = (e, tabName) => {
+		e.preventDefault();
 		this.setState({ selectedTab: tabName });
 	};
 
@@ -84,14 +85,18 @@ class TestConfiguration extends React.Component {
 				height: "430px",
 				overflow: "hidden",
 				opacity: 1,
-				transition: "height .3s"
+				transition: "height .3s",
+				backgroundColor: "#DF691A",
+				paddingLeft: "1rem"
 			};
 		} else {
 			return {
 				height: 0,
 				overflow: "hidden",
 				opacity: 0,
-				transition: "height .3s"
+				transition: "height .3s",
+				backgroundColor: "#DF691A",
+				paddingLeft: "1rem"
 			};
 		}
 	};
@@ -190,25 +195,23 @@ class TestConfiguration extends React.Component {
 										</div>
 									</div>
 
-									<div className="row" style={this.openCloseAdvancedConfig()}>
-										<div className="col">
-											<TestConfigurationTabs
-												selectedTab={this.state.selectedTab}
-												updateTab={this.updateTab}
-											/>
-											<TestConfigurationBasic
-												testLocations={this.state.testLocations}
-												updateLocations={this.updateLocations}
-												numberOfTests={this.state.numberOfTests}
-												updateNumberOfTests={this.updateNumberOfTests}
-												shown={this.state.selectedTab === "basic"}
-											/>
-											<TestConfigurationResults
-												testResultOptions={this.state.testResultOptions}
-												updateTestResultOptions={this.updateTestResultOptions}
-												shown={this.state.selectedTab === "results"}
-											/>
-										</div>
+									<div style={this.openCloseAdvancedConfig()}>
+										<TestConfigurationTabs
+											selectedTab={this.state.selectedTab}
+											updateTab={this.updateTab}
+										/>
+										<TestConfigurationBasic
+											testLocations={this.state.testLocations}
+											updateLocations={this.updateLocations}
+											numberOfTests={this.state.numberOfTests}
+											updateNumberOfTests={this.updateNumberOfTests}
+											shown={this.state.selectedTab === "basic"}
+										/>
+										<TestConfigurationResults
+											testResultOptions={this.state.testResultOptions}
+											updateTestResultOptions={this.updateTestResultOptions}
+											shown={this.state.selectedTab === "results"}
+										/>
 									</div>
 								</fieldset>
 							</div>

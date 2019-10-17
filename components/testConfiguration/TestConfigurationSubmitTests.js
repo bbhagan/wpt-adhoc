@@ -12,7 +12,7 @@ class TestConfigurationSubmitTests extends React.Component {
 			<div className="TestConfigurationSubmitTestsContainer">
 				<button
 					onClick={this.handleSubmitTests}
-					className="btn btn-primary btn-lg btn-block"
+					className="btn btn-success btn-lg btn-block"
 				>
 					Start Test(s)
 				</button>

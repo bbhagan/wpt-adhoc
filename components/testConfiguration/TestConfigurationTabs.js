@@ -1,21 +1,47 @@
-import React from 'react';
-import './TestConfigurationTabs.scss';
+import PropTypes from "prop-types";
 
 class TestConfigurationTabs extends React.Component {
-   
-   
-   render() {
-      return (
-         <div className="TestConfigurationTabsContainer">
-            <div className="row">
-               <div className={this.props.selectedTab === 'basic' ? "col tab selectedTab" : "col tab deselectedTab"} onClick={() => this.props.updateTab('basic')}>Basic</div>
-               <div className={this.props.selectedTab === 'results' ? "col tab selectedTab" : "col tab deselectedTab"} onClick={() => this.props.updateTab('results')}>Results</div>
-               <div className="col-5 tab emptyTab">&nbsp;</div>
-               <div className="col-5">&nbsp;</div>
-            </div>
-         </div>
-      );
-   }
+	render() {
+		return (
+			<div className="TestConfigurationTabsContainer">
+				<ul className="nav nav-tabs" style={{ marginTop: "1rem" }}>
+					<li className="nav-item">
+						<a
+							className={
+								this.props.selectedTab === "basic"
+									? "nav-link active"
+									: "nav-link"
+							}
+							onClick={() => this.props.updateTab("basic")}
+							data-toggle="tab"
+							href="#"
+						>
+							Basic
+						</a>
+					</li>
+					<li className="nav-item">
+						<a
+							className={
+								this.props.selectedTab === "results"
+									? "nav-link active"
+									: "nav-link"
+							}
+							onClick={() => this.props.updateTab("results")}
+							data-toggle="tab"
+							href="#"
+						>
+							Results
+						</a>
+					</li>
+				</ul>
+			</div>
+		);
+	}
 }
+
+TestConfigurationTabs.propTypes = {
+	selectedTab: PropTypes.string.isRequired,
+	updateTab: PropTypes.func.isRequired
+};
 
 export default TestConfigurationTabs;
