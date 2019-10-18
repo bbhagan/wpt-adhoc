@@ -25,7 +25,6 @@ class TestConfiguration extends React.Component {
 				{ url: "", index: 2 }
 			],
 			testLocations: [],
-			testLocationFetchError: "",
 			numberOfTests: 2,
 			testResultOptions: resultsOptions,
 			advancedConfigOpen: false
@@ -72,49 +71,23 @@ class TestConfiguration extends React.Component {
 	};
 
 	componentDidMount = () => {
-		fetch("/api/getLocations")
-			.then(response => {
-				if (response.ok) {
-					return response.json();
-				} else {
-					this.setState({
-						testLocationFetchError: "Locations service unavailable"
-					});
-					throw new Error("Locations service unavailable");
-				}
-			})
-			.then(data => {
-				let testLocations = [];
-				if (data.statusCode === 200) {
-					if (data.locations.desktop.length > 0) {
-						testLocations.push({
-							location: data.locations.desktop[0].location,
-							label: "Desktop",
-							active: true
-						});
-					}
-					if (data.locations.mobile.length > 0) {
-						testLocations.push({
-							location: data.locations.mobile[0].location,
-							label: "Mobile",
-							active: true
-						});
-					}
-					this.setState({ testLocations: testLocations });
-				}
-			})
-			.catch(e => {
-				console.log(e);
-			});
+		console.log(JSON.stringify(this.props));
+
+		if((!this.props.testLocationFetchError) && this.props.testLocations) {
+			//
+			// move test locations into state so we can change them
+			//
+			this.setState({testLocations: this.props.testLocations});
+		}
 	};
 
 	render() {
 		let error;
-		if (this.state.testLocationFetchError) {
+		if (this.props.testLocationFetchError) {
 			error = (
 				<Error closeError={this.closeError}>
 					<strong>An error occured fetching WebPageTest locations:</strong>{" "}
-					{this.state.testLocationFetchError}
+					{this.props.testLocationFetchError}
 				</Error>
 			);
 		}
@@ -173,7 +146,9 @@ class TestConfiguration extends React.Component {
 }
 
 TestConfiguration.propTypes = {
-	submitTests: PropTypes.func.isRequired
+	submitTests: PropTypes.func.isRequired,
+	testLocationFetchError: PropTypes.string,
+	testLocations: PropTypes.array
 };
 
 export default TestConfiguration;

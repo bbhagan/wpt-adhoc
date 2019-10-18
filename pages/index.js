@@ -2,6 +2,9 @@ import TestConfiguration from "../components/testConfiguration/TestConfiguration
 import StandardLayout from "../layouts/StandardLayout";
 import TestResults from "../components/results/TestResults";
 import TestsInProgress from "../components/results/TestsInProgress";
+import fetch from "isomorphic-unfetch"
+const LOCALHOST = process.env.LOCALHOST;
+const PORT = process.env.PORT;
 
 class index extends React.Component {
 	constructor(props) {
@@ -12,6 +15,49 @@ class index extends React.Component {
 		};
 		this.inProgress = React.createRef();
 	}
+
+	/**
+	 * Return the Page's initial properties.
+	 * 
+	 * @param {*} param0 
+	 */
+	static async getInitialProps({ req }) {
+		return await index.fetchTestConfiguration();
+	}
+
+	static async fetchTestConfiguration() {
+		const response = await fetch(LOCALHOST + ":" + PORT + "/api/getLocations")
+		if (!response.ok) {
+			throw new Error("Locations service unavailable");
+		}
+
+		try {
+			const data = await response.json();
+			let testLocations = [];
+			if (data.statusCode === 200) {
+				if (data.locations.desktop.length > 0) {
+					testLocations.push({
+						location: data.locations.desktop[0].location,
+						label: "Desktop",
+						active: true
+					});
+				}
+				if (data.locations.mobile.length > 0) {
+					testLocations.push({
+						location: data.locations.mobile[0].location,
+						label: "Mobile",
+						active: true
+					});
+				}
+				return { testLocations: testLocations };
+			}
+		}
+		catch(e) {
+			console.log(e);
+		}
+		return { testLocationFetchError: "Locations service unavailable"};
+	}
+	
 
 	submitTests = async testConfiguration => {
 		//populate state's result options with the selected options
@@ -128,7 +174,7 @@ class index extends React.Component {
 			<StandardLayout>
 				<div className="indexPageContainer">
 					<div className="container">
-						<TestConfiguration submitTests={this.submitTests} />
+						<TestConfiguration submitTests={this.submitTests} testLocations={this.props.testLocations} />
 
 						<div ref={this.inProgress}></div>
 						<TestsInProgress
@@ -137,6 +183,7 @@ class index extends React.Component {
 						/>
 						{completedTestsComponent}
 					</div>
+					<div>{this.props.foo}</div>
 				</div>
 			</StandardLayout>
 		);
