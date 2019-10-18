@@ -1,5 +1,5 @@
 import { Router as _Router } from "express";
-import fetch from "node-fetch";
+import fetch from "isomorphic-unfetch";
 require("dotenv").config();
 const router = _Router();
 const WPTSERVER = process.env.WPTSERVER;
