@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+const WPTSERVER = process.env.WPTSERVE;
 
 class TestResultHeaderDescription extends React.Component {
 	render() {
@@ -7,7 +8,7 @@ class TestResultHeaderDescription extends React.Component {
 				<p>
 					Test Id:
 					<a
-						href={"http://10.10.0.90/result/" + this.props.test.testId}
+						href={WPTSERVER + "/result/" + this.props.test.testId}
 						target="_blank"
 						rel="noopener noreferrer"
 					>

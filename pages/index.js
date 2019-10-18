@@ -47,7 +47,7 @@ class index extends React.Component {
 			});
 			//intermediate set state, before we start real getting results back
 			this.setState({ tests: data.tests });
-			this.state.tests.forEach(test => {
+			data.tests.forEach(test => {
 				this.watchTest(test);
 			});
 		} else {
