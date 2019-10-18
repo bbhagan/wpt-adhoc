@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-const WPTSERVER = process.env.WPTSERVE;
+const WPTSERVER = process.env.WPTSERVER;
 
 class TestResultHeaderDescription extends React.Component {
 	render() {
