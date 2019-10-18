@@ -21,6 +21,7 @@ router.get("/", (req, res) => {
 					}
 				});
 			} else {
+				res.status = resJson.statusCode;
 				returnJson.statusCode = resJson.statusCode;
 				returnJson.statusMsg = resJson.statusText;
 			}
@@ -28,9 +29,13 @@ router.get("/", (req, res) => {
 			return res.json(returnJson);
 		})
 		.catch(error => {
+			const statusMsg = `Error fetching locations: ${error}`;
+
+			console.log(statusMsg);
+			res.status(400);	// TODO: should this be 503 on timeout (Service Unavailable?)
 			return res.json({
 				statusCode: 400,
-				statusMsg: `Error fetching locations: ${error}`
+				statusMsg
 			});
 		});
 });

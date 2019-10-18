@@ -27,33 +27,31 @@ class index extends React.Component {
 
 	static async fetchTestConfiguration() {
 		const response = await fetch(LOCALHOST + ":" + PORT + "/api/getLocations")
-		if (!response.ok) {
-			throw new Error("Locations service unavailable");
-		}
-
-		try {
-			const data = await response.json();
-			let testLocations = [];
-			if (data.statusCode === 200) {
-				if (data.locations.desktop.length > 0) {
-					testLocations.push({
-						location: data.locations.desktop[0].location,
-						label: "Desktop",
-						active: true
-					});
+		if (response.ok) {
+			try {
+				const data = await response.json();
+				let testLocations = [];
+				if (data.statusCode === 200) {
+					if (data.locations.desktop.length > 0) {
+						testLocations.push({
+							location: data.locations.desktop[0].location,
+							label: "Desktop",
+							active: true
+						});
+					}
+					if (data.locations.mobile.length > 0) {
+						testLocations.push({
+							location: data.locations.mobile[0].location,
+							label: "Mobile",
+							active: true
+						});
+					}
+					return { testLocations: testLocations };
 				}
-				if (data.locations.mobile.length > 0) {
-					testLocations.push({
-						location: data.locations.mobile[0].location,
-						label: "Mobile",
-						active: true
-					});
-				}
-				return { testLocations: testLocations };
 			}
-		}
-		catch(e) {
-			console.log(e);
+			catch(e) {
+				console.log(e);
+			}
 		}
 		return { testLocationFetchError: "Locations service unavailable"};
 	}
