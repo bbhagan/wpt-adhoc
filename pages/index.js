@@ -3,6 +3,7 @@ import StandardLayout from "../layouts/StandardLayout";
 import TestResults from "../components/results/TestResults";
 import TestsInProgress from "../components/results/TestsInProgress";
 import timeoutFetch from "../public/static/js/timeoutFetch";
+import moment from "moment";
 
 const LOCALHOST = process.env.LOCALHOST;
 const PORT = process.env.PORT;
@@ -56,9 +57,11 @@ class index extends React.Component {
 					}
 					return { testLocations: testLocations };
 				}
+			} else {
+				throw new Error(`No 200 response from fetching locations`);
 			}
 		} catch (e) {
-			console.log(`Failure fetching locations. ${e}`);
+			console.log(`${moment().format()} Failure fetching locations. ${e}`);
 			return { testLocationFetchError: "Locations service unavailable" };
 		}
 	}

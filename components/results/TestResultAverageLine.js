@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { calcUOMPrecision } from "../../public/static/js/MathUtils";
+import { calcUOMPrecision } from "../../public/static/js/mathUtils";
 
 class TestResultAverageLine extends React.Component {
 	render() {

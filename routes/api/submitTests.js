@@ -1,8 +1,9 @@
 import { Router as _Router } from "express";
-import fetch from "node-fetch";
+import timeoutFetch from "../../public/static/js/timeoutFetch";
 require("dotenv").config();
 const router = _Router();
-const WPTSERVER = process.env.WPTSERVER || "http://10.10.0.90";
+const SERVER_SUBMIT_TESTS_TIMEOUT = process.env.SERVER_SUBMIT_TESTS_TIMEOUT;
+const WPTSERVER = process.env.WPTSERVER;
 
 router.post("/", (req, res) => {
 	let promises = [],
@@ -12,11 +13,9 @@ router.post("/", (req, res) => {
 		if (testObj.url && testObj.url !== "" && Number.isInteger(testObj.index)) {
 			atLeastOneTest = true;
 			req.body.testLocations.forEach(location => {
-				const requestUrl =
-					WPTSERVER +
-					`/runtest.php?url=${testObj.url}&f=json&location=${location.location}&runs=${req.body.numberOfTests}&fvonly=1`;
+				const requestUrl = `${WPTSERVER}/runtest.php?url=${testObj.url}&f=json&location=${location.location}&runs=${req.body.numberOfTests}&fvonly=1`;
 				promises.push(
-					fetch(requestUrl)
+					timeoutFetch(requestUrl, SERVER_SUBMIT_TESTS_TIMEOUT)
 						.then(serviceResponse => serviceResponse.json())
 						.then(resJson => {
 							return {
