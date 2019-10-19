@@ -27,7 +27,8 @@ class TestConfiguration extends React.Component {
 			testLocations: [],
 			numberOfTests: 2,
 			testResultOptions: resultsOptions,
-			advancedConfigOpen: false
+			advancedConfigOpen: false,
+			showTestLocationFetchError: true
 		};
 	}
 
@@ -67,7 +68,7 @@ class TestConfiguration extends React.Component {
 	};
 
 	closeError = () => {
-		this.setState({ testLocationFetchError: "" });
+		this.setState({ showTestLocationFetchError: false });
 	};
 
 	componentDidMount = () => {
@@ -83,7 +84,7 @@ class TestConfiguration extends React.Component {
 
 	render() {
 		let error;
-		if (this.props.testLocationFetchError) {
+		if (this.props.testLocationFetchError && this.state.showTestLocationFetchError) {
 			error = (
 				<Error closeError={this.closeError}>
 					<strong>An error occured fetching WebPageTest locations:</strong>{" "}

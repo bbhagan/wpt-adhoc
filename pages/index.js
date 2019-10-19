@@ -50,9 +50,10 @@ class index extends React.Component {
 				}
 			}
 			catch(e) {
-				console.log(e);
+				console.log("Failure parsing location service response");
 			}
 		}
+		console.log("Location service unavailable");
 		return { testLocationFetchError: "Locations service unavailable"};
 	}
 	
@@ -172,7 +173,10 @@ class index extends React.Component {
 			<StandardLayout>
 				<div className="indexPageContainer">
 					<div className="container">
-						<TestConfiguration submitTests={this.submitTests} testLocations={this.props.testLocations} />
+						<TestConfiguration 
+							submitTests={this.submitTests} 
+							testLocations={this.props.testLocations} 
+							testLocationFetchError={this.props.testLocationFetchError} />
 
 						<div ref={this.inProgress}></div>
 						<TestsInProgress
