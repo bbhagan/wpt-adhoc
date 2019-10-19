@@ -14,9 +14,9 @@ class Footer extends React.Component {
 					<div className="wptah-section clearfix">
 						<p>Copyright {this.state.year} Brian Hagan</p>
 						<p>
-							Licenced under{" "}
+							Licensed under{" "}
 							<a href="https://en.wikipedia.org/wiki/MIT_License">
-								MIT Licence
+								MIT License
 							</a>
 						</p>
 

@@ -6,7 +6,7 @@ const logger = (req, res, next) => {
 		console.log(
 			`${moment().format()} ${req.ip} ${req.method} ${
 				req.originalUrl
-			} ${req.get("User-Agent")} ${res.statusCode}`
+			} ${req.get("User-Agent")}`
 		);
 	}
 

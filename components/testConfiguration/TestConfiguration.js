@@ -72,19 +72,20 @@ class TestConfiguration extends React.Component {
 	};
 
 	componentDidMount = () => {
-		console.log(JSON.stringify(this.props));
-
-		if((!this.props.testLocationFetchError) && this.props.testLocations) {
+		if (!this.props.testLocationFetchError && this.props.testLocations) {
 			//
 			// move test locations into state so we can change them
 			//
-			this.setState({testLocations: this.props.testLocations});
+			this.setState({ testLocations: this.props.testLocations });
 		}
 	};
 
 	render() {
 		let error;
-		if (this.props.testLocationFetchError && this.state.showTestLocationFetchError) {
+		if (
+			this.props.testLocationFetchError &&
+			this.state.showTestLocationFetchError
+		) {
 			error = (
 				<Error closeError={this.closeError}>
 					<strong>An error occured fetching WebPageTest locations:</strong>{" "}

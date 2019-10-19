@@ -2,9 +2,14 @@ import TestConfiguration from "../components/testConfiguration/TestConfiguration
 import StandardLayout from "../layouts/StandardLayout";
 import TestResults from "../components/results/TestResults";
 import TestsInProgress from "../components/results/TestsInProgress";
-import fetch from "isomorphic-unfetch"
+import timeoutFetch from "../public/static/js/timeoutFetch";
+
 const LOCALHOST = process.env.LOCALHOST;
 const PORT = process.env.PORT;
+const UI_GET_LOCATIONS_FETCH_TIMEOUT =
+	process.env.UI_GET_LOCATIONS_FETCH_TIMEOUT;
+const UI_SUBMIT_TESTS_TIMEOUT = process.env.UI_SUBMIT_TESTS_TIMEOUT;
+const UI_GET_TEST_RESULTS_TIMEOUT = process.env.UI_GET_TEST_RESULTS_TIMEOUT;
 
 class index extends React.Component {
 	constructor(props) {
@@ -18,17 +23,20 @@ class index extends React.Component {
 
 	/**
 	 * Return the Page's initial properties.
-	 * 
-	 * @param {*} param0 
+	 *
+	 * @param {*} param0
 	 */
 	static async getInitialProps({ req }) {
-		return await index.fetchTestConfiguration();
+		return await index.fetchLocations();
 	}
 
-	static async fetchTestConfiguration() {
-		const response = await fetch(LOCALHOST + ":" + PORT + "/api/getLocations")
-		if (response.ok) {
-			try {
+	static async fetchLocations() {
+		try {
+			const response = await timeoutFetch(
+				`${LOCALHOST}:${PORT}/api/getLocations`,
+				UI_GET_LOCATIONS_FETCH_TIMEOUT
+			);
+			if (response.ok) {
 				const data = await response.json();
 				let testLocations = [];
 				if (data.statusCode === 200) {
@@ -49,14 +57,11 @@ class index extends React.Component {
 					return { testLocations: testLocations };
 				}
 			}
-			catch(e) {
-				console.log("Failure parsing location service response");
-			}
+		} catch (e) {
+			console.log(`Failure fetching locations. ${e}`);
+			return { testLocationFetchError: "Locations service unavailable" };
 		}
-		console.log("Location service unavailable");
-		return { testLocationFetchError: "Locations service unavailable"};
 	}
-	
 
 	submitTests = async testConfiguration => {
 		//populate state's result options with the selected options
@@ -82,27 +87,35 @@ class index extends React.Component {
 			})
 		};
 
-		const res = await fetch("/api/submitTests", fetchInit);
-		const data = await res.json();
-		if (data.statusCode === 200) {
-			data.tests.map(test => {
-				test.completed = false;
-				test.elapsedSeconds = 0;
-				return test;
-			});
-			//intermediate set state, before we start real getting results back
-			this.setState({ tests: data.tests });
-			data.tests.forEach(test => {
-				this.watchTest(test);
-			});
-		} else {
-			console.log(`Submit tests error: ${data.statusMsg}`);
-		}
+		try {
+			const res = await timeoutFetch(
+				"/api/submitTests",
+				UI_SUBMIT_TESTS_TIMEOUT,
+				fetchInit
+			);
+			const data = await res.json();
+			if (data.statusCode === 200) {
+				data.tests.map(test => {
+					test.completed = false;
+					test.elapsedSeconds = 0;
+					return test;
+				});
+				//intermediate set state, before we start real getting results back
+				this.setState({ tests: data.tests });
+				data.tests.forEach(test => {
+					this.watchTest(test);
+				});
+			} else {
+				console.log(`Submit tests error: ${data.statusMsg}`);
+			}
 
-		this.inProgress.current.scrollIntoView({
-			behavior: "smooth",
-			block: "start"
-		});
+			this.inProgress.current.scrollIntoView({
+				behavior: "smooth",
+				block: "start"
+			});
+		} catch (e) {
+			console.log(`Failure submitting tests. $(e)`);
+		}
 	};
 
 	watchTest = testToWatch => {
@@ -122,35 +135,43 @@ class index extends React.Component {
 	};
 
 	fetchTestResults = async test => {
-		const res = await fetch(`/api/getTestResults/${test.testId}`);
-		const resJson = await res.json();
-		switch (resJson.statusCode) {
-			//Test complete, data came back
-			case 200:
-				//update the state with new test values
-				test.completed = true;
-				test.behindCount = null;
-				test.data = resJson.data;
-				break;
-			//Test started, not complete
-			case 100:
-				//update the test with elapsed time
-				test.elapsedSeconds = resJson.testElapsedSeconds;
-				test.behindCount = null;
-				break;
-			//Waiting behind other tests
-			case 101:
-				test.behindCount = resJson.behindCount;
-				break;
-			case 400:
-				//test maybe too new to request data on. Retry one time after 5 seconds
-				break;
-			default:
-				console.log(
-					`Error in fetchTestResults, unknown statusCode: ${resJson.statusCode}`
-				);
+		try {
+			const res = await timeoutFetch(
+				`/api/getTestResults/${test.testId}`,
+				UI_GET_TEST_RESULTS_TIMEOUT
+			);
+			const resJson = await res.json();
+			switch (resJson.statusCode) {
+				//Test complete, data came back
+				case 200:
+					//update the state with new test values
+					test.completed = true;
+					test.behindCount = null;
+					test.data = resJson.data;
+					break;
+				//Test started, not complete
+				case 100:
+					//update the test with elapsed time
+					test.elapsedSeconds = resJson.testElapsedSeconds;
+					test.behindCount = null;
+					break;
+				//Waiting behind other tests
+				case 101:
+					test.behindCount = resJson.behindCount;
+					break;
+				case 400:
+					//test maybe too new to request data on. Retry one time after 5 seconds
+					break;
+				default:
+					console.log(
+						`Error in fetchTestResults, unknown statusCode: ${resJson.statusCode}`
+					);
+			}
+			return test;
+		} catch (e) {
+			console.log(`Failure fetching test results. ${e}`);
+			return test;
 		}
-		return test;
 	};
 
 	render() {
@@ -173,10 +194,11 @@ class index extends React.Component {
 			<StandardLayout>
 				<div className="indexPageContainer">
 					<div className="container">
-						<TestConfiguration 
-							submitTests={this.submitTests} 
-							testLocations={this.props.testLocations} 
-							testLocationFetchError={this.props.testLocationFetchError} />
+						<TestConfiguration
+							submitTests={this.submitTests}
+							testLocations={this.props.testLocations}
+							testLocationFetchError={this.props.testLocationFetchError}
+						/>
 
 						<div ref={this.inProgress}></div>
 						<TestsInProgress
