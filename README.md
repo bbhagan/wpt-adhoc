@@ -12,7 +12,7 @@ It uses the WPT API to submit tests and get results back. There is a middleware 
 
 ## Setup requirements
 
-- You'll need a [WebPageTest Server and client](https://github.com/WPO-Foundation). You can implement this in a docker container, on Amazon EC2, Google Cloud, on a spare server, etc. They've made it really easy to deploy a private instance of WPT.
+- You'll need a [WebPageTest Server and client](https://github.com/WPO-Foundation). You can implement this in a docker container, on Amazon EC2, Google Cloud, on a spare server, etc. They've made it really easy to deploy a private instance of WPT. There is a two-part Youtube series on setting it up. [Part 1](https://www.youtube.com/watch?v=enVpzzlhTzE) [Part 2](https://www.youtube.com/watch?v=loAGkDTMjtY)
 - You'll need node and npm running on your development server (most recent node reccommended.)
 
 ## Setup .env for your environment
