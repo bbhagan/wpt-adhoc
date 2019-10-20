@@ -5,7 +5,19 @@ import TestResultAverageLine from "./TestResultAverageLine";
 import TestResultHeaderDescription from "./TestResultHeaderDescription";
 import PropTypes from "prop-types";
 
-class TestResults extends React.Component {
+/**
+ * Renders the individual test result
+ *
+ * @class TestResult
+ * @extends {React.Component}
+ */
+class TestResult extends React.Component {
+	/**
+	 * Render function for custom output
+	 *
+	 * @memberof TestResults
+	 * @return {object}
+	 */
 	renderResultsTable = () => {
 		return (
 			<div className="TestResultsContainer">
@@ -31,6 +43,12 @@ class TestResults extends React.Component {
 		);
 	};
 
+	/**
+	 * React lifecycle method
+	 *
+	 * @returns {object}
+	 * @memberof TestResults
+	 */
 	render() {
 		return (
 			<div className="TestResultContainer">{this.renderResultsTable()}</div>
@@ -38,9 +56,9 @@ class TestResults extends React.Component {
 	}
 }
 
-TestResults.propTypes = {
+TestResult.propTypes = {
 	test: PropTypes.object.isRequired,
 	resultOptions: PropTypes.array.isRequired
 };
 
-export default TestResults;
+export default TestResult;

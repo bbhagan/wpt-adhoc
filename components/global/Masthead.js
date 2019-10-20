@@ -1,6 +1,18 @@
 import Link from "next/link";
 
+/**
+ * Renders masthead of site.
+ *
+ * @class Masthead
+ * @extends {React.Component}
+ */
 class Masthead extends React.Component {
+	/**
+	 * React lifecycle method
+	 *
+	 * @returns {object}
+	 * @memberof Masthead
+	 */
 	render() {
 		return (
 			<div className="MastheadContainer">

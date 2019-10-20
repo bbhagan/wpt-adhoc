@@ -1,7 +1,19 @@
 import PropTypes from "prop-types";
 const WPTSERVER = process.env.WPTSERVER;
 
+/**
+ * Renders the in progress or result test description (test id, url, elapsed time, etc.)
+ *
+ * @class TestResultHeaderDescription
+ * @extends {React.Component}
+ */
 class TestResultHeaderDescription extends React.Component {
+	/**
+	 * React lifecycle method.
+	 *
+	 * @returns {object}
+	 * @memberof TestResultHeaderDescription
+	 */
 	render() {
 		return (
 			<div className="TestResultHeaderDescription">

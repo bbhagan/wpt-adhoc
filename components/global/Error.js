@@ -1,9 +1,27 @@
 import PropTypes from "prop-types";
 
+/**
+ * Renders error box
+ *
+ * @class Error
+ * @extends {React.Component}
+ */
 class Error extends React.Component {
+	/**
+	 * Handles click of close button or (x). Calls React props function.
+	 *
+	 * @memberof Error
+	 */
 	closeError = () => {
 		this.props.closeError();
 	};
+
+	/**
+	 * React lifecycle method.
+	 *
+	 * @returns {object}
+	 * @memberof Error
+	 */
 	render() {
 		return (
 			<div className="ErrorContainer">

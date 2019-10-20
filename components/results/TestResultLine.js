@@ -2,7 +2,19 @@ import React from "react";
 import { calcUOMPrecision } from "../../public/static/js/mathUtils";
 import PropTypes from "prop-types";
 
+/**
+ * Renders individual result table line (row)
+ *
+ * @class TestResultLine
+ * @extends {React.Component}
+ */
 class TestResultLine extends React.Component {
+	/**
+	 * React lifecucle method
+	 *
+	 * @returns {object}
+	 * @memberof TestResultLine
+	 */
 	render() {
 		return (
 			<tr className="table-active">

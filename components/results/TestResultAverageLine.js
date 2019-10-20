@@ -2,7 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import { calcUOMPrecision } from "../../public/static/js/mathUtils";
 
+/**
+ * Renders the result table average line (row)
+ *
+ * @class TestResultAverageLine
+ * @extends {React.Component}
+ */
 class TestResultAverageLine extends React.Component {
+	/**
+	 * React lifecycle method.
+	 *
+	 * @returns {object}
+	 * @memberof TestResultAverageLine
+	 */
 	render() {
 		return (
 			<tr className="table-light">

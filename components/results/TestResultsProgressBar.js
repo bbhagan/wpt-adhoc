@@ -1,6 +1,18 @@
 import PropTypes from "prop-types";
 
+/**
+ * Renders the test results progress bar
+ *
+ * @class TestResultsProgressBar
+ * @extends {React.Component}
+ */
 class TestResultsProgressBar extends React.Component {
+	/**
+	 * Calculates percentage of tests complete
+	 *
+	 * @return {string}
+	 * @memberof TestResultsProgressBar
+	 */
 	calculateProgressPercentage = () => {
 		return (
 			((this.props.totalNumberOfTests -
@@ -12,6 +24,11 @@ class TestResultsProgressBar extends React.Component {
 		);
 	};
 
+	/**
+	 * Custom render of progress bar
+	 * @return {object}
+	 * @memberof TestResultsProgressBar
+	 */
 	renderProgressBar = () => {
 		if (this.props.totalNumberOfTests > 0) {
 			if (this.props.numberOfTestsInProgress > 0) {
@@ -46,6 +63,12 @@ class TestResultsProgressBar extends React.Component {
 		}
 	};
 
+	/**
+	 * React lifecycle method
+	 *
+	 * @returns
+	 * @memberof TestResultsProgressBar
+	 */
 	render() {
 		return (
 			<div className="TestResultsProgressBarContainer">

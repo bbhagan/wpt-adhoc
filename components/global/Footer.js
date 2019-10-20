@@ -1,12 +1,30 @@
 import "./Footer.scss";
 
+/**
+ * Renders site footer
+ *
+ * @class Footer
+ * @extends {React.Component}
+ */
 class Footer extends React.Component {
+	/**
+	 * Creates an instance of Footer.
+	 * @param {object} props
+	 * @memberof Footer
+	 */
 	constructor(props) {
 		super(props);
 		this.state = {
 			year: new Date().getFullYear()
 		};
 	}
+
+	/**
+	 * React lifecycle method.
+	 *
+	 * @returns {object}
+	 * @memberof Footer
+	 */
 	render() {
 		return (
 			<div className="FooterContainer">
