@@ -1,6 +1,18 @@
 import PropTypes from "prop-types";
 
+/**
+ * Renders the advanced test configuration tabs
+ *
+ * @class TestConfigurationTabs
+ * @extends {React.Component}
+ */
 class TestConfigurationTabs extends React.Component {
+	/**
+	 * React lifecycle method
+	 *
+	 * @returns {object}
+	 * @memberof TestConfigurationTabs
+	 */
 	render() {
 		return (
 			<div className="TestConfigurationTabsContainer">

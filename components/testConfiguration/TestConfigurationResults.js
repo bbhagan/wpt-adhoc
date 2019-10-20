@@ -2,7 +2,18 @@ import React from "react";
 import "./TestConfigurationResults.scss";
 import PropTypes from "prop-types";
 
+/**
+ * Renders the checkboxes to configure all of the result columns in the test(s)
+ *
+ * @class TestConfigurationResults
+ * @extends {React.Component}
+ */
 class TestConfigurationResults extends React.Component {
+	/**
+	 * Handle checking/un-checking of result option boxes. Calls React props function.
+	 *
+	 * @memberof TestConfigurationResults
+	 */
 	handleResultOptionChange = e => {
 		const tempResultOptions = this.props.testResultOptions.map(resultOption => {
 			if (resultOption.wptField !== e.target.value) return resultOption;
@@ -13,6 +24,12 @@ class TestConfigurationResults extends React.Component {
 		this.props.updateTestResultOptions(tempResultOptions);
 	};
 
+	/**
+	 * React lifecycle method
+	 *
+	 * @returns object
+	 * @memberof TestConfigurationResults
+	 */
 	render() {
 		const showBlock = { display: this.props.shown ? "block" : "none" };
 		return (
@@ -114,24 +131,6 @@ class TestConfigurationResults extends React.Component {
 		);
 	}
 }
-
-/*
-<fieldset class="form-group">
-                    <legend>Checkboxes</legend>
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="" checked="">
-                        Option one is this and that—be sure to include why it's great
-                      </label>
-                    </div>
-                    <div class="form-check disabled">
-                      <label class="form-check-label">
-                        <input class="form-check-input" type="checkbox" value="" disabled="">
-                        Option two is disabled
-                      </label>
-                    </div>
-						</fieldset>
-						*/
 
 TestConfigurationResults.propTypes = {
 	testResultOptions: PropTypes.array.isRequired,

@@ -1,6 +1,12 @@
 import StandardLayout from "../layouts/StandardLayout";
 
-class help extends React.Component {
+/**
+ * Renders the help page
+ *
+ * @class Help
+ * @extends {React.Component}
+ */
+class Help extends React.Component {
 	render() {
 		return (
 			<StandardLayout>
@@ -16,4 +22,4 @@ class help extends React.Component {
 	}
 }
 
-export default help;
+export default Help;

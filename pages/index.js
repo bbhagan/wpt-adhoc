@@ -12,7 +12,18 @@ const UI_GET_LOCATIONS_FETCH_TIMEOUT =
 const UI_SUBMIT_TESTS_TIMEOUT = process.env.UI_SUBMIT_TESTS_TIMEOUT;
 const UI_GET_TEST_RESULTS_TIMEOUT = process.env.UI_GET_TEST_RESULTS_TIMEOUT;
 
-class index extends React.Component {
+/**
+ * Renders main index page
+ *
+ * @class Index
+ * @extends {React.Component}
+ */
+class Index extends React.Component {
+	/**
+	 *Creates an instance of Index.
+	 * @param {object} props
+	 * @memberof Index
+	 */
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -23,14 +34,24 @@ class index extends React.Component {
 	}
 
 	/**
-	 * Return the Page's initial properties.
+	 * Next lifecycle method. Return the Page's initial properties.
 	 *
-	 * @param {*} param0
+	 * @static
+	 * @param {*} { req }
+	 * @returns {object}
+	 * @memberof Index
 	 */
 	static async getInitialProps({ req }) {
-		return await index.fetchLocations();
+		return await Index.fetchLocations();
 	}
 
+	/**
+	 * Fetches location data from server
+	 *
+	 * @static
+	 * @returns {object}
+	 * @memberof Index
+	 */
 	static async fetchLocations() {
 		try {
 			const response = await timeoutFetch(
@@ -66,6 +87,11 @@ class index extends React.Component {
 		}
 	}
 
+	/**
+	 * Submits tests to WPT API. Sets React state
+	 *
+	 * @memberof index
+	 */
 	submitTests = async testConfiguration => {
 		//populate state's result options with the selected options
 		const selectedResultOptions = [];
@@ -112,6 +138,7 @@ class index extends React.Component {
 				console.log(`Submit tests error: ${data.statusMsg}`);
 			}
 
+			//Scroll page to in progress section
 			this.inProgress.current.scrollIntoView({
 				behavior: "smooth",
 				block: "start"
@@ -121,6 +148,11 @@ class index extends React.Component {
 		}
 	};
 
+	/**
+	 * Monitors state of test. Sets React state. Recursive.
+	 *
+	 * @memberof index
+	 */
 	watchTest = testToWatch => {
 		setTimeout(async () => {
 			const newTest = await this.fetchTestResults(testToWatch);
@@ -137,6 +169,13 @@ class index extends React.Component {
 		}, 1500);
 	};
 
+	/**
+	 * Gets the status of each test
+	 *
+	 * @return {object}
+	 * @see watchTest
+	 * @memberof index
+	 */
 	fetchTestResults = async test => {
 		try {
 			const res = await timeoutFetch(
@@ -177,6 +216,12 @@ class index extends React.Component {
 		}
 	};
 
+	/**
+	 * React lifecycle method
+	 *
+	 * @returns {object}
+	 * @memberof Index
+	 */
 	render() {
 		const testsInProgress = this.state.tests.filter(
 			test => test.completed === false
@@ -217,7 +262,4 @@ class index extends React.Component {
 	}
 }
 
-/*
-
-*/
-export default index;
+export default Index;

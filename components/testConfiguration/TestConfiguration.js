@@ -16,6 +16,11 @@ import "./testConfiguration.scss";
  * @extends {React.Component}
  */
 class TestConfiguration extends React.Component {
+	/**
+	 * Creates an instance of TestConfiguration.
+	 * @param {object} props
+	 * @memberof TestConfiguration
+	 */
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -32,11 +37,21 @@ class TestConfiguration extends React.Component {
 		};
 	}
 
+	/**
+	 * Receives call from component to submit test. Sets React state. Calls React props function.
+	 *
+	 * @memberof TestConfiguration
+	 */
 	submitTests = () => {
 		this.setState({ advancedConfigOpen: false });
 		this.props.submitTests(this.state);
 	};
 
+	/**
+	 * Receives call from component to add more URLs to main test billboard. Sets React state.
+	 *
+	 * @memberof TestConfiguration
+	 */
 	addMoreURLs = () => {
 		const urls = [
 			...this.state.urls,
@@ -47,39 +62,83 @@ class TestConfiguration extends React.Component {
 		this.setState({ urls });
 	};
 
+	/**
+	 * Handles call to open/close advanced config modal. Sets React state.
+	 *
+	 * @memberof TestConfiguration
+	 */
 	handleToggleAdvancedConfig = () => {
 		this.setState({ advancedConfigOpen: !this.state.advancedConfigOpen });
 	};
 
+	/**
+	 * Receives call from component to update URLs to test. Sets React state.
+	 *
+	 * @param {array} urls -- URL array to test
+	 * @memberof TestConfiguration
+	 */
 	updateURLs = urls => {
 		this.setState({ urls: urls });
 	};
 
+	/**
+	 * Receives call from component to update locations to test against. Sets React state.
+	 *
+	 * @param {array} locations -- Locations to test against
+	 * @memberof TestConfiguration
+	 */
 	updateLocations = locations => {
 		this.setState({ locations: locations });
 	};
 
+	/**
+	 * Receives call from component to update the number of tests to run. Sets React state.
+	 *
+	 * @param {number} numberOfTests -- Number of tests to run
+	 * @memberof TestConfiguration
+	 */
 	updateNumberOfTests = numberOfTests => {
 		this.setState({ numberOfTests: numberOfTests });
 	};
 
+	/**
+	 * Receives call from component to update test result options. Sets React state.
+	 *
+	 * @param {array} options -- Array of test result options
+	 * @memberof TestConfiguration
+	 */
 	updateTestResultOptions = options => {
 		this.setState({ testResultOptions: options });
 	};
 
+	/**
+	 * Handles user closing of error dialog. Sets React state.
+	 *
+	 * @memberof TestConfiguration
+	 */
 	closeError = () => {
 		this.setState({ showTestLocationFetchError: false });
 	};
 
+	/**
+	 * React lifecycle method.
+	 * Takes Next js getInitialProps of locations and sets React state.
+	 *
+	 * @memberof TestConfiguration
+	 */
 	componentDidMount = () => {
 		if (!this.props.testLocationFetchError && this.props.testLocations) {
-			//
 			// move test locations into state so we can change them
-			//
 			this.setState({ testLocations: this.props.testLocations });
 		}
 	};
 
+	/**
+	 * React lifecycle method.
+	 *
+	 * @returns {object}
+	 * @memberof TestConfiguration
+	 */
 	render() {
 		let error;
 		if (

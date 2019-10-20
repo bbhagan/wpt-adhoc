@@ -4,18 +4,39 @@ import TestConfigurationBasic from "./TestConfigurationBasic";
 import TestConfigurationResults from "./TestConfigurationResults";
 import "./TestConfigurationModal.scss";
 
+/**
+ * Renders the test configuration modal.
+ *
+ * @class TestConfigurationModal
+ * @extends {React.Component}
+ */
 class TestConfigurationModal extends React.Component {
+	/**
+	 *Creates an instance of TestConfigurationModal.
+	 * @param {*} props
+	 * @memberof TestConfigurationModal
+	 */
 	constructor(props) {
 		super(props);
 		this.state = {
 			selectedTab: "basic"
 		};
 	}
-
+	/**
+	 * Handle clicking of tabs. Sets React state.
+	 *
+	 * @memberof TestConfigurationModal
+	 */
 	updateTab = (e, tabName) => {
 		this.setState({ selectedTab: tabName });
 	};
 
+	/**
+	 * React lifecycle method.
+	 *
+	 * @returns {object}
+	 * @memberof TestConfigurationModal
+	 */
 	render() {
 		return (
 			<div className="TestConfigurationModalContainer">
@@ -75,5 +96,16 @@ class TestConfigurationModal extends React.Component {
 		);
 	}
 }
+
+TestConfigurationModal.propTypes = {
+	testLocations: PropTypes.array.isRequired,
+	updateLocations: PropTypes.func.isRequired,
+	numberOfTests: PropTypes.number.isRequired,
+	updateNumberOfTests: PropTypes.func.isRequired,
+	testResultOptions: PropTypes.array.isRequired,
+	updateTestResultOptions: PropTypes.func.isRequired,
+	openClose: PropTypes.bool.isRequired,
+	handleClose: PropTypes.func.isRequired
+};
 
 export default TestConfigurationModal;

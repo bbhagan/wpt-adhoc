@@ -1,6 +1,18 @@
 import StandardLayout from "../layouts/StandardLayout";
 
-class about extends React.Component {
+/**
+ * Renders the about page
+ *
+ * @class About
+ * @extends {React.Component}
+ */
+class About extends React.Component {
+	/**
+	 * React lifecycle method
+	 *
+	 * @returns
+	 * @memberof About
+	 */
 	render() {
 		return (
 			<StandardLayout>
@@ -45,4 +57,4 @@ class about extends React.Component {
 	}
 }
 
-export default about;
+export default About;

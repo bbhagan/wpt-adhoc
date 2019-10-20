@@ -2,11 +2,27 @@ import React from "react";
 import "./TestConfigurationBasic.scss";
 import PropTypes from "prop-types";
 
+/**
+ * "Basic" tab content in test configuration modal.
+ *
+ * @class TestConfigurationBasic
+ * @extends {React.Component}
+ */
 class TestConfigurationBasic extends React.Component {
+	/**
+	 * Handles updates to number of tests. Calls React props function.
+	 * @param {event} -- The field change event
+	 * @memberof TestConfigurationBasic
+	 */
 	handleChangeNumberOfTests = e => {
 		this.props.updateNumberOfTests(Number(e.target.value));
 	};
 
+	/**
+	 * Handles change (checkbox) of location options. Calls React props function.
+	 *
+	 * @memberof TestConfigurationBasic
+	 */
 	handleLocationChange = idx => e => {
 		const tempLocations = this.props.testLocations.map(
 			(location, locationIdx) => {
@@ -19,6 +35,12 @@ class TestConfigurationBasic extends React.Component {
 		this.props.updateLocations(tempLocations);
 	};
 
+	/**
+	 * React lifecycle method
+	 *
+	 * @returns {object}
+	 * @memberof TestConfigurationBasic
+	 */
 	render() {
 		const showBlock = { display: this.props.shown ? "block" : "none" };
 		return (
