@@ -36,6 +36,16 @@ class TestConfigurationBasic extends React.Component {
 	};
 
 	/**
+	 * Handles change of the grouping select
+	 *
+	 * @param {object} e -- The click event object
+	 * @memberof TestConfigurationBasic
+	 */
+	handleGroupingChange = e => {
+		this.props.updateGrouping(e.target.value);
+	};
+
+	/**
 	 * React lifecycle method
 	 *
 	 * @returns {object}
@@ -51,11 +61,13 @@ class TestConfigurationBasic extends React.Component {
 						<select
 							className="form-control form-control-sm"
 							id="test-configuration-grouping"
+							onChange={this.handleGroupingChange}
+							value={this.props.grouping}
 						>
-							<option value="mobVsDesk">None (Just run the tests)</option>
+							<option value="none">None (Just run the tests)</option>
 							<option value="mobVsDesk">Mobile Vs. Desktop</option>
-							<option value="mobVsDesk">Competative Analysis</option>
-							<option value="mobVsDesk">Before &amp; After</option>
+							<option value="comptetative">Competative Analysis</option>
+							<option value="beforeAndAfter">Before &amp; After</option>
 						</select>
 					</label>
 				</div>
@@ -95,6 +107,8 @@ class TestConfigurationBasic extends React.Component {
 }
 
 TestConfigurationBasic.propTypes = {
+	grouping: PropTypes.string.isRequired,
+	updateGrouping: PropTypes.func.isRequired,
 	testLocations: PropTypes.array.isRequired,
 	updateLocations: PropTypes.func.isRequired,
 	numberOfTests: PropTypes.number.isRequired,

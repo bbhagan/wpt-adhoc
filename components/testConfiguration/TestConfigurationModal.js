@@ -67,6 +67,8 @@ class TestConfigurationModal extends React.Component {
 								/>
 
 								<TestConfigurationBasic
+									grouping={this.props.grouping}
+									updateGrouping={this.props.updateGrouping}
 									testLocations={this.props.testLocations}
 									updateLocations={this.props.updateLocations}
 									numberOfTests={this.props.numberOfTests}
@@ -98,6 +100,8 @@ class TestConfigurationModal extends React.Component {
 }
 
 TestConfigurationModal.propTypes = {
+	grouping: PropTypes.string.isRequired,
+	updateGrouping: PropTypes.func.isRequired,
 	testLocations: PropTypes.array.isRequired,
 	updateLocations: PropTypes.func.isRequired,
 	numberOfTests: PropTypes.number.isRequired,

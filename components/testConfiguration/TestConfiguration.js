@@ -29,6 +29,7 @@ class TestConfiguration extends React.Component {
 				{ url: "", index: 1 },
 				{ url: "", index: 2 }
 			],
+			grouping: "none",
 			testLocations: [],
 			numberOfTests: 2,
 			testResultOptions: resultsOptions,
@@ -79,6 +80,16 @@ class TestConfiguration extends React.Component {
 	 */
 	updateURLs = urls => {
 		this.setState({ urls: urls });
+	};
+
+	/**
+	 * Receives call from component to update the test grouping. Sets React State.
+	 *
+	 * @param {string} grouping -- The grouping value
+	 * @memberof TestConfiguration
+	 */
+	updateGrouping = grouping => {
+		this.setState({ grouping });
 	};
 
 	/**
@@ -191,6 +202,8 @@ class TestConfiguration extends React.Component {
 						</div>
 					</div>
 					<TestConfigurationModal
+						grouping={this.state.grouping}
+						updateGrouping={this.updateGrouping}
 						testLocations={this.state.testLocations}
 						updateLocations={this.updateLocations}
 						numberOfTests={this.state.numberOfTests}

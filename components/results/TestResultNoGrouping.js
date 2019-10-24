@@ -6,21 +6,21 @@ import TestResultHeaderDescription from "./TestResultHeaderDescription";
 import PropTypes from "prop-types";
 
 /**
- * Renders the individual test result
+ * Renders the individual test result without any grouping (Grouping: none in test config)
  *
- * @class TestResult
+ * @class TestResultNoGrouping
  * @extends {React.Component}
  */
-class TestResult extends React.Component {
+class TestResultNoGrouping extends React.Component {
 	/**
 	 * Render function for custom output
 	 *
-	 * @memberof TestResults
+	 * @memberof TestResult
 	 * @return {object}
 	 */
 	renderResultsTable = () => {
 		return (
-			<div className="TestResultsContainer">
+			<div className="TestResultNoGroupingContainer">
 				<TestResultHeaderDescription test={this.props.test} />
 				<table className="table table-hover">
 					<TestResultTableHeader resultOptions={this.props.resultOptions} />
@@ -47,7 +47,7 @@ class TestResult extends React.Component {
 	 * React lifecycle method
 	 *
 	 * @returns {object}
-	 * @memberof TestResults
+	 * @memberof TestResultNoGrouping
 	 */
 	render() {
 		return (
@@ -56,9 +56,9 @@ class TestResult extends React.Component {
 	}
 }
 
-TestResult.propTypes = {
+TestResultNoGrouping.propTypes = {
 	test: PropTypes.object.isRequired,
 	resultOptions: PropTypes.array.isRequired
 };
 
-export default TestResult;
+export default TestResultNoGrouping;

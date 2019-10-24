@@ -1,5 +1,5 @@
 import React from "react";
-import TestResult from "./TestResult";
+import TestResultNoGrouping from "./TestResultNoGrouping";
 import PropTypes from "prop-types";
 
 /**
@@ -17,17 +17,21 @@ class TestResults extends React.Component {
 	 */
 	render() {
 		const header = this.props.tests.length ? "Test Results" : "";
+		let result;
+		if (this.props.grouping === "none") {
+			result = this.props.tests.map((test, idx) => (
+				<TestResultNoGrouping
+					test={test}
+					key={idx}
+					resultOptions={this.props.resultOptions}
+				/>
+			));
+		}
 		return (
 			<div className="TestResultsContainer">
 				<div className="wptah-section clearfix">
 					<h2>{header}</h2>
-					{this.props.tests.map((test, idx) => (
-						<TestResult
-							test={test}
-							key={idx}
-							resultOptions={this.props.resultOptions}
-						/>
-					))}
+					{result}
 				</div>
 			</div>
 		);
@@ -36,7 +40,8 @@ class TestResults extends React.Component {
 
 TestResults.propTypes = {
 	tests: PropTypes.array.isRequired,
-	resultOptions: PropTypes.array.isRequired
+	resultOptions: PropTypes.array.isRequired,
+	grouping: PropTypes.string.isRequired
 };
 
 export default TestResults;
