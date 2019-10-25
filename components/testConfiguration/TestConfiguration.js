@@ -29,7 +29,7 @@ class TestConfiguration extends React.Component {
 				{ url: "", index: 1 },
 				{ url: "", index: 2 }
 			],
-			grouping: "none",
+			grouping: "mobVsDesk",
 			testLocations: [],
 			numberOfTests: 2,
 			testResultOptions: resultsOptions,

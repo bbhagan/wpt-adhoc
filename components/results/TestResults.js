@@ -1,5 +1,6 @@
 import React from "react";
 import TestResultNoGrouping from "./TestResultNoGrouping";
+import TestResultMobileVsDesktop from "./TestResultMobileVsDesktop";
 import PropTypes from "prop-types";
 
 /**
@@ -17,7 +18,7 @@ class TestResults extends React.Component {
 	 */
 	render() {
 		const header = this.props.tests.length ? "Test Results" : "";
-		let result;
+		let result = [];
 		if (this.props.grouping === "none") {
 			result = this.props.tests.map((test, idx) => (
 				<TestResultNoGrouping
@@ -26,6 +27,29 @@ class TestResults extends React.Component {
 					resultOptions={this.props.resultOptions}
 				/>
 			));
+		} else if (this.props.grouping === "mobVsDesk") {
+			const sortedTests = this.props.tests.sort((a, b) => {
+				console.log(
+					`a.url: ${a.url} b.url: ${b.url} a.url > b.url: ${a.url > b.url}`
+				);
+				if (a.url > b.url) return -1;
+				if (a.url < b.url) return 1;
+				return 0;
+			});
+
+			for (var i = 0; i < sortedTests.length; i + 2) {
+				console.log(`sortedTests.length = ${sortedTests.length}`);
+				console.log(`i = ${i}`);
+				console.log(`i + 1 = ${i + 1}`);
+				result.push(
+					<TestResultMobileVsDesktop
+						deskTest={sortedTests[i]}
+						mobTest={sortedTests[i + 1]}
+						key={i}
+						resultOptions={this.props.resultOptions}
+					/>
+				);
+			}
 		}
 		return (
 			<div className="TestResultsContainer">
