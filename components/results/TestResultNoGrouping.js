@@ -27,6 +27,7 @@ class TestResultNoGrouping extends React.Component {
 					<tbody>
 						{this.props.test.data.runs.map((run, idx) => (
 							<TestResultsLine
+								key={idx}
 								idx={idx}
 								run={run}
 								resultOptions={this.props.resultOptions}

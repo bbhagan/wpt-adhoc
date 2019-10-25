@@ -36,6 +36,16 @@ class TestConfigurationBasic extends React.Component {
 	};
 
 	/**
+	 * Handles the change of the sorting select
+	 *
+	 * @param {object} e -- The change event object
+	 * @memberof TestConfigurationBasic
+	 */
+	handleSortingChange = e => {
+		this.props.updateSorting(e.target.value);
+	};
+
+	/**
 	 * Handles change of the grouping select
 	 *
 	 * @param {object} e -- The click event object
@@ -68,6 +78,22 @@ class TestConfigurationBasic extends React.Component {
 							<option value="mobVsDesk">Mobile Vs. Desktop</option>
 							<option value="comptetative">Competative Analysis</option>
 							<option value="beforeAndAfter">Before &amp; After</option>
+						</select>
+					</label>
+				</div>
+
+				<div className="form-group">
+					<label>
+						Sorting
+						<select
+							className="form-control form-control-sm"
+							id="test-configuration-sorting"
+							onChange={this.handleSortingChange}
+							value={this.props.sorting}
+						>
+							<option value="none">None</option>
+							<option value="alpha">Alphabetical by URL</option>
+							<option value="reverseAlpha">Reverse Alphabetical by URL</option>
 						</select>
 					</label>
 				</div>
@@ -109,6 +135,8 @@ class TestConfigurationBasic extends React.Component {
 TestConfigurationBasic.propTypes = {
 	grouping: PropTypes.string.isRequired,
 	updateGrouping: PropTypes.func.isRequired,
+	sorting: PropTypes.string.isRequired,
+	updateSorting: PropTypes.func.isRequired,
 	testLocations: PropTypes.array.isRequired,
 	updateLocations: PropTypes.func.isRequired,
 	numberOfTests: PropTypes.number.isRequired,

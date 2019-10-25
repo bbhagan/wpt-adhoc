@@ -30,6 +30,7 @@ class TestConfiguration extends React.Component {
 				{ url: "", index: 2 }
 			],
 			grouping: "mobVsDesk",
+			sorting: "alpha",
 			testLocations: [],
 			numberOfTests: 2,
 			testResultOptions: resultsOptions,
@@ -90,6 +91,16 @@ class TestConfiguration extends React.Component {
 	 */
 	updateGrouping = grouping => {
 		this.setState({ grouping });
+	};
+
+	/**
+	 * Receives call from component to update the test sorting. Sets React State.
+	 *
+	 * @param {string} sorting -- The sorting value
+	 * @memberof TestConfiguration
+	 */
+	updateSorting = sorting => {
+		this.setState({ sorting });
 	};
 
 	/**
@@ -204,6 +215,8 @@ class TestConfiguration extends React.Component {
 					<TestConfigurationModal
 						grouping={this.state.grouping}
 						updateGrouping={this.updateGrouping}
+						sorting={this.state.sorting}
+						updateSorting={this.updateSorting}
 						testLocations={this.state.testLocations}
 						updateLocations={this.updateLocations}
 						numberOfTests={this.state.numberOfTests}

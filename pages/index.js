@@ -29,7 +29,8 @@ class Index extends React.Component {
 		this.state = {
 			tests: [],
 			resultOptions: [],
-			grouping: ""
+			grouping: "",
+			sorting: ""
 		};
 		this.inProgress = React.createRef();
 	}
@@ -101,7 +102,8 @@ class Index extends React.Component {
 		});
 		this.setState({
 			resultOptions: selectedResultOptions,
-			grouping: testConfiguration.grouping
+			grouping: testConfiguration.grouping,
+			sorting: testConfiguration.sorting
 		});
 
 		//filter the tests for URLs and locations
@@ -240,6 +242,7 @@ class Index extends React.Component {
 					tests={completedTests}
 					resultOptions={this.state.resultOptions}
 					grouping={this.state.grouping}
+					sorting={this.state.sorting}
 				/>
 			);
 		}
