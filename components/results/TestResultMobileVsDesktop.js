@@ -14,8 +14,8 @@ class TestResultMobileVsDesktop extends React.Component {
 }
 
 TestResultMobileVsDesktop.propTypes = {
-	deskTest: PropTypes.object.isRequired,
-	mobTest: PropTypes.object.isRequired,
+	deskTest: PropTypes.object,
+	mobTest: PropTypes.object,
 	key: PropTypes.number,
 	resultOptions: PropTypes.array.isRequired
 };
