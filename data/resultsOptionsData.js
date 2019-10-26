@@ -67,13 +67,15 @@ export const resultsOptions = [
 		name: "Doc. Requests",
 		wptField: "requestsDoc",
 		type: "uncommon",
-		active: false
+		active: false,
+		uom: "ea"
 	},
 	{
 		name: "Number of 404 Responses",
 		wptField: "responses_404",
 		type: "uncommon",
-		active: false
+		active: false,
+		uom: "ea"
 	},
 	{
 		name: "Load Time",
@@ -191,7 +193,8 @@ export const resultsOptions = [
 		name: "Total DOM Elements",
 		wptField: "domElements",
 		type: "common",
-		active: false
+		active: false,
+		uom: "ea"
 	},
 	{
 		name: "Time to DOM Interactive",
@@ -229,7 +232,8 @@ export const resultsOptions = [
 		name: "Speed Index",
 		wptField: "SpeedIndex",
 		type: "uncommon",
-		active: false
+		active: false,
+		uom: "ea"
 	},
 	{
 		name: "Visual Compl.",
@@ -291,12 +295,14 @@ export const resultsOptions = [
 		name: "Small Image Count",
 		wptField: "smallImageCount",
 		type: "uncommon",
-		active: false
+		active: false,
+		uom: "ea"
 	},
 	{
 		name: "Big Image Count",
 		wptField: "bigImageCount",
 		type: "uncommon",
-		active: false
+		active: false,
+		uom: "ea"
 	}
 ];

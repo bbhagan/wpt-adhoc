@@ -86,10 +86,10 @@ class TestResults extends React.Component {
 				if (pairAhead) {
 					result.push(
 						<TestResultMobileVsDesktop
+							key={i}
 							test1={sortedTests[i]}
 							test2={sortedTests[i + 1]}
 							resultOptions={this.props.resultOptions}
-							key={i}
 						/>
 					);
 				}

@@ -3,6 +3,7 @@ import TestResultTableHeader from "./TestResultTableHeader";
 import TestResultsLine from "./TestResultLine";
 import TestResultAverageLine from "./TestResultAverageLine";
 import TestResultHeaderDescription from "./TestResultHeaderDescription";
+import TestResultDifferenceLine from "./TestResultDifferenceLine";
 import PropTypes from "prop-types";
 
 class TestResultMobileVsDesktop extends React.Component {
@@ -46,6 +47,13 @@ class TestResultMobileVsDesktop extends React.Component {
 							resultOptions={this.props.resultOptions}
 							mobDesk={test2MobDesk}
 						/>
+						<TestResultDifferenceLine
+							test1Data={this.props.test1.data.average.firstView}
+							test1MobDesk={test1MobDesk}
+							test2Data={this.props.test2.data.average.firstView}
+							test2MobDesk={test2MobDesk}
+							resultOptions={this.props.resultOptions}
+						/>
 					</tbody>
 				</table>
 			</div>
@@ -56,7 +64,6 @@ class TestResultMobileVsDesktop extends React.Component {
 TestResultMobileVsDesktop.propTypes = {
 	test1: PropTypes.object.isRequired,
 	test2: PropTypes.object.isRequired,
-	key: PropTypes.number,
 	resultOptions: PropTypes.array.isRequired
 };
 
