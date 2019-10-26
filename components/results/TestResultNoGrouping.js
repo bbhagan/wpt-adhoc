@@ -19,6 +19,8 @@ class TestResultNoGrouping extends React.Component {
 	 * @return {object}
 	 */
 	renderResultsTable = () => {
+		let mobDesk =
+			this.props.test.location.indexOf("mobile") > -1 ? "Mob" : "Desk";
 		return (
 			<div className="TestResultNoGroupingContainer">
 				<TestResultHeaderDescription test={this.props.test} />
@@ -31,12 +33,14 @@ class TestResultNoGrouping extends React.Component {
 								idx={idx}
 								run={run}
 								resultOptions={this.props.resultOptions}
+								mobDesk={mobDesk}
 							/>
 						))}
 
 						<TestResultAverageLine
 							data={this.props.test.data.average.firstView}
 							resultOptions={this.props.resultOptions}
+							mobDesk={mobDesk}
 						/>
 					</tbody>
 				</table>

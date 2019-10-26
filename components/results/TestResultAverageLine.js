@@ -19,7 +19,7 @@ class TestResultAverageLine extends React.Component {
 		return (
 			<tr className="table-light">
 				<th scope="row">
-					<strong>Avg.</strong>
+					<strong>{this.props.mobDesk} Avg.</strong>
 				</th>
 				{this.props.resultOptions.map((resultOption, idx) => (
 					<td key={idx} style={{ textAlign: "right" }}>
@@ -39,7 +39,8 @@ class TestResultAverageLine extends React.Component {
 
 TestResultAverageLine.propTypes = {
 	data: PropTypes.object.isRequired,
-	resultOptions: PropTypes.array.isRequired
+	resultOptions: PropTypes.array.isRequired,
+	mobDesk: PropTypes.string.isRequired
 };
 
 export default TestResultAverageLine;

@@ -18,7 +18,9 @@ class TestResultLine extends React.Component {
 	render() {
 		return (
 			<tr className="table-active">
-				<th scope="row">Run {this.props.idx + 1}</th>
+				<th scope="row">
+					{this.props.mobDesk} Run {this.props.idx + 1}
+				</th>
 				{this.props.resultOptions.map((resultOption, idx) => (
 					<td key={idx} style={{ textAlign: "right" }}>
 						{calcUOMPrecision(
@@ -36,7 +38,8 @@ class TestResultLine extends React.Component {
 TestResultLine.propTypes = {
 	idx: PropTypes.number.isRequired,
 	run: PropTypes.object.isRequired,
-	resultOptions: PropTypes.array.isRequired
+	resultOptions: PropTypes.array.isRequired,
+	mobDesk: PropTypes.string.isRequired
 };
 
 export default TestResultLine;

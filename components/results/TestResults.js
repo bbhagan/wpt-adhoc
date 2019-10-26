@@ -20,18 +20,9 @@ class TestResults extends React.Component {
 	 */
 	sortTests = (tests, sorting) => {
 		return tests.sort((a, b) => {
-			console.log(
-				`sort: ${sorting} length: ${this.props.tests.length} a.url: ${
-					a.url
-				} a.location: ${a.location} b.url: ${b.url} b.location: ${
-					b.location
-				} a.url > b.url: ${a.url > b.url}`
-			);
-
 			switch (sorting) {
 				case "none":
 					return 0;
-
 				case "alpha":
 					if (a.url > b.url) return 1;
 					if (a.url < b.url) return -1;
@@ -67,13 +58,42 @@ class TestResults extends React.Component {
 			);
 		} else if (this.props.grouping === "mobVsDesk") {
 			const sortedTests = this.sortTests(this.props.tests, this.props.sorting);
-			result = sortedTests.map((test, idx) => (
-				<TestResultNoGrouping
-					test={test}
-					key={idx}
-					resultOptions={this.props.resultOptions}
-				/>
-			));
+			//using for loop here for look ahead/behind
+			for (var i = 0; i < sortedTests.length; i++) {
+				let pairAhead = false;
+				let pairBehind = false;
+
+				//Does this test not have a pair? Look forward and back (safely)
+				if (i !== 0 && sortedTests[i].url === sortedTests[i - 1].url) {
+					pairBehind = true;
+				}
+
+				if (
+					i !== sortedTests.length - 1 &&
+					sortedTests[i].url === sortedTests[i + 1].url
+				) {
+					pairAhead = true;
+				}
+				if (!pairAhead && !pairBehind) {
+					result.push(
+						<TestResultNoGrouping
+							test={sortedTests[i]}
+							key={i}
+							resultOptions={this.props.resultOptions}
+						/>
+					);
+				}
+				if (pairAhead) {
+					result.push(
+						<TestResultMobileVsDesktop
+							test1={sortedTests[i]}
+							test2={sortedTests[i + 1]}
+							resultOptions={this.props.resultOptions}
+							key={i}
+						/>
+					);
+				}
+			}
 		}
 		return (
 			<div className="TestResultsContainer">
