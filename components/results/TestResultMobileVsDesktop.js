@@ -1,9 +1,9 @@
 import React from "react";
-import TestResultTableHeader from "./TestResultTableHeader";
-import TestResultsLine from "./TestResultLine";
-import TestResultAverageLine from "./TestResultAverageLine";
+import TestResultTableHeader from "./resultsTable/TestResultTableHeader";
+import TestResultsLine from "./resultsTable/TestResultLine";
+import TestResultAverageLine from "./resultsTable/TestResultAverageLine";
 import TestResultHeaderDescription from "./TestResultHeaderDescription";
-import TestResultDifferenceLine from "./TestResultDifferenceLine";
+import TestResultDifferenceLine from "./resultsTable/TestResultDifferenceLine";
 import PropTypes from "prop-types";
 
 class TestResultMobileVsDesktop extends React.Component {

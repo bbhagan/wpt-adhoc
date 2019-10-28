@@ -1,6 +1,7 @@
 import React from "react";
 import TestResultNoGrouping from "./TestResultNoGrouping";
 import TestResultMobileVsDesktop from "./TestResultMobileVsDesktop";
+import TestResultCompetativeAnalysis from "./TestResultCompetativeAnalysis";
 import PropTypes from "prop-types";
 
 /**
@@ -18,7 +19,7 @@ class TestResults extends React.Component {
 	 * @returns {array}
 	 * @memberof TestResults
 	 */
-	sortTests = (tests, sorting) => {
+	sortTestsByURL = (tests, sorting) => {
 		return tests.sort((a, b) => {
 			switch (sorting) {
 				case "none":
@@ -47,7 +48,7 @@ class TestResults extends React.Component {
 		const header = this.props.tests.length ? "Test Results" : "";
 		let result = [];
 		if (this.props.grouping === "none") {
-			result = this.sortTests(this.props.tests, this.props.sorting).map(
+			result = this.sortTestsByURL(this.props.tests, this.props.sorting).map(
 				(test, idx) => (
 					<TestResultNoGrouping
 						test={test}
@@ -57,7 +58,10 @@ class TestResults extends React.Component {
 				)
 			);
 		} else if (this.props.grouping === "mobVsDesk") {
-			const sortedTests = this.sortTests(this.props.tests, this.props.sorting);
+			const sortedTests = this.sortTestsByURL(
+				this.props.tests,
+				this.props.sorting
+			);
 			//using for loop here for look ahead/behind
 			for (var i = 0; i < sortedTests.length; i++) {
 				let pairAhead = false;
@@ -94,6 +98,34 @@ class TestResults extends React.Component {
 					);
 				}
 			}
+		} else if (this.props.grouping === "competative") {
+			//Make two groups, mob and desk
+			const mobTests = this.sortTestsByURL(
+				this.props.tests.filter(test => {
+					return test.location.indexOf("mobile") !== -1 ? true : false;
+				}),
+				this.props.sorting
+			);
+			const deskTests = this.sortTestsByURL(
+				this.props.tests.filter(test => {
+					return test.location.indexOf("mobile") !== -1 ? false : true;
+				}),
+				this.props.sorting
+			);
+			const allTests = [mobTests, deskTests];
+
+			allTests.forEach(testSet => {
+				if (testSet.length > 0) {
+					this.props.resultOptions.map(resultOption => {
+						result.push(
+							<TestResultCompetativeAnalysis
+								tests={testSet}
+								resultOption={resultOption}
+							/>
+						);
+					});
+				}
+			});
 		}
 		return (
 			<div className="TestResultsContainer">

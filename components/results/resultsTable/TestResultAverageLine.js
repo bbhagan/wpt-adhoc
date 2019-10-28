@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { calcUOMPrecision } from "../../public/static/js/mathUtils";
+import { calcUOMPrecision } from "../../../public/static/js/mathUtils";
 
 /**
  * Renders the result table average line (row)

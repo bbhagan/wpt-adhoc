@@ -18,7 +18,7 @@ class TestResultHeaderDescription extends React.Component {
 		return (
 			<div className="TestResultHeaderDescription">
 				<p>
-					Test Id:
+					Test Id:{" "}
 					<a
 						href={WPTSERVER + "/result/" + this.props.test.testId}
 						target="_blank"
@@ -26,7 +26,7 @@ class TestResultHeaderDescription extends React.Component {
 					>
 						{this.props.test.testId}
 					</a>
-					, Test URL:
+					, Test URL:{" "}
 					<a
 						href={this.props.test.url}
 						target="_blank"

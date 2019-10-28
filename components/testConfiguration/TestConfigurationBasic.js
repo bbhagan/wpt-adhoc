@@ -76,7 +76,7 @@ class TestConfigurationBasic extends React.Component {
 						>
 							<option value="none">None (Just run the tests)</option>
 							<option value="mobVsDesk">Mobile Vs. Desktop</option>
-							<option value="comptetative">Competative Analysis</option>
+							<option value="competative">Competative Analysis</option>
 							<option value="beforeAndAfter">Before &amp; After</option>
 						</select>
 					</label>

@@ -1,5 +1,5 @@
 import React from "react";
-import { calcUOMPrecision } from "../../public/static/js/mathUtils";
+import { calcUOMPrecision } from "../../../public/static/js/mathUtils";
 import PropTypes from "prop-types";
 
 /**

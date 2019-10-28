@@ -35,7 +35,7 @@ export const resultsOptions = [
 		name: "Time to Doc. Compl.",
 		wptField: "docTime",
 		type: "common",
-		active: true,
+		active: false,
 		uom: "s",
 		decimalPlacePrecision: 2
 	},
@@ -43,7 +43,7 @@ export const resultsOptions = [
 		name: "Time to Doc. Compl. Adj",
 		wptField: "docTimeAdjusted",
 		type: "synthetic",
-		active: true,
+		active: false,
 		uom: "s",
 		decimalPlacePrecision: 2
 	},
@@ -129,7 +129,7 @@ export const resultsOptions = [
 		name: "Doc. Compl. Bytes In",
 		wptField: "bytesInDoc",
 		type: "common",
-		active: true,
+		active: false,
 		uom: "KB",
 		decimalPlacePrecision: 2
 	},
@@ -161,7 +161,7 @@ export const resultsOptions = [
 		name: "Time to Fully Loaded Adj",
 		wptField: "fullyLoadedAdjusted",
 		type: "synthetic",
-		active: true,
+		active: false,
 		uom: "s",
 		decimalPlacePrecision: 2
 	},
@@ -177,7 +177,7 @@ export const resultsOptions = [
 		name: "Time to First Paint",
 		wptField: "firstPaint",
 		type: "common",
-		active: true,
+		active: false,
 		uom: "s",
 		decimalPlacePrecision: 2
 	},
@@ -185,7 +185,7 @@ export const resultsOptions = [
 		name: "Time to First Paint Adj",
 		wptField: "firstPaintAdjusted",
 		type: "synthetic",
-		active: true,
+		active: false,
 		uom: "s",
 		decimalPlacePrecision: 2
 	},
@@ -200,7 +200,7 @@ export const resultsOptions = [
 		name: "Time to DOM Interactive",
 		wptField: "domInteractive",
 		type: "common",
-		active: true,
+		active: false,
 		uom: "s",
 		decimalPlacePrecision: 2
 	},
@@ -208,7 +208,7 @@ export const resultsOptions = [
 		name: "Time to DOM Interactive Adj",
 		wptField: "domInteractiveAdjusted",
 		type: "synthetic",
-		active: true,
+		active: false,
 		uom: "s",
 		decimalPlacePrecision: 2
 	},
@@ -216,7 +216,7 @@ export const resultsOptions = [
 		name: "Time to Dom Compl.",
 		wptField: "domComplete",
 		type: "common",
-		active: true,
+		active: false,
 		uom: "s",
 		decimalPlacePrecision: 2
 	},
@@ -224,7 +224,7 @@ export const resultsOptions = [
 		name: "Time to Dom Compl. Adj",
 		wptField: "domCompleteAdjusted",
 		type: "synthetic",
-		active: true,
+		active: false,
 		uom: "s",
 		decimalPlacePrecision: 2
 	},
@@ -239,7 +239,7 @@ export const resultsOptions = [
 		name: "Visual Compl.",
 		wptField: "visualComplete",
 		type: "common",
-		active: true,
+		active: false,
 		uom: "s",
 		decimalPlacePrecision: 2
 	},
@@ -247,7 +247,7 @@ export const resultsOptions = [
 		name: "Visual Compl. Adj",
 		wptField: "visualCompleteAdjusted",
 		type: "synthetic",
-		active: true,
+		active: false,
 		uom: "s",
 		decimalPlacePrecision: 2
 	},
