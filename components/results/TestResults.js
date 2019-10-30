@@ -11,6 +11,10 @@ import PropTypes from "prop-types";
  * @extends {React.Component}
  */
 class TestResults extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = { csvData: [] };
+	}
 	/**
 	 * Sorts the tests based on URL, dependent on the "Sorting" test configuration
 	 *
@@ -38,6 +42,14 @@ class TestResults extends React.Component {
 		});
 	};
 
+	takeCSVData = data => {
+		const returnData = this.state.csvData.map(row => {
+			if (data.key !== row.key) return row;
+			return data;
+		});
+		this.setState({ csvData: returnData });
+	};
+
 	/**
 	 * React lifecycle method
 	 *
@@ -46,7 +58,17 @@ class TestResults extends React.Component {
 	 */
 	render() {
 		const header = this.props.tests.length ? "Test Results" : "";
+		let downloadCSVButton = [];
 		let result = [];
+
+		if (this.props.totalNumberOfTests === this.props.tests.length) {
+			downloadCSVButton = (
+				<button key={0} type="button" className="btn btn-primary">
+					Download Results (CSV)
+				</button>
+			);
+		}
+
 		if (this.props.grouping === "none") {
 			result = this.sortTestsByURL(this.props.tests, this.props.sorting).map(
 				(test, idx) => (
@@ -116,11 +138,13 @@ class TestResults extends React.Component {
 
 			allTests.forEach(testSet => {
 				if (testSet.length > 0) {
-					this.props.resultOptions.map(resultOption => {
+					this.props.resultOptions.map((resultOption, idx) => {
 						result.push(
 							<TestResultCompetativeAnalysis
 								tests={testSet}
 								resultOption={resultOption}
+								downloadCSVData={this.takeCSVData}
+								key={resultOption.wptField + testSet[0].location + idx}
 							/>
 						);
 					});
@@ -130,7 +154,7 @@ class TestResults extends React.Component {
 		return (
 			<div className="TestResultsContainer">
 				<div className="wptah-section clearfix">
-					<h2>{header}</h2>
+					<h2>{header}</h2> {downloadCSVButton}
 					{result}
 				</div>
 			</div>
@@ -142,7 +166,8 @@ TestResults.propTypes = {
 	tests: PropTypes.array.isRequired,
 	resultOptions: PropTypes.array.isRequired,
 	grouping: PropTypes.string.isRequired,
-	sorting: PropTypes.string.isRequired
+	sorting: PropTypes.string.isRequired,
+	totalNumberOfTests: PropTypes.number.isRequired
 };
 
 export default TestResults;

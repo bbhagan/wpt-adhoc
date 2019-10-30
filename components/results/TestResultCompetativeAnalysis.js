@@ -86,6 +86,7 @@ class TestResultCompetativeAnalysis extends React.Component {
 	getRowClass = fieldValue => {
 		const percent = this.calcPercentFromRank1(fieldValue);
 
+		if (percent === 0) return "table-active";
 		if (percent < 10) return "table-success";
 		if (percent < 25) return "table-warning";
 		if (percent < 40) return "table-primary";

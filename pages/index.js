@@ -243,6 +243,7 @@ class Index extends React.Component {
 					resultOptions={this.state.resultOptions}
 					grouping={this.state.grouping}
 					sorting={this.state.sorting}
+					totalNumberOfTests={this.state.tests.length}
 				/>
 			);
 		}
