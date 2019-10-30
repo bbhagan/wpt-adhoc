@@ -3,6 +3,7 @@ import next from "next";
 import apiGetLocations from "./routes/api/getLocations";
 import apiSubmitTests from "./routes/api/submitTests";
 import apiGetTestResults from "./routes/api/getTestResults";
+import downloadCompetativeAnalysis from "./routes/download/downloadCompetativeAnalysis";
 import logger from "./middleware/logger";
 
 const router = _Router();
@@ -24,6 +25,11 @@ app.prepare().then(() => {
 	router.use("/api/getLocations", apiGetLocations);
 	router.use("/api/submitTests", apiSubmitTests);
 	router.use("/api/getTestResults", apiGetTestResults);
+
+	router.use(
+		"/download/downloadCompetativeAnalysis",
+		downloadCompetativeAnalysis
+	);
 
 	server.use(router);
 

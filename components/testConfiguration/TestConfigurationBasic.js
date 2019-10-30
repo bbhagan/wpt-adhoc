@@ -28,7 +28,7 @@ class TestConfigurationBasic extends React.Component {
 			(location, locationIdx) => {
 				if (idx !== locationIdx) return location;
 				const tempLoc = location;
-				tempLoc.active = e.target.checked ? true : false;
+				tempLoc.active = e.target.checked;
 				return tempLoc;
 			}
 		);

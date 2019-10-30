@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 class TestResultDifferenceLine extends React.Component {
 	determineWinner = (test1, test2, test1MobDesk, test2MobDesk) => {
-		let winner = test1 > test2 ? test2MobDesk : test1MobDesk;
+		const winner = test1 > test2 ? test2MobDesk : test1MobDesk;
 		let returnText = winner;
 		if (winner === test1MobDesk) {
 			returnText += ` (${Math.round(100 - (test1 / test2) * 100)}%)`;

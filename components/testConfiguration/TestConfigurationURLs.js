@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 
 /**
@@ -19,6 +20,7 @@ class TestConfigurationURLs extends React.Component {
 			return acc;
 		}, {});
 	}
+
 	/**
 	 * React lifecycle method
 	 *

@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 import TestConfigurationTabs from "./TestConfigurationTabs";
 import TestConfigurationBasic from "./TestConfigurationBasic";
@@ -22,6 +23,7 @@ class TestConfigurationModal extends React.Component {
 			selectedTab: "basic"
 		};
 	}
+
 	/**
 	 * Handle clicking of tabs. Sets React state.
 	 *

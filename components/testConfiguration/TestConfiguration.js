@@ -1,3 +1,4 @@
+import React from "react";
 import TestConfigurationURLs from "./TestConfigurationURLs";
 import TestConfigurationSubmitTests from "./TestConfigurationSubmitTests";
 import TestConfigurationModal from "./TestConfigurationModal";

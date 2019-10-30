@@ -61,7 +61,10 @@ class TestResults extends React.Component {
 		let downloadCSVButton = [];
 		let result = [];
 
-		if (this.props.totalNumberOfTests === this.props.tests.length) {
+		if (
+			this.props.totalNumberOfTests >= 1 &&
+			this.props.totalNumberOfTests === this.props.tests.length
+		) {
 			downloadCSVButton = (
 				<button key={0} type="button" className="btn btn-primary">
 					Download Results (CSV)

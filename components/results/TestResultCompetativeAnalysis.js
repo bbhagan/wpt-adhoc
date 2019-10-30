@@ -20,6 +20,7 @@ class TestResultCompetativeAnalysis extends React.Component {
 	}
 
 	/**
+	 * Sorts tests given a result field (ex: TTFB)
 	 *
 	 * @param {array} tests -- The array of tests to sort
 	 * @param {string} field -- The WPT field name to look up
@@ -153,12 +154,12 @@ class TestResultCompetativeAnalysis extends React.Component {
 										)}
 									</td>
 									<td>
-										{this.calcDiffFromRank1(dataValue) == 0
+										{this.calcDiffFromRank1(dataValue) === 0
 											? "N/A"
 											: this.calcDiffFromRank1(dataValue)}
 									</td>
 									<td>
-										{this.calcPercentFromRank1(dataValue) == 0
+										{this.calcPercentFromRank1(dataValue) === 0
 											? "N/A"
 											: this.calcPercentFromRank1(dataValue) + "%"}
 									</td>
