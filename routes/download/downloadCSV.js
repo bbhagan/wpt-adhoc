@@ -1,12 +1,13 @@
 import { Router as _Router } from "express";
-import timeoutFetch from "../../public/static/js/timeoutFetch";
-import moment from "moment";
+
 import stringify from "csv-stringify";
 require("dotenv").config();
 const router = _Router();
-const WPTSERVER = process.env.WPTSERVER;
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
+	console.log(`body ${JSON.stringify(req.body)}`);
+	let tests = [];
+	req.body.testIds.forEach();
 	const data = [
 		{ Blah: "blort", Something: "awesome" },
 		{ Blah: "foo", Something: "even better" },

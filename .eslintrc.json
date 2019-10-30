@@ -25,7 +25,8 @@
 		"spaced-comment": "off",
 		"space-before-function-paren": "off",
 		"curly": "off",
-		"object-curly-spacing": "off"
+		"object-curly-spacing": "off",
+		"lines-between-class-members": "off"
 	},
 	"settings": {
 		"import/extensions": [".js", ".jsx"],

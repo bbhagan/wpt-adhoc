@@ -6,8 +6,8 @@ const SERVER_SUBMIT_TESTS_TIMEOUT = process.env.SERVER_SUBMIT_TESTS_TIMEOUT;
 const WPTSERVER = process.env.WPTSERVER;
 
 router.post("/", (req, res) => {
-	let promises = [],
-		atLeastOneTest = false;
+	let promises = [];
+	let atLeastOneTest = false;
 	//Iterate over the URLs
 	req.body.testUrls.forEach(testObj => {
 		if (testObj.url && testObj.url !== "" && Number.isInteger(testObj.index)) {

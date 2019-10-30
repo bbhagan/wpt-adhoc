@@ -42,12 +42,23 @@ class TestResults extends React.Component {
 		});
 	};
 
-	takeCSVData = data => {
-		const returnData = this.state.csvData.map(row => {
-			if (data.key !== row.key) return row;
-			return data;
-		});
-		this.setState({ csvData: returnData });
+	downloadCSV = () => {
+		const testIds = this.props.tests.map(test => test.testId);
+
+		let postBody = {
+			testIds,
+			resultOptions: this.props.resultOptions,
+			grouping: this.props.grouping,
+			sorting: this.props.sorting
+		};
+
+		console.log(`JSON: ${JSON.stringify(postBody)}`);
+
+		let hiddenElement = document.createElement("a");
+		hiddenElement.href = `/download/downloadCompetativeAnalysis?request=${JSON.stringify(
+			postBody
+		)}`;
+		//hiddenElement.click();
 	};
 
 	/**
@@ -66,7 +77,12 @@ class TestResults extends React.Component {
 			this.props.totalNumberOfTests === this.props.tests.length
 		) {
 			downloadCSVButton = (
-				<button key={0} type="button" className="btn btn-primary">
+				<button
+					key={0}
+					type="button"
+					className="btn btn-primary"
+					onClick={this.downloadCSV}
+				>
 					Download Results (CSV)
 				</button>
 			);
