@@ -2,6 +2,7 @@ import React from "react";
 import TestResultNoGrouping from "./TestResultNoGrouping";
 import TestResultMobileVsDesktop from "./TestResultMobileVsDesktop";
 import TestResultCompetativeAnalysis from "./TestResultCompetativeAnalysis";
+import { sortTestsByURL } from "../../public/static/js/sortTests";
 import PropTypes from "prop-types";
 
 /**
@@ -15,32 +16,6 @@ class TestResults extends React.Component {
 		super(props);
 		this.state = { csvData: [] };
 	}
-	/**
-	 * Sorts the tests based on URL, dependent on the "Sorting" test configuration
-	 *
-	 * @param tests {array} -- The test array to sort
-	 * @param sorting {string} -- The sorting methodology
-	 * @returns {array}
-	 * @memberof TestResults
-	 */
-	sortTestsByURL = (tests, sorting) => {
-		return tests.sort((a, b) => {
-			switch (sorting) {
-				case "none":
-					return 0;
-				case "alpha":
-					if (a.url > b.url) return 1;
-					if (a.url < b.url) return -1;
-					return 0;
-				case "reverseAlpha":
-					if (a.url > b.url) return -1;
-					if (a.url < b.url) return 1;
-					return 0;
-				default:
-					return 0;
-			}
-		});
-	};
 
 	downloadCSV = () => {
 		const testIds = this.props.tests.map(test => test.testId);
@@ -89,7 +64,7 @@ class TestResults extends React.Component {
 		}
 
 		if (this.props.grouping === "none") {
-			result = this.sortTestsByURL(this.props.tests, this.props.sorting).map(
+			result = sortTestsByURL(this.props.tests, this.props.sorting).map(
 				(test, idx) => (
 					<TestResultNoGrouping
 						test={test}
@@ -99,10 +74,7 @@ class TestResults extends React.Component {
 				)
 			);
 		} else if (this.props.grouping === "mobVsDesk") {
-			const sortedTests = this.sortTestsByURL(
-				this.props.tests,
-				this.props.sorting
-			);
+			const sortedTests = sortTestsByURL(this.props.tests, this.props.sorting);
 			//using for loop here for look ahead/behind
 			for (var i = 0; i < sortedTests.length; i++) {
 				let pairAhead = false;
@@ -141,13 +113,13 @@ class TestResults extends React.Component {
 			}
 		} else if (this.props.grouping === "competative") {
 			//Make two groups, mob and desk
-			const mobTests = this.sortTestsByURL(
+			const mobTests = sortTestsByURL(
 				this.props.tests.filter(test => {
 					return test.location.indexOf("mobile") !== -1 ? true : false;
 				}),
 				this.props.sorting
 			);
-			const deskTests = this.sortTestsByURL(
+			const deskTests = sortTestsByURL(
 				this.props.tests.filter(test => {
 					return test.location.indexOf("mobile") !== -1 ? false : true;
 				}),

@@ -1,5 +1,6 @@
 import React from "react";
 import { calcUOMPrecision } from "../../public/static/js/mathUtils";
+import { sortTestsByField } from "../../public/static/js/sortTests";
 import PropTypes from "prop-types";
 
 /**
@@ -18,29 +19,6 @@ class TestResultCompetativeAnalysis extends React.Component {
 		super(props);
 		this.rank1Value = undefined;
 	}
-
-	/**
-	 * Sorts tests given a result field (ex: TTFB)
-	 *
-	 * @param {array} tests -- The array of tests to sort
-	 * @param {string} field -- The WPT field name to look up
-	 * @memberof TestResultCompetativeAnalysis
-	 */
-	sortTestsByField = (tests, field) => {
-		return tests.sort((a, b) => {
-			if (
-				parseFloat(a.data.average.firstView[field]) >
-				parseFloat(b.data.average.firstView[field])
-			)
-				return 1;
-			if (
-				parseFloat(a.data.average.firstView[field]) <
-				parseFloat(b.data.average.firstView[field])
-			)
-				return -1;
-			return 0;
-		});
-	};
 
 	/**
 	 * Updates the rank1Value with the best (lowest) value
@@ -101,7 +79,7 @@ class TestResultCompetativeAnalysis extends React.Component {
 	 * @memberof TestResultCompetativeAnalysis
 	 */
 	render() {
-		const tests = this.sortTestsByField(
+		const tests = sortTestsByField(
 			this.props.tests,
 			this.props.resultOption.wptField
 		);
