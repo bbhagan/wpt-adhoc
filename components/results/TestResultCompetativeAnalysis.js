@@ -1,6 +1,8 @@
 import React from "react";
 import { calcUOMPrecision } from "../../public/static/js/mathUtils";
 import { sortTestsByField } from "../../public/static/js/sortTests";
+import { calcPercentFromRank1 } from "../../public/static/js/mathUtils";
+import { calcDiffFromRank1 } from "../../public/static/js/mathUtils";
 import PropTypes from "prop-types";
 
 /**
@@ -30,31 +32,6 @@ class TestResultCompetativeAnalysis extends React.Component {
 	};
 
 	/**
-	 * Calculates difference between the test value and the current best ranked test (to correct precision)
-	 *
-	 * @param {number} value -- The test value to be compared
-	 *
-	 * @memberof TestResultCompetativeAnalysis
-	 */
-	calcDiffFromRank1 = value => {
-		return calcUOMPrecision(
-			value - this.rank1Value,
-			this.props.resultOption.uom,
-			this.props.resultOption.decimalPlacePrecision
-		);
-	};
-
-	/**
-	 * Calculates difference percentage between value and best ranked test
-	 *
-	 * @param {number} value -- Test value to calc diff % against
-	 * @memberof TestResultCompetativeAnalysis
-	 */
-	calcPercentFromRank1 = value => {
-		return Math.round(100 * (value / this.rank1Value) - 100);
-	};
-
-	/**
 	 * Calculates ratio of test to best test and returns a class state for the table
 	 *
 	 * @param {number} fieldValue -- The field number to test against
@@ -63,7 +40,7 @@ class TestResultCompetativeAnalysis extends React.Component {
 	 * @memberof TestResultCompetativeAnalysis
 	 */
 	getRowClass = fieldValue => {
-		const percent = this.calcPercentFromRank1(fieldValue);
+		const percent = calcPercentFromRank1(fieldValue, this.rank1Value);
 
 		if (percent === 0) return "table-active";
 		if (percent < 10) return "table-success";
@@ -132,14 +109,24 @@ class TestResultCompetativeAnalysis extends React.Component {
 										)}
 									</td>
 									<td>
-										{this.calcDiffFromRank1(dataValue) === 0
+										{calcDiffFromRank1(
+											dataValue,
+											this.rank1Value,
+											this.props.resultOption.uom,
+											this.props.resultOption.decimalPlacePrecision
+										) === 0
 											? "N/A"
-											: this.calcDiffFromRank1(dataValue)}
+											: calcDiffFromRank1(
+													dataValue,
+													this.rank1Value,
+													this.props.resultOption.uom,
+													this.props.resultOption.decimalPlacePrecision
+											  )}
 									</td>
 									<td>
-										{this.calcPercentFromRank1(dataValue) === 0
+										{calcPercentFromRank1(dataValue, this.rank1Value) === 0
 											? "N/A"
-											: this.calcPercentFromRank1(dataValue) + "%"}
+											: calcPercentFromRank1(dataValue, this.rank1Value) + "%"}
 									</td>
 								</tr>
 							);
