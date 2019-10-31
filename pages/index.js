@@ -6,8 +6,8 @@ import { fetchTestResults } from "../public/static/js/wptInterface";
 import { fetchLocations } from "../public/static/js/wptInterface";
 import { submitTests } from "../public/static/js/wptInterface";
 
-const LOCALHOST = process.env.LOCALHOST;
-const PORT = process.env.PORT;
+const SERVER_URL = process.env.SERVER_URL;
+const SERVER_PORT = process.env.SERVER_PORT;
 const UI_GET_LOCATIONS_FETCH_TIMEOUT =
 	process.env.UI_GET_LOCATIONS_FETCH_TIMEOUT;
 const UI_SUBMIT_TESTS_TIMEOUT = process.env.UI_SUBMIT_TESTS_TIMEOUT;
@@ -47,7 +47,7 @@ class Index extends React.Component {
 	static async getInitialProps({ req }) {
 		return await fetchLocations(
 			UI_GET_LOCATIONS_FETCH_TIMEOUT,
-			`${LOCALHOST}:${PORT}`
+			`${SERVER_URL}:${SERVER_PORT}`
 		);
 	}
 
@@ -102,7 +102,8 @@ class Index extends React.Component {
 		setTimeout(async () => {
 			const newTest = await fetchTestResults(
 				testToWatch,
-				UI_GET_TEST_RESULTS_TIMEOUT
+				UI_GET_TEST_RESULTS_TIMEOUT,
+				`${SERVER_URL}:${SERVER_PORT}`
 			);
 
 			const updatedTests = this.state.tests.map(test => {

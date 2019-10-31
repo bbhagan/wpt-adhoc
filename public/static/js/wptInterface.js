@@ -4,11 +4,13 @@ import moment from "moment";
 /**
  * Fetches location data from server
  *
- * @static
+ * @param {number} timeout -- Timeout (in ms) to wait for return from server
+ * @param {string} FQDN -- Domain of the local API server to get the locations
+ *
  * @returns {object}
  * @memberof Index
  */
-const fetchLocations = async (timeout, FQDN) => {
+export const fetchLocations = async (timeout, FQDN) => {
 	try {
 		const response = await timeoutFetch(`${FQDN}/api/getLocations`, timeout);
 		if (response.ok) {
@@ -40,18 +42,19 @@ const fetchLocations = async (timeout, FQDN) => {
 	}
 };
 
-export { fetchLocations };
-
 /**
  * Gets the status of each test
+ *
+ * @param {object} test -- Test object to be modified and returned
+ * @param {number} timeout -- Timeout (in ms) to wait for return
  *
  * @return {object}
  * @see watchTest
  */
-const fetchTestResults = async (test, timeout) => {
+export const fetchTestResults = async (test, timeout, FQDN) => {
 	try {
 		const res = await timeoutFetch(
-			`/api/getTestResults/${test.testId}`,
+			`${FQDN}/api/getTestResults/${test.testId}`,
 			timeout
 		);
 		const resJson = await res.json();
@@ -88,9 +91,7 @@ const fetchTestResults = async (test, timeout) => {
 	}
 };
 
-export { fetchTestResults };
-
-const submitTests = async (testsConfig, timeout) => {
+export const submitTests = async (testsConfig, timeout) => {
 	const fetchInit = {
 		headers: { "Content-Type": "application/json" },
 		method: "POST",
@@ -116,4 +117,33 @@ const submitTests = async (testsConfig, timeout) => {
 	}
 };
 
-export { submitTests };
+export const getTestSet = (testIds, serverConfig) => {
+	return new Promise((resolve, reject) => {
+		let promises = [];
+		testIds.forEach(testId => {
+			promises.push(
+				fetchTestResults(
+					{ testId },
+					1000,
+					`${serverConfig.SERVER_URL}:${serverConfig.SERVER_PORT}`
+				)
+					.then(test => {
+						console.log(`test.data.id: ${test.data.id}`);
+						return test;
+					})
+					.catch(error => {
+						console.log(`Promise rejected: ${error}`);
+						return {};
+					})
+			);
+		});
+		Promise.all(promises)
+			.then(tests => {
+				resolve(tests);
+			})
+			.catch(e => {
+				console.log("something bad happened");
+				reject(e);
+			});
+	});
+};
