@@ -3,6 +3,7 @@ import TestResultNoGrouping from "./TestResultNoGrouping";
 import TestResultMobileVsDesktop from "./TestResultMobileVsDesktop";
 import TestResultCompetativeAnalysis from "./TestResultCompetativeAnalysis";
 import { sortTestsByURL } from "../../public/static/js/sortTests";
+import timeoutFetch from "../../public/static/js/timeoutFetch";
 import PropTypes from "prop-types";
 
 /**
@@ -27,13 +28,16 @@ class TestResults extends React.Component {
 			sorting: this.props.sorting
 		};
 
-		console.log(`JSON: ${JSON.stringify(postBody)}`);
-
-		let hiddenElement = document.createElement("a");
-		hiddenElement.href = `/download/downloadCompetativeAnalysis?request=${JSON.stringify(
-			postBody
-		)}`;
-		//hiddenElement.click();
+		let hiddenForm = document.createElement("form");
+		hiddenForm.method = "post";
+		hiddenForm.action = "/download/downloadCSV";
+		let hiddenInput = document.createElement("input");
+		hiddenInput.type = "text";
+		hiddenInput.name = "testConfig";
+		hiddenInput.value = JSON.stringify(postBody);
+		hiddenForm.appendChild(hiddenInput);
+		document.body.appendChild(hiddenForm);
+		hiddenForm.submit();
 	};
 
 	/**

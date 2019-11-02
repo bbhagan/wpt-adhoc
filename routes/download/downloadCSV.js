@@ -10,15 +10,19 @@ const SERVER_PORT = process.env.SERVER_PORT;
 const router = _Router();
 
 router.post("/", async (req, res) => {
-	//console.log(`body ${JSON.stringify(req.body)}`);
+	console.log(`body ${JSON.stringify(req.body)}`);
 
 	try {
+		const postData = JSON.parse(req.body.testConfig);
+
+		//console.log(`postData ${JSON.stringify(postData)}`);
+
 		const tests = sortTestsByURL(
-			await getTestSet(req.body.testIds, {
+			await getTestSet(postData.testIds, {
 				SERVER_URL,
 				SERVER_PORT
 			}),
-			req.body.sorting
+			postData.sorting
 		);
 		const csvData = [];
 		tests.forEach(test => {
@@ -29,7 +33,7 @@ router.post("/", async (req, res) => {
 			//Table header
 			csvData.push(
 				[" "].concat(
-					req.body.resultOptions.map(requestOption => {
+					postData.resultOptions.map(requestOption => {
 						return `${requestOption.name} (${requestOption.uom})`;
 					})
 				)
@@ -38,7 +42,7 @@ router.post("/", async (req, res) => {
 			test.data.runs.forEach((run, idx) => {
 				csvData.push(
 					[`Run ${idx + 1}`].concat(
-						req.body.resultOptions.map(requestOption => {
+						postData.resultOptions.map(requestOption => {
 							return calcUOMPrecision(
 								run.firstView[requestOption.wptField],
 								requestOption.uom,
@@ -51,7 +55,7 @@ router.post("/", async (req, res) => {
 			//Average Line
 			csvData.push(
 				[`Avg.`].concat(
-					req.body.resultOptions.map(requestOption => {
+					postData.resultOptions.map(requestOption => {
 						return calcUOMPrecision(
 							test.data.average.firstView[requestOption.wptField],
 							requestOption.uom,
@@ -60,6 +64,8 @@ router.post("/", async (req, res) => {
 					})
 				)
 			);
+			//Blank line to separate the tests
+			csvData.push([" "]);
 		});
 		console.log(`csvData: ${JSON.stringify(csvData)}`);
 
