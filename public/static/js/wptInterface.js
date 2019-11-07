@@ -120,6 +120,7 @@ export const submitTests = async (testsConfig, timeout) => {
 export const getTestSet = (testIds, serverConfig) => {
 	return new Promise((resolve, reject) => {
 		let promises = [];
+
 		testIds.forEach(testId => {
 			promises.push(
 				fetchTestResults(
@@ -128,7 +129,6 @@ export const getTestSet = (testIds, serverConfig) => {
 					`${serverConfig.SERVER_URL}:${serverConfig.SERVER_PORT}`
 				)
 					.then(test => {
-						console.log(`test.data.id: ${test.data.id}`);
 						return test;
 					})
 					.catch(error => {
@@ -142,7 +142,7 @@ export const getTestSet = (testIds, serverConfig) => {
 				resolve(tests);
 			})
 			.catch(e => {
-				console.log("something bad happened");
+				console.log(`getTestSet error: ${e}`);
 				reject(e);
 			});
 	});
