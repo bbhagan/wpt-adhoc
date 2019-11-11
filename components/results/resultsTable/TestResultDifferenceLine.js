@@ -1,19 +1,9 @@
 import React from "react";
 import { calcUOMPrecision } from "../../../public/static/js/mathUtils";
+import { determineWinner } from "../../../public/static/js/mathUtils";
 import PropTypes from "prop-types";
 
 class TestResultDifferenceLine extends React.Component {
-	determineWinner = (test1, test2, test1MobDesk, test2MobDesk) => {
-		const winner = test1 > test2 ? test2MobDesk : test1MobDesk;
-		let returnText = winner;
-		if (winner === test1MobDesk) {
-			returnText += ` (${Math.round(100 - (test1 / test2) * 100)}%)`;
-		} else {
-			returnText += ` (${Math.round(100 - (test2 / test1) * 100)}%)`;
-		}
-		return returnText;
-	};
-
 	render() {
 		return (
 			<>
@@ -34,7 +24,7 @@ class TestResultDifferenceLine extends React.Component {
 					<th scope="row">Winner</th>
 					{this.props.resultOptions.map((resultOption, idx) => (
 						<td key={idx} style={{ textAlign: "right" }}>
-							{this.determineWinner(
+							{determineWinner(
 								this.props.test1Data[resultOption.wptField],
 								this.props.test2Data[resultOption.wptField],
 								this.props.test1MobDesk,

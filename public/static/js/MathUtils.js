@@ -51,3 +51,28 @@ export const calcDiffFromRank1 = (
 ) => {
 	return calcUOMPrecision(value - rank1Value, uom, decimalPlacePrecision);
 };
+
+/**
+ * Calculates Mov vs Desk winner for any given two fields, returns label and percentage
+ *
+ * @param {object} field1 -- Comparison field 1
+ * @param {object} field2  -- Comparison field 2
+ * @param {string} field1MobDesk -- Field 1 "Mob" or "Desk"
+ * @param {string} field2MobDesk -- Field 2 "Mob" or "Desk"
+ * @returns {string}
+ */
+export const determineWinner = (
+	field1,
+	field2,
+	field1MobDesk,
+	field2MobDesk
+) => {
+	const winner = field1 > field2 ? field2MobDesk : field1MobDesk;
+	let returnText = winner;
+	if (winner === field1MobDesk) {
+		returnText += ` (${Math.round(100 - (field1 / field2) * 100)}%)`;
+	} else {
+		returnText += ` (${Math.round(100 - (field2 / field1) * 100)}%)`;
+	}
+	return returnText;
+};
