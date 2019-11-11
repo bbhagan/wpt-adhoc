@@ -91,6 +91,13 @@ export const fetchTestResults = async (test, timeout, FQDN) => {
 	}
 };
 
+/**
+ * Submit tests to the backend, returns array of test results
+ *
+ * @param {object} testsConfig -- WPT test configuration
+ * @param {number} timeout -- Timeout in ms
+ * @returns {array}
+ */
 export const submitTests = async (testsConfig, timeout) => {
 	const fetchInit = {
 		headers: { "Content-Type": "application/json" },
@@ -117,6 +124,13 @@ export const submitTests = async (testsConfig, timeout) => {
 	}
 };
 
+/**
+ * Gets tests results and returns a resolved promise with an array of tests
+ *
+ * @param {array} testIds -- Array of testIds to fetch
+ * @param {object} serverConfig -- SERVER_URL & SERVER_PORT
+ * @returns {promise}
+ */
 export const getTestSet = (testIds, serverConfig) => {
 	return new Promise((resolve, reject) => {
 		let promises = [];
