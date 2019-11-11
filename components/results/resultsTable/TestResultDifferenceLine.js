@@ -3,7 +3,18 @@ import { calcUOMPrecision } from "../../../public/static/js/mathUtils";
 import { determineWinner } from "../../../public/static/js/mathUtils";
 import PropTypes from "prop-types";
 
+/**
+ * Renders test result difference & winner row
+ *
+ * @class TestResultDifferenceLine
+ * @extends {React.Component}
+ */
 class TestResultDifferenceLine extends React.Component {
+	/**
+	 * React lifecycle method.
+	 *
+	 * @returns {object}
+	 */
 	render() {
 		return (
 			<>

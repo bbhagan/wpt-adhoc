@@ -6,7 +6,18 @@ import TestResultHeaderDescription from "./TestResultHeaderDescription";
 import TestResultDifferenceLine from "./resultsTable/TestResultDifferenceLine";
 import PropTypes from "prop-types";
 
+/**
+ * Renders test results for Mobile vs Desktop test grouping
+ *
+ * @class TestResultMobileVsDesktop
+ * @extends {React.Component}
+ */
 class TestResultMobileVsDesktop extends React.Component {
+	/**
+	 * React lifecycle method.
+	 *
+	 * @returns {object}
+	 */
 	render() {
 		let test1MobDesk =
 			this.props.test1.location.indexOf("mobile") > -1 ? "Mob" : "Desk";

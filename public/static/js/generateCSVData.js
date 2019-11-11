@@ -7,14 +7,32 @@ require("dotenv").config();
 const SERVER_URL = process.env.SERVER_URL;
 const SERVER_PORT = process.env.SERVER_PORT;
 
+/**
+ * Determines "Mob" or "Desk" for location label
+ *
+ * @param {string} location -- Test location (should include "desktop" or "mobile")
+ * @returns {string}
+ */
 const mobDeskLabel = location => {
 	return location.indexOf("mobile") > -1 ? "Mob" : "Desk";
 };
 
+/**
+ * Formats a string that describes basic info about a test (test id, url, location)
+ *
+ * @param {object} test -- WPT test
+ * @returns {string}
+ */
 const getTestTextHeader = test => {
 	return `Test Id: ${test.testId}, Test URL: ${test.data.url}, Location: ${test.data.location}`;
 };
 
+/**
+ * Formats a CSV table header for test facets (result options)
+ *
+ * @param {object} resultOptions -- Result options that are shown
+ * @returns {string}
+ */
 const getTableHeader = resultOptions => {
 	return [" "].concat(
 		resultOptions.map(requestOption => {
@@ -23,6 +41,15 @@ const getTableHeader = resultOptions => {
 	);
 };
 
+/**
+ * Formats CSV row for a run inside of a test
+ *
+ * @param {object} run -- Run data inside a test
+ * @param {number} index -- Row number to show (1-based)
+ * @param {object} resultOptions -- Result options that are shown
+ * @param {string} mobDesk -- "Mob" or "Desk" label
+ * @returns {string}
+ */
 const getRunRow = (run, index, resultOptions, mobDesk) => {
 	return [`${mobDesk} Run ${index + 1}`].concat(
 		resultOptions.map(requestOption => {
@@ -35,6 +62,14 @@ const getRunRow = (run, index, resultOptions, mobDesk) => {
 	);
 };
 
+/**
+ * Formats CSV row for an average line
+ *
+ * @param {object} test -- WPT test object
+ * @param {object} resultOptions -- Result options that are shown
+ * @param {string} mobDesk -- "Mob" or "Desk" label
+ * @returns {string}
+ */
 const getAvgRow = (test, resultOptions, mobDesk) => {
 	return [`${mobDesk} Avg.`].concat(
 		resultOptions.map(requestOption => {
@@ -47,6 +82,14 @@ const getAvgRow = (test, resultOptions, mobDesk) => {
 	);
 };
 
+/**
+ * Formats CSV row for a difference line between two tests averages
+ *
+ * @param {object} test1 -- WPT test object
+ * @param {object} test2 -- WPT test object
+ * @param {object} resultOptions -- Result options that are shown
+ * @returns {string}
+ */
 const getDifferenceRow = (test1, test2, resultOptions) => {
 	return [`Difference`].concat(
 		resultOptions.map(requestOption => {
@@ -60,25 +103,36 @@ const getDifferenceRow = (test1, test2, resultOptions) => {
 	);
 };
 
-const getWinnerRow = (
-	test1,
-	test2,
-	resultOptions,
-	test1MobDesk,
-	test2MobDesk
-) => {
+/**
+ * Formats CSV row for a winner between two tests, includes label and percentage
+ *
+ * @param {object} test1 -- WPT test object
+ * @param {object} test2 -- WPT test object
+ * @param {object} resultOptions -- Result options that are shown
+ * @param {string} test1Label -- Label to prepend
+ * @param {string} test2Label -- Label to prepend
+ * @returns {string}
+ */
+const getWinnerRow = (test1, test2, resultOptions, test1Label, test2Label) => {
 	return [`Winner`].concat(
 		resultOptions.map(requestOption => {
 			return determineWinner(
 				test1.data.average.firstView[requestOption.wptField],
 				test2.data.average.firstView[requestOption.wptField],
-				test1MobDesk,
-				test2MobDesk
+				test1Label,
+				test2Label
 			);
 		})
 	);
 };
 
+/**
+ * Constructs a "No Grouping" CSV array to be consumed and output to a CSV file
+ * See grouping test configuration
+ *
+ * @param {object} testConfig -- WPT Test config (contains result options)
+ * @returns {array}
+ */
 export const generateNoGroupingData = async testConfig => {
 	const csvData = [];
 	try {
@@ -112,6 +166,13 @@ export const generateNoGroupingData = async testConfig => {
 	return csvData;
 };
 
+/**
+ * Constructs a "Mob vs Desk" CSV array to be consumed and output to a CSV file
+ * See grouping test configuration
+ *
+ * @param {object} testConfig -- WPT Test config (contains result options)
+ * @returns {array}
+ */
 export const generateMobVsDeskGroupingData = async testConfig => {
 	const csvData = [];
 	try {
