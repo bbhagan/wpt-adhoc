@@ -1,5 +1,6 @@
 import { getTestSet } from "./wptInterface";
 import { sortTestsByURL } from "./sortTests";
+import { sortTestsByLocation } from "./sortTests";
 import { calcUOMPrecision } from "./mathUtils";
 import { determineWinner } from "./mathUtils";
 
@@ -233,6 +234,29 @@ export const generateMobVsDeskGroupingData = async testConfig => {
 		}
 	} catch (e) {
 		console.log(e);
+	}
+
+	return csvData;
+};
+
+/**
+ * Constructs a competative analysis CSV array to be consumed and output to a CSV file
+ * See grouping test configuration
+ *
+ * @param {object} testConfig -- WPT Test config (contains result options)
+ * @returns {array}
+ */
+export const generateCompetativeAnalysisGroupingData = async testConfig => {
+	const csvData = [];
+	try {
+		const tests = await sortTestsByLocation(
+			getTestSet(testConfig.testIds, {
+				SERVER_URL,
+				SERVER_PORT
+			})
+		);
+	} catch (e) {
+		console.log(`generateCompetativeAnalysisGroupingData error: ${e}`);
 	}
 
 	return csvData;

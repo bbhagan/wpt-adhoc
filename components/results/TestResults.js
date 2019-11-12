@@ -3,7 +3,7 @@ import TestResultNoGrouping from "./TestResultNoGrouping";
 import TestResultMobileVsDesktop from "./TestResultMobileVsDesktop";
 import TestResultCompetativeAnalysis from "./TestResultCompetativeAnalysis";
 import { sortTestsByURL } from "../../public/static/js/sortTests";
-import timeoutFetch from "../../public/static/js/timeoutFetch";
+import { sortTestsByLocation } from "../../public/static/js/sortTests";
 import PropTypes from "prop-types";
 
 /**
@@ -29,6 +29,7 @@ class TestResults extends React.Component {
 		};
 
 		let hiddenForm = document.createElement("form");
+		hiddenForm.style = "display:none;";
 		hiddenForm.method = "post";
 		hiddenForm.action = "/download/downloadCSV";
 		let hiddenInput = document.createElement("input");
@@ -116,22 +117,9 @@ class TestResults extends React.Component {
 				}
 			}
 		} else if (this.props.grouping === "competative") {
-			//Make two groups, mob and desk
-			const mobTests = sortTestsByURL(
-				this.props.tests.filter(test => {
-					return test.location.indexOf("mobile") !== -1 ? true : false;
-				}),
-				this.props.sorting
-			);
-			const deskTests = sortTestsByURL(
-				this.props.tests.filter(test => {
-					return test.location.indexOf("mobile") !== -1 ? false : true;
-				}),
-				this.props.sorting
-			);
-			const allTests = [mobTests, deskTests];
+			const locSortTests = sortTestsByLocation(this.props.tests);
 
-			allTests.forEach(testSet => {
+			locSortTests.forEach(testSet => {
 				if (testSet.length > 0) {
 					this.props.resultOptions.map((resultOption, idx) => {
 						result.push(

@@ -46,3 +46,20 @@ export const sortTestsByField = (tests, field) => {
 		return 0;
 	});
 };
+
+/**
+ * Sorts tests by location, returning mob tests, then desk tests
+ *
+ * @param {array} tests -- WPT tests array
+ * @returns {array}
+ */
+export const sortTestsByLocation = tests => {
+	const mobTests = tests.filter(test => {
+		return test.location.indexOf("mobile") !== -1 ? true : false;
+	});
+	const deskTests = tests.filter(test => {
+		return test.location.indexOf("mobile") !== -1 ? false : true;
+	});
+
+	return [mobTests, deskTests];
+};
