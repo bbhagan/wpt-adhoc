@@ -1,6 +1,7 @@
 import { Router as _Router } from "express";
 import { generateNoGroupingData } from "../../public/static/js/generateCSVData";
 import { generateMobVsDeskGroupingData } from "../../public/static/js/generateCSVData";
+import { generateCompetativeAnalysisGroupingData } from "../../public/static/js/generateCSVData";
 import stringify from "csv-stringify";
 
 const router = _Router();
@@ -19,6 +20,7 @@ router.post("/", async (req, res) => {
 				csvData = await generateMobVsDeskGroupingData(testConfig);
 				break;
 			case "competative":
+				csvData = await generateCompetativeAnalysisGroupingData(testConfig);
 				break;
 			default:
 				//"none"

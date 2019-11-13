@@ -1,8 +1,11 @@
 import { getTestSet } from "./wptInterface";
 import { sortTestsByURL } from "./sortTests";
 import { sortTestsByLocation } from "./sortTests";
+import { sortTestsByField } from "./sortTests";
 import { calcUOMPrecision } from "./mathUtils";
 import { determineWinner } from "./mathUtils";
+import { calcDiffFromRank1 } from "./mathUtils";
+import { calcPercentFromRank1 } from "./mathUtils";
 
 require("dotenv").config();
 const SERVER_URL = process.env.SERVER_URL;
@@ -28,6 +31,13 @@ const getTestTextHeader = test => {
 	return `Test Id: ${test.testId}, Test URL: ${test.data.url}, Location: ${test.data.location}`;
 };
 
+const getCompAnalysisTextHeader = (test, resultOption) => {
+	console.log(`test.data.location: ${test.data.location}`);
+	return `${test.data.location.indexOf("mobile") > -1 ? "Mobile" : "Desktop"} ${
+		resultOption.name
+	}, Using Average`;
+};
+
 /**
  * Formats a CSV table header for test facets (result options)
  *
@@ -40,6 +50,16 @@ const getTableHeader = resultOptions => {
 			return `${requestOption.name} (${requestOption.uom})`;
 		})
 	);
+};
+
+const getCompAnalysisTableHeader = resultOption => {
+	return [
+		"Rank",
+		"URL",
+		`${resultOption.name} (${resultOption.uom})`,
+		`Difference from Lead  (${resultOption.uom})`,
+		"Percentage from Lead"
+	];
 };
 
 /**
@@ -61,6 +81,28 @@ const getRunRow = (run, index, resultOptions, mobDesk) => {
 			);
 		})
 	);
+};
+
+const formatCompAnalysisRow = (test, rowNum, resultOption, bestValue) => {
+	//const testValue = test.data.average.firstView[resultOption.wptField];
+	let returnRow = [rowNum, test.data.url, testValue];
+	//Row one is the winner, get's N/A for comparisons
+	if (rowNum === 1) {
+		returnRow.push("N/A");
+		returnRow.push("N/A");
+	} else {
+		//Not winner, cal difference and percentage diff
+		returnRow.push(
+			calcDiffFromRank1(
+				testValue,
+				bestValue,
+				resultOption.uom,
+				resultOption.decimalPlacePrecision
+			)
+		);
+		returnRow.push(calcPercentFromRank1(testValue, bestValue));
+	}
+	return returnRow;
 };
 
 /**
@@ -249,14 +291,37 @@ export const generateMobVsDeskGroupingData = async testConfig => {
 export const generateCompetativeAnalysisGroupingData = async testConfig => {
 	const csvData = [];
 	try {
-		const tests = await sortTestsByLocation(
-			getTestSet(testConfig.testIds, {
-				SERVER_URL,
-				SERVER_PORT
-			})
-		);
+		let tests = await getTestSet(testConfig.testIds, {
+			SERVER_URL,
+			SERVER_PORT
+		});
+		testGroup = sortTestsByLocation(tests);
+		console.log(`tests: ${JSON.stringify(Object.keys(tests[0]))}`);
+		testConfig.resultOptions.forEach(resultOption => {
+			/*
+			const testsSortedByField = sortTestsByField(tests, resultOption.wptField);
+			//This value is the "best" value that the others will be ranked against in their tests
+			const bestResult =
+				testsSortedByField[0].data.average.firstView[resultOption.wptField];
+
+			//Test header
+			//csvData.push(getCompAnalysisTextHeader());
+
+			//Table header
+			csvData.push(getCompAnalysisTableHeader(resultOption));
+			//Table rows
+
+			testsSortedByField.forEach((test, index) => {
+				csvData.push(
+					formatCompAnalysisRow(test, index, resultOption, bestResult)
+				);
+			});
+			*/
+			//Blank line to separate the tests
+			csvData.push([" "]);
+		});
 	} catch (e) {
-		console.log(`generateCompetativeAnalysisGroupingData error: ${e}`);
+		console.log(`generateCompetativeAnalysisGroupingData error: ${e.stack}`);
 	}
 
 	return csvData;

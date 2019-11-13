@@ -55,10 +55,10 @@ export const sortTestsByField = (tests, field) => {
  */
 export const sortTestsByLocation = tests => {
 	const mobTests = tests.filter(test => {
-		return test.location.indexOf("mobile") !== -1 ? true : false;
+		return test.data.location.indexOf("mobile") !== -1 ? true : false;
 	});
 	const deskTests = tests.filter(test => {
-		return test.location.indexOf("mobile") !== -1 ? false : true;
+		return test.data.location.indexOf("mobile") !== -1 ? false : true;
 	});
 
 	return [mobTests, deskTests];
