@@ -84,7 +84,7 @@ const getRunRow = (run, index, resultOptions, mobDesk) => {
 };
 
 const formatCompAnalysisRow = (test, rowNum, resultOption, bestValue) => {
-	//const testValue = test.data.average.firstView[resultOption.wptField];
+	const testValue = test.data.average.firstView[resultOption.wptField];
 	let returnRow = [rowNum, test.data.url, testValue];
 	//Row one is the winner, get's N/A for comparisons
 	if (rowNum === 1) {
@@ -295,31 +295,33 @@ export const generateCompetativeAnalysisGroupingData = async testConfig => {
 			SERVER_URL,
 			SERVER_PORT
 		});
-		testGroup = sortTestsByLocation(tests);
-		console.log(`tests: ${JSON.stringify(Object.keys(tests[0]))}`);
-		testConfig.resultOptions.forEach(resultOption => {
-			/*
-			const testsSortedByField = sortTestsByField(tests, resultOption.wptField);
-			//This value is the "best" value that the others will be ranked against in their tests
-			const bestResult =
-				testsSortedByField[0].data.average.firstView[resultOption.wptField];
+		//Array of two arrays of tests, mob and desktop
+		const testSets = sortTestsByLocation(tests);
+		testSets.forEach(testSet =>{
+			testConfig.resultOptions.forEach(resultOption => {
+				
+				const testsSortedByField = sortTestsByField(testSet, resultOption.wptField);
+				//This value is the "best" value that the others will be ranked against in their tests
+				const bestResult =
+				testSet[0].data.average.firstView[resultOption.wptField];
 
-			//Test header
-			//csvData.push(getCompAnalysisTextHeader());
-
-			//Table header
-			csvData.push(getCompAnalysisTableHeader(resultOption));
-			//Table rows
-
-			testsSortedByField.forEach((test, index) => {
-				csvData.push(
-					formatCompAnalysisRow(test, index, resultOption, bestResult)
-				);
+				//Test header
+				//csvData.push(getCompAnalysisTextHeader());
+	
+				//Table header
+				csvData.push(getCompAnalysisTableHeader(resultOption));
+				//Table rows
+	
+				testsSortedByField.forEach((test, index) => {
+					csvData.push(
+						formatCompAnalysisRow(test, index + 1, resultOption, bestResult)
+					);
+				});
+				//Blank line to separate the tests
+				csvData.push([" "]);
 			});
-			*/
-			//Blank line to separate the tests
-			csvData.push([" "]);
 		});
+		
 	} catch (e) {
 		console.log(`generateCompetativeAnalysisGroupingData error: ${e.stack}`);
 	}
