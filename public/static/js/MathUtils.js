@@ -20,7 +20,7 @@ export const calcUOMPrecision = (value, uom, decimalPlacePrecision) => {
 		default:
 			returnValue = value;
 	}
-	return returnValue;
+	return Number(returnValue);
 };
 
 /**
@@ -53,7 +53,7 @@ export const calcDiffFromRank1 = (
 };
 
 /**
- * Calculates Mov vs Desk winner for any given two fields, returns label and percentage
+ * Calculates Mob vs Desk winner for any given two fields, returns label and percentage
  *
  * @param {object} field1 -- Comparison field 1
  * @param {object} field2  -- Comparison field 2

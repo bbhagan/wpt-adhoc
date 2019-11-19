@@ -6,7 +6,8 @@
 	"scripts": {
 		"dev": "nodemon -r esm server.js",
 		"build": "next build",
-		"start": "next start"
+		"start": "next start",
+		"test": "jest"
 	},
 	"repository": {
 		"type": "git",
@@ -38,12 +39,19 @@
 		"react-dom": "^16.11.0"
 	},
 	"devDependencies": {
+		"@babel/core": "^7.7.2",
+		"babel-jest": "^24.9.0",
+		"enzyme": "^3.10.0",
+		"enzyme-adapter-react-16": "^1.15.1",
 		"eslint-config-standard": "^14.1.0",
 		"eslint-plugin-import": "^2.18.2",
 		"eslint-plugin-node": "^10.0.0",
 		"eslint-plugin-promise": "^4.2.1",
 		"eslint-plugin-react": "^7.16.0",
 		"eslint-plugin-standard": "^4.0.1",
-		"nodemon": "^1.19.4"
+		"jest": "^24.9.0",
+		"nodemon": "^1.19.4",
+		"react-addons-test-utils": "^15.6.2",
+		"react-test-renderer": "^16.12.0"
 	}
 }
