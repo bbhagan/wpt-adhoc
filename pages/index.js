@@ -1,15 +1,18 @@
+import React from "react";
 import TestConfiguration from "../components/testConfiguration/TestConfiguration";
 import StandardLayout from "../layouts/StandardLayout";
 import TestResults from "../components/results/TestResults";
 import TestsInProgress from "../components/results/TestsInProgress";
+import moment from "moment";
 import { fetchTestResults } from "../public/static/js/wptInterface";
 import { fetchLocations } from "../public/static/js/wptInterface";
 import { submitTests } from "../public/static/js/wptInterface";
+import { addPreviousTest } from "../public/static/js/localStorageInterface";
+import { getPreviousTest } from "../public/static/js/localStorageInterface";
 
 const SERVER_URL = process.env.SERVER_URL;
 const SERVER_PORT = process.env.SERVER_PORT;
-const UI_GET_LOCATIONS_FETCH_TIMEOUT =
-	process.env.UI_GET_LOCATIONS_FETCH_TIMEOUT;
+const UI_GET_LOCATIONS_FETCH_TIMEOUT = process.env.UI_GET_LOCATIONS_FETCH_TIMEOUT;
 const UI_SUBMIT_TESTS_TIMEOUT = process.env.UI_SUBMIT_TESTS_TIMEOUT;
 const UI_GET_TEST_RESULTS_TIMEOUT = process.env.UI_GET_TEST_RESULTS_TIMEOUT;
 
@@ -28,6 +31,11 @@ class Index extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			urls: [
+				{ url: "", index: 0 },
+				{ url: "", index: 1 },
+				{ url: "", index: 2 }
+			],
 			tests: [],
 			resultOptions: [],
 			grouping: "",
@@ -37,6 +45,27 @@ class Index extends React.Component {
 	}
 
 	/**
+	 * Looks up previous test set and loads into state. Also calls watch tests to populate data into state
+	 *
+	 * @param {string} previousTestId -- Test set ID (in moment date format)
+	 */
+	populateStateFromInitialProps = previousTestId => {
+		const previousTest = getPreviousTest(previousTestId);
+		//Maybe we don't have a previous test to lookup?
+		if (previousTest.testConfig) {
+			this.setState({
+				tests: previousTest.testConfig.tests,
+				resultOptions: previousTest.testConfig.resultOptions,
+				grouping: previousTest.testConfig.grouping,
+				sorting: previousTest.testConfig.sorting
+			});
+			previousTest.testConfig.tests.forEach(test => {
+				this.watchTest(test);
+			});
+		}
+	};
+
+	/**
 	 * Next lifecycle method. Return the Page's initial properties.
 	 *
 	 * @static
@@ -44,11 +73,15 @@ class Index extends React.Component {
 	 * @returns {object}
 	 * @memberof Index
 	 */
-	static async getInitialProps({ req }) {
-		return await fetchLocations(
-			UI_GET_LOCATIONS_FETCH_TIMEOUT,
-			`${SERVER_URL}:${SERVER_PORT}`
-		);
+	static async getInitialProps({ query }) {
+		let initialProps = {};
+		initialProps.previousTestId = query.previousTestId;
+		initialProps.locations = await fetchLocations(UI_GET_LOCATIONS_FETCH_TIMEOUT, `${SERVER_URL}:${SERVER_PORT}`);
+		return initialProps;
+	}
+
+	componentDidMount() {
+		this.populateStateFromInitialProps(this.props.previousTestId);
 	}
 
 	handleSubmitTests = async testConfiguration => {
@@ -65,9 +98,7 @@ class Index extends React.Component {
 
 		//filter the tests for URLs and locations
 		const urls = testConfiguration.urls.filter(url => url),
-			locations = testConfiguration.testLocations.filter(
-				location => location.active
-			);
+			locations = testConfiguration.testLocations.filter(location => location.active);
 
 		try {
 			const tests = await submitTests(
@@ -78,7 +109,10 @@ class Index extends React.Component {
 				},
 				UI_SUBMIT_TESTS_TIMEOUT
 			);
+			//At this point we have the basic test structure (with test id, without any data)
 			this.setState({ tests });
+			//Save off to local storage
+			addPreviousTest(moment().format(), this.state);
 			tests.forEach(test => {
 				this.watchTest(test);
 			});
@@ -89,7 +123,7 @@ class Index extends React.Component {
 				block: "start"
 			});
 		} catch (e) {
-			console.log(`Failure submitting tests. $(e)`);
+			console.log(`index:handleSubmitTests Failure submitting tests. ${e}`);
 		}
 	};
 
@@ -100,11 +134,7 @@ class Index extends React.Component {
 	 */
 	watchTest = testToWatch => {
 		setTimeout(async () => {
-			const newTest = await fetchTestResults(
-				testToWatch,
-				UI_GET_TEST_RESULTS_TIMEOUT,
-				`${SERVER_URL}:${SERVER_PORT}`
-			);
+			const newTest = await fetchTestResults(testToWatch, UI_GET_TEST_RESULTS_TIMEOUT, `${SERVER_URL}:${SERVER_PORT}`);
 
 			const updatedTests = this.state.tests.map(test => {
 				//not the test we are looking for
@@ -125,12 +155,8 @@ class Index extends React.Component {
 	 * @memberof Index
 	 */
 	render() {
-		const testsInProgress = this.state.tests.filter(
-			test => test.completed === false
-		);
-		const completedTests = this.state.tests.filter(
-			test => test.completed === true
-		);
+		const testsInProgress = this.state.tests.filter(test => test.completed === false);
+		const completedTests = this.state.tests.filter(test => test.completed === true);
 		let completedTestsComponent;
 		if (completedTests) {
 			completedTestsComponent = (
@@ -143,24 +169,21 @@ class Index extends React.Component {
 				/>
 			);
 		}
+
 		return (
 			<StandardLayout>
 				<div className="indexPageContainer">
 					<div className="container">
 						<TestConfiguration
+							urls={this.state.urls}
 							submitTests={this.handleSubmitTests}
-							testLocations={this.props.testLocations}
-							testLocationFetchError={this.props.testLocationFetchError}
+							testLocations={this.props.locations.testLocations}
+							testLocationFetchError={this.props.locations.testLocationFetchError}
 						/>
-
 						<div ref={this.inProgress}></div>
-						<TestsInProgress
-							tests={testsInProgress}
-							totalNumberOfTests={this.state.tests.length}
-						/>
+						<TestsInProgress tests={testsInProgress} totalNumberOfTests={this.state.tests.length} />
 						{completedTestsComponent}
 					</div>
-					<div>{this.props.foo}</div>
 				</div>
 			</StandardLayout>
 		);

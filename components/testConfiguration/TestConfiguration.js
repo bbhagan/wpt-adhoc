@@ -30,7 +30,7 @@ class TestConfiguration extends React.Component {
 				{ url: "", index: 1 },
 				{ url: "", index: 2 }
 			],
-			grouping: "competative",
+			grouping: "none",
 			sorting: "alpha",
 			testLocations: [],
 			numberOfTests: 2,

@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 
 /**
@@ -28,6 +29,11 @@ class Masthead extends React.Component {
 										<a className="nav-link">
 											Home <span className="sr-only">(current)</span>
 										</a>
+									</Link>
+								</li>
+								<li className="nav-item">
+									<Link href="/previousTests">
+										<a className="nav-link">Previous Tests</a>
 									</Link>
 								</li>
 								<li className="nav-item">

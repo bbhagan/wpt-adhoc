@@ -37,7 +37,7 @@ export const fetchLocations = async (timeout, FQDN) => {
 			throw new Error(`No 200 response from fetching locations`);
 		}
 	} catch (e) {
-		console.log(`${moment().format()} Failure fetching locations. ${e}`);
+		console.log(`${moment().format()} wptInterface.fetchLocations: Failure fetching locations. ${e}`);
 		return { testLocationFetchError: "Locations service unavailable" };
 	}
 };
@@ -53,10 +53,7 @@ export const fetchLocations = async (timeout, FQDN) => {
  */
 export const fetchTestResults = async (test, timeout, FQDN) => {
 	try {
-		const res = await timeoutFetch(
-			`${FQDN}/api/getTestResults/${test.testId}`,
-			timeout
-		);
+		const res = await timeoutFetch(`${FQDN}/api/getTestResults/${test.testId}`, timeout);
 		const resJson = await res.json();
 		switch (resJson.statusCode) {
 			//Test complete, data came back
@@ -80,9 +77,7 @@ export const fetchTestResults = async (test, timeout, FQDN) => {
 				//test maybe too new to request data on. Retry one time after 5 seconds
 				break;
 			default:
-				console.log(
-					`Error in fetchTestResults, unknown statusCode: ${resJson.statusCode}`
-				);
+				console.log(`Error in fetchTestResults, unknown statusCode: ${resJson.statusCode}`);
 		}
 		return test;
 	} catch (e) {
@@ -120,7 +115,7 @@ export const submitTests = async (testsConfig, timeout) => {
 			console.log(`Submit tests error: ${data.statusMsg}`);
 		}
 	} catch (e) {
-		console.log(`Failure submitting tests. $(e)`);
+		console.log(`wptInterface:submitTests Failure submitting tests. ${e}`);
 	}
 };
 
@@ -137,11 +132,7 @@ export const getTestSet = (testIds, serverConfig) => {
 
 		testIds.forEach(testId => {
 			promises.push(
-				fetchTestResults(
-					{ testId },
-					1000,
-					`${serverConfig.SERVER_URL}:${serverConfig.SERVER_PORT}`
-				)
+				fetchTestResults({ testId }, 1000, `${serverConfig.SERVER_URL}:${serverConfig.SERVER_PORT}`)
 					.then(test => {
 						return test;
 					})
