@@ -26,20 +26,20 @@
 	"dependencies": {
 		"@zeit/next-sass": "^1.0.1",
 		"babel-eslint": "^10.0.3",
-		"csv-stringify": "^5.3.3",
+		"csv-stringify": "^5.3.4",
 		"dotenv": "^8.2.0",
 		"dotenv-webpack": "^1.7.0",
 		"esm": "^3.2.25",
 		"express": "^4.17.1",
 		"isomorphic-unfetch": "^3.0.0",
 		"moment": "^2.24.0",
-		"next": "^9.1.2",
+		"next": "^9.1.4",
 		"node-sass": "^4.13.0",
-		"react": "^16.11.0",
-		"react-dom": "^16.11.0"
+		"react": "^16.12.0",
+		"react-dom": "^16.12.0"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.7.2",
+		"@babel/core": "^7.7.4",
 		"babel-jest": "^24.9.0",
 		"enzyme": "^3.10.0",
 		"enzyme-adapter-react-16": "^1.15.1",
@@ -47,10 +47,10 @@
 		"eslint-plugin-import": "^2.18.2",
 		"eslint-plugin-node": "^10.0.0",
 		"eslint-plugin-promise": "^4.2.1",
-		"eslint-plugin-react": "^7.16.0",
+		"eslint-plugin-react": "^7.17.0",
 		"eslint-plugin-standard": "^4.0.1",
 		"jest": "^24.9.0",
-		"nodemon": "^1.19.4",
+		"nodemon": "^2.0.1",
 		"react-addons-test-utils": "^15.6.2",
 		"react-test-renderer": "^16.12.0"
 	}
