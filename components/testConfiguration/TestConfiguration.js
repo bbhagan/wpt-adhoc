@@ -25,11 +25,6 @@ class TestConfiguration extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			urls: [
-				{ url: "", index: 0 },
-				{ url: "", index: 1 },
-				{ url: "", index: 2 }
-			],
 			grouping: "none",
 			sorting: "alpha",
 			testLocations: [],
@@ -50,19 +45,8 @@ class TestConfiguration extends React.Component {
 		this.props.submitTests(this.state);
 	};
 
-	/**
-	 * Receives call from component to add more URLs to main test billboard. Sets React state.
-	 *
-	 * @memberof TestConfiguration
-	 */
-	addMoreURLs = () => {
-		const urls = [
-			...this.state.urls,
-			{ url: "", index: this.state.urls.length },
-			{ url: "", index: this.state.urls.length + 1 },
-			{ url: "", index: this.state.urls.length + 2 }
-		];
-		this.setState({ urls });
+	handleAddMoreURLs = () => {
+		this.props.handleAddMoreURLs();
 	};
 
 	/**
@@ -72,16 +56,6 @@ class TestConfiguration extends React.Component {
 	 */
 	handleToggleAdvancedConfig = () => {
 		this.setState({ advancedConfigOpen: !this.state.advancedConfigOpen });
-	};
-
-	/**
-	 * Receives call from component to update URLs to test. Sets React state.
-	 *
-	 * @param {array} urls -- URL array to test
-	 * @memberof TestConfiguration
-	 */
-	updateURLs = urls => {
-		this.setState({ urls: urls });
 	};
 
 	/**
@@ -164,14 +138,10 @@ class TestConfiguration extends React.Component {
 	 */
 	render() {
 		let error;
-		if (
-			this.props.testLocationFetchError &&
-			this.state.showTestLocationFetchError
-		) {
+		if (this.props.testLocationFetchError && this.state.showTestLocationFetchError) {
 			error = (
 				<Error closeError={this.closeError}>
-					<strong>An error occured fetching WebPageTest locations:</strong>{" "}
-					{this.props.testLocationFetchError}
+					<strong>An error occured fetching WebPageTest locations:</strong> {this.props.testLocationFetchError}
 				</Error>
 			);
 		}
@@ -187,18 +157,11 @@ class TestConfiguration extends React.Component {
 									<h2>URL(s)</h2>
 									<div className="row">
 										<div className="col-8">
-											<TestConfigurationURLs
-												urls={this.state.urls}
-												updateURLs={this.updateURLs}
-											/>
-											<TestConfigurationAddMoreURLs
-												addMoreURLs={this.addMoreURLs}
-											/>
+											<TestConfigurationURLs urls={this.props.urls} handleUpdateURLs={this.props.handleUpdateURLs} />
+											<TestConfigurationAddMoreURLs handleAddMoreURLs={this.handleAddMoreURLs} />
 										</div>
 										<div className="col-4">
-											<TestConfigurationSubmitTests
-												submitTests={this.submitTests}
-											/>
+											<TestConfigurationSubmitTests submitTests={this.submitTests} />
 										</div>
 									</div>
 
@@ -234,6 +197,9 @@ class TestConfiguration extends React.Component {
 }
 
 TestConfiguration.propTypes = {
+	urls: PropTypes.array.isRequired,
+	handleAddMoreURLs: PropTypes.func.isRequired,
+	handleUpdateURLs: PropTypes.func.isRequired,
 	submitTests: PropTypes.func.isRequired,
 	testLocationFetchError: PropTypes.string,
 	testLocations: PropTypes.array

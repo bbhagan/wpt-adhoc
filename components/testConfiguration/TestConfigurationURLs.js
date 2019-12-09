@@ -15,8 +15,8 @@ class TestConfigurationURLs extends React.Component {
 	 */
 	constructor(props) {
 		super(props);
-		this.urlRefs = this.props.urls.reduce((acc, value) => {
-			acc[value.index] = React.createRef();
+		this.urlRefs = this.props.urls.reduce((acc, value, idx) => {
+			acc[idx] = React.createRef();
 			return acc;
 		}, {});
 	}
@@ -38,9 +38,9 @@ class TestConfigurationURLs extends React.Component {
 	handleUrlChange = idx => e => {
 		const tempUrls = this.props.urls.map((url, urlIdx) => {
 			if (idx !== urlIdx) return url;
-			return { ...url, url: e.target.value };
+			return e.target.value;
 		});
-		this.props.updateURLs(tempUrls);
+		this.props.handleUpdateURLs(tempUrls);
 	};
 
 	/**
@@ -52,12 +52,12 @@ class TestConfigurationURLs extends React.Component {
 		const tempUrls = this.props.urls.map((url, urlIdx) => {
 			if (idx !== urlIdx) return url;
 			if (e.target.value.indexOf("http") === -1 && e.target.value !== "") {
-				return { ...url, url: "https://" + e.target.value };
+				return "https://" + e.target.value;
 			} else {
-				return { ...url, url: e.target.value };
+				return e.target.value;
 			}
 		});
-		this.props.updateURLs(tempUrls);
+		this.props.handleUpdateURLs(tempUrls);
 	};
 
 	/**
@@ -75,10 +75,10 @@ class TestConfigurationURLs extends React.Component {
 							key={idx}
 							type="text"
 							size="83"
-							value={url.url}
+							value={url}
 							onChange={this.handleUrlChange(idx)}
 							onBlur={this.handleUrlBlur(idx)}
-							ref={this.urlRefs[url.index]}
+							ref={this.urlRefs[idx]}
 						/>
 					</div>
 				))}
@@ -89,7 +89,7 @@ class TestConfigurationURLs extends React.Component {
 
 TestConfigurationURLs.propTypes = {
 	urls: PropTypes.array.isRequired,
-	updateURLs: PropTypes.func.isRequired
+	handleUpdateURLs: PropTypes.func.isRequired
 };
 
 export default TestConfigurationURLs;

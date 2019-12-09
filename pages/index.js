@@ -31,11 +31,7 @@ class Index extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			urls: [
-				{ url: "", index: 0 },
-				{ url: "", index: 1 },
-				{ url: "", index: 2 }
-			],
+			urls: ["", "", ""],
 			tests: [],
 			resultOptions: [],
 			grouping: "",
@@ -50,18 +46,21 @@ class Index extends React.Component {
 	 * @param {string} previousTestId -- Test set ID (in moment date format)
 	 */
 	populateStateFromInitialProps = previousTestId => {
-		const previousTest = getPreviousTest(previousTestId);
-		//Maybe we don't have a previous test to lookup?
-		if (previousTest.testConfig) {
-			this.setState({
-				tests: previousTest.testConfig.tests,
-				resultOptions: previousTest.testConfig.resultOptions,
-				grouping: previousTest.testConfig.grouping,
-				sorting: previousTest.testConfig.sorting
-			});
-			previousTest.testConfig.tests.forEach(test => {
-				this.watchTest(test);
-			});
+		if (previousTestId) {
+			const previousTest = getPreviousTest(previousTestId);
+			//Maybe we don't have a previous test to lookup?
+			if (previousTest.testConfig) {
+				this.setState({
+					urls: previousTest.testConfig.urls,
+					tests: previousTest.testConfig.tests,
+					resultOptions: previousTest.testConfig.resultOptions,
+					grouping: previousTest.testConfig.grouping,
+					sorting: previousTest.testConfig.sorting
+				});
+				previousTest.testConfig.tests.forEach(test => {
+					this.watchTest(test);
+				});
+			}
 		}
 	};
 
@@ -80,10 +79,35 @@ class Index extends React.Component {
 		return initialProps;
 	}
 
+	/**
+	 * Standard React lifecycle method, called on client only
+	 */
 	componentDidMount() {
 		this.populateStateFromInitialProps(this.props.previousTestId);
 	}
 
+	/**
+	 * Receives call from component to add more URLs to main test billboard. Sets React state.
+	 */
+	handleAddMoreURLs = () => {
+		const urls = [...this.state.urls, "", "", ""];
+		this.setState({ urls });
+	};
+
+	/**
+	 * Receives call from component to update URLs to test. Sets React state.
+	 *
+	 * @param {array} urls -- URL array to test
+	 */
+	handleUpdateURLs = urls => {
+		this.setState({ urls: urls });
+	};
+
+	/**
+	 * Takes event from submit tests button and kicks off the tests
+	 *
+	 * @param {object} -- testConfiguration -- Deprecated, all this is moving to state
+	 */
 	handleSubmitTests = async testConfiguration => {
 		//populate state's result options with the selected options
 		const selectedResultOptions = [];
@@ -97,7 +121,7 @@ class Index extends React.Component {
 		});
 
 		//filter the tests for URLs and locations
-		const urls = testConfiguration.urls.filter(url => url),
+		const urls = this.state.urls.filter(url => url),
 			locations = testConfiguration.testLocations.filter(location => location.active);
 
 		try {
@@ -155,8 +179,13 @@ class Index extends React.Component {
 	 * @memberof Index
 	 */
 	render() {
-		const testsInProgress = this.state.tests.filter(test => test.completed === false);
-		const completedTests = this.state.tests.filter(test => test.completed === true);
+		let testsInProgress = [];
+		let completedTests = [];
+		if (this.state.tests) {
+			testsInProgress = this.state.tests.filter(test => test.completed === false);
+			completedTests = this.state.tests.filter(test => test.completed === true);
+		}
+
 		let completedTestsComponent;
 		if (completedTests) {
 			completedTestsComponent = (
@@ -176,6 +205,8 @@ class Index extends React.Component {
 					<div className="container">
 						<TestConfiguration
 							urls={this.state.urls}
+							handleAddMoreURLs={this.handleAddMoreURLs}
+							handleUpdateURLs={this.handleUpdateURLs}
 							submitTests={this.handleSubmitTests}
 							testLocations={this.props.locations.testLocations}
 							testLocationFetchError={this.props.locations.testLocationFetchError}

@@ -112,7 +112,7 @@ export const submitTests = async (testsConfig, timeout) => {
 			});
 			return tests;
 		} else {
-			console.log(`Submit tests error: ${data.statusMsg}`);
+			console.log(`wptInterface.submitTests: Submit tests error: ${data.statusMsg}`);
 		}
 	} catch (e) {
 		console.log(`wptInterface:submitTests Failure submitting tests. ${e}`);

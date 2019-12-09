@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 class TestConfigurationAddMoreURLs extends React.Component {
 	handleAddMoreURLs = e => {
 		e.preventDefault();
-		this.props.addMoreURLs();
+		this.props.handleAddMoreURLs();
 	};
 	/**
 	 * React lifecycle method
@@ -30,7 +30,7 @@ class TestConfigurationAddMoreURLs extends React.Component {
 }
 
 TestConfigurationAddMoreURLs.propTypes = {
-	addMoreURLs: PropTypes.func.isRequired
+	handleAddMoreURLs: PropTypes.func.isRequired
 };
 
 export default TestConfigurationAddMoreURLs;
