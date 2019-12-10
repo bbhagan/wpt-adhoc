@@ -56,7 +56,8 @@ class Index extends React.Component {
 					tests: previousTest.testConfig.tests,
 					resultOptions: previousTest.testConfig.resultOptions,
 					grouping: previousTest.testConfig.grouping,
-					sorting: previousTest.testConfig.sorting
+					sorting: previousTest.testConfig.sorting,
+					numberOfTests: previousTest.testConfig.numberOfTests
 				});
 				previousTest.testConfig.tests.forEach(test => {
 					this.watchTest(test);
@@ -143,8 +144,7 @@ class Index extends React.Component {
 			if (resultOption.active) selectedResultOptions.push(resultOption);
 		});
 		this.setState({
-			resultOptions: selectedResultOptions,
-			sorting: testConfiguration.sorting
+			resultOptions: selectedResultOptions
 		});
 
 		//filter the tests for URLs and locations
@@ -156,7 +156,7 @@ class Index extends React.Component {
 				{
 					testUrls: urls,
 					testLocations: locations,
-					numberOfTests: testConfiguration.numberOfTests
+					numberOfTests: this.state.numberOfTests
 				},
 				UI_SUBMIT_TESTS_TIMEOUT
 			);
