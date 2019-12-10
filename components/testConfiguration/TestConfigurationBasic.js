@@ -15,7 +15,7 @@ class TestConfigurationBasic extends React.Component {
 	 * @memberof TestConfigurationBasic
 	 */
 	handleChangeNumberOfTests = e => {
-		this.props.updateNumberOfTests(Number(e.target.value));
+		this.props.handleUpdateNumberOfTests(Number(e.target.value));
 	};
 
 	/**
@@ -24,14 +24,12 @@ class TestConfigurationBasic extends React.Component {
 	 * @memberof TestConfigurationBasic
 	 */
 	handleLocationChange = idx => e => {
-		const tempLocations = this.props.testLocations.map(
-			(location, locationIdx) => {
-				if (idx !== locationIdx) return location;
-				const tempLoc = location;
-				tempLoc.active = e.target.checked;
-				return tempLoc;
-			}
-		);
+		const tempLocations = this.props.testLocations.map((location, locationIdx) => {
+			if (idx !== locationIdx) return location;
+			const tempLoc = location;
+			tempLoc.active = e.target.checked;
+			return tempLoc;
+		});
 		this.props.updateLocations(tempLocations);
 	};
 
@@ -42,7 +40,7 @@ class TestConfigurationBasic extends React.Component {
 	 * @memberof TestConfigurationBasic
 	 */
 	handleSortingChange = e => {
-		this.props.updateSorting(e.target.value);
+		this.props.handleUpdateSorting(e.target.value);
 	};
 
 	/**
@@ -52,7 +50,7 @@ class TestConfigurationBasic extends React.Component {
 	 * @memberof TestConfigurationBasic
 	 */
 	handleGroupingChange = e => {
-		this.props.updateGrouping(e.target.value);
+		this.props.handleUpdateGrouping(e.target.value);
 	};
 
 	/**
@@ -119,12 +117,7 @@ class TestConfigurationBasic extends React.Component {
 				<div className="form-group">
 					<label>
 						Number of tests
-						<input
-							type="text"
-							value={this.props.numberOfTests}
-							size="2"
-							onChange={this.handleChangeNumberOfTests}
-						/>
+						<input type="text" value={this.props.numberOfTests} size="2" onChange={this.handleChangeNumberOfTests} />
 					</label>
 				</div>
 			</div>
@@ -134,13 +127,13 @@ class TestConfigurationBasic extends React.Component {
 
 TestConfigurationBasic.propTypes = {
 	grouping: PropTypes.string.isRequired,
-	updateGrouping: PropTypes.func.isRequired,
+	handleUpdateGrouping: PropTypes.func.isRequired,
 	sorting: PropTypes.string.isRequired,
-	updateSorting: PropTypes.func.isRequired,
+	handleUpdateSorting: PropTypes.func.isRequired,
 	testLocations: PropTypes.array.isRequired,
 	updateLocations: PropTypes.func.isRequired,
 	numberOfTests: PropTypes.number.isRequired,
-	updateNumberOfTests: PropTypes.func.isRequired
+	handleUpdateNumberOfTests: PropTypes.func.isRequired
 };
 
 export default TestConfigurationBasic;

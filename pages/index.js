@@ -34,8 +34,9 @@ class Index extends React.Component {
 			urls: ["", "", ""],
 			tests: [],
 			resultOptions: [],
-			grouping: "",
-			sorting: ""
+			grouping: "none",
+			sorting: "alpha",
+			numberOfTests: 2
 		};
 		this.inProgress = React.createRef();
 	}
@@ -104,6 +105,33 @@ class Index extends React.Component {
 	};
 
 	/**
+	 * Receives call from component to update the test grouping. Sets React State.
+	 *
+	 * @param {string} grouping -- The grouping value
+	 */
+	handleUpdateGrouping = grouping => {
+		this.setState({ grouping });
+	};
+
+	/**
+	 * Receives call from component to update the test sorting. Sets React State.
+	 *
+	 * @param {string} sorting -- The sorting value
+	 */
+	handleUpdateSorting = sorting => {
+		this.setState({ sorting });
+	};
+
+	/**
+	 * Receives call from component to update the number of tests to run. Sets React state.
+	 *
+	 * @param {number} numberOfTests -- Number of tests to run
+	 */
+	handleUpdateNumberOfTests = numberOfTests => {
+		this.setState({ numberOfTests });
+	};
+
+	/**
 	 * Takes event from submit tests button and kicks off the tests
 	 *
 	 * @param {object} -- testConfiguration -- Deprecated, all this is moving to state
@@ -116,7 +144,6 @@ class Index extends React.Component {
 		});
 		this.setState({
 			resultOptions: selectedResultOptions,
-			grouping: testConfiguration.grouping,
 			sorting: testConfiguration.sorting
 		});
 
@@ -207,6 +234,12 @@ class Index extends React.Component {
 							urls={this.state.urls}
 							handleAddMoreURLs={this.handleAddMoreURLs}
 							handleUpdateURLs={this.handleUpdateURLs}
+							grouping={this.state.grouping}
+							handleUpdateGrouping={this.handleUpdateGrouping}
+							sorting={this.state.sorting}
+							handleUpdateSorting={this.handleUpdateSorting}
+							numberOfTests={this.state.numberOfTests}
+							handleUpdateNumberOfTests={this.handleUpdateNumberOfTests}
 							submitTests={this.handleSubmitTests}
 							testLocations={this.props.locations.testLocations}
 							testLocationFetchError={this.props.locations.testLocationFetchError}

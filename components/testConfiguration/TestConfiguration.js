@@ -25,10 +25,7 @@ class TestConfiguration extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			grouping: "none",
-			sorting: "alpha",
 			testLocations: [],
-			numberOfTests: 2,
 			testResultOptions: resultsOptions,
 			advancedConfigOpen: false,
 			showTestLocationFetchError: true
@@ -45,10 +42,6 @@ class TestConfiguration extends React.Component {
 		this.props.submitTests(this.state);
 	};
 
-	handleAddMoreURLs = () => {
-		this.props.handleAddMoreURLs();
-	};
-
 	/**
 	 * Handles call to open/close advanced config modal. Sets React state.
 	 *
@@ -59,26 +52,6 @@ class TestConfiguration extends React.Component {
 	};
 
 	/**
-	 * Receives call from component to update the test grouping. Sets React State.
-	 *
-	 * @param {string} grouping -- The grouping value
-	 * @memberof TestConfiguration
-	 */
-	updateGrouping = grouping => {
-		this.setState({ grouping });
-	};
-
-	/**
-	 * Receives call from component to update the test sorting. Sets React State.
-	 *
-	 * @param {string} sorting -- The sorting value
-	 * @memberof TestConfiguration
-	 */
-	updateSorting = sorting => {
-		this.setState({ sorting });
-	};
-
-	/**
 	 * Receives call from component to update locations to test against. Sets React state.
 	 *
 	 * @param {array} locations -- Locations to test against
@@ -86,16 +59,6 @@ class TestConfiguration extends React.Component {
 	 */
 	updateLocations = locations => {
 		this.setState({ locations: locations });
-	};
-
-	/**
-	 * Receives call from component to update the number of tests to run. Sets React state.
-	 *
-	 * @param {number} numberOfTests -- Number of tests to run
-	 * @memberof TestConfiguration
-	 */
-	updateNumberOfTests = numberOfTests => {
-		this.setState({ numberOfTests: numberOfTests });
 	};
 
 	/**
@@ -158,7 +121,7 @@ class TestConfiguration extends React.Component {
 									<div className="row">
 										<div className="col-8">
 											<TestConfigurationURLs urls={this.props.urls} handleUpdateURLs={this.props.handleUpdateURLs} />
-											<TestConfigurationAddMoreURLs handleAddMoreURLs={this.handleAddMoreURLs} />
+											<TestConfigurationAddMoreURLs handleAddMoreURLs={this.props.handleAddMoreURLs} />
 										</div>
 										<div className="col-4">
 											<TestConfigurationSubmitTests submitTests={this.submitTests} />
@@ -177,14 +140,14 @@ class TestConfiguration extends React.Component {
 						</div>
 					</div>
 					<TestConfigurationModal
-						grouping={this.state.grouping}
-						updateGrouping={this.updateGrouping}
-						sorting={this.state.sorting}
-						updateSorting={this.updateSorting}
+						grouping={this.props.grouping}
+						handleUpdateGrouping={this.props.handleUpdateGrouping}
+						sorting={this.props.sorting}
+						handleUpdateSorting={this.props.handleUpdateSorting}
 						testLocations={this.state.testLocations}
 						updateLocations={this.updateLocations}
-						numberOfTests={this.state.numberOfTests}
-						updateNumberOfTests={this.updateNumberOfTests}
+						numberOfTests={this.props.numberOfTests}
+						handleUpdateNumberOfTests={this.props.handleUpdateNumberOfTests}
 						testResultOptions={this.state.testResultOptions}
 						updateTestResultOptions={this.updateTestResultOptions}
 						openClose={this.state.advancedConfigOpen}
@@ -200,6 +163,12 @@ TestConfiguration.propTypes = {
 	urls: PropTypes.array.isRequired,
 	handleAddMoreURLs: PropTypes.func.isRequired,
 	handleUpdateURLs: PropTypes.func.isRequired,
+	grouping: PropTypes.string.isRequired,
+	handleUpdateGrouping: PropTypes.func.isRequired,
+	sorting: PropTypes.string.isRequired,
+	handleUpdateSorting: PropTypes.func.isRequired,
+	numberOfTests: PropTypes.number.isRequired,
+	handleUpdateNumberOfTests: PropTypes.func.isRequired,
 	submitTests: PropTypes.func.isRequired,
 	testLocationFetchError: PropTypes.string,
 	testLocations: PropTypes.array

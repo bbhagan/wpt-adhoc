@@ -42,12 +42,7 @@ class TestConfigurationModal extends React.Component {
 	render() {
 		return (
 			<div className="TestConfigurationModalContainer">
-				<div
-					className="modal"
-					style={
-						this.props.openClose ? { display: "block" } : { display: "none" }
-					}
-				>
+				<div className="modal" style={this.props.openClose ? { display: "block" } : { display: "none" }}>
 					<div className="modal-dialog" role="document">
 						<div className="modal-content">
 							<div className="modal-header">
@@ -63,20 +58,17 @@ class TestConfigurationModal extends React.Component {
 								</button>
 							</div>
 							<div className="modal-body">
-								<TestConfigurationTabs
-									selectedTab={this.state.selectedTab}
-									updateTab={this.updateTab}
-								/>
+								<TestConfigurationTabs selectedTab={this.state.selectedTab} updateTab={this.updateTab} />
 
 								<TestConfigurationBasic
 									grouping={this.props.grouping}
-									updateGrouping={this.props.updateGrouping}
+									handleUpdateGrouping={this.props.handleUpdateGrouping}
 									sorting={this.props.sorting}
-									updateSorting={this.props.updateSorting}
+									handleUpdateSorting={this.props.handleUpdateSorting}
 									testLocations={this.props.testLocations}
 									updateLocations={this.props.updateLocations}
 									numberOfTests={this.props.numberOfTests}
-									updateNumberOfTests={this.props.updateNumberOfTests}
+									handleUpdateNumberOfTests={this.props.handleUpdateNumberOfTests}
 									shown={this.state.selectedTab === "basic"}
 								/>
 
@@ -87,11 +79,7 @@ class TestConfigurationModal extends React.Component {
 								/>
 							</div>
 							<div className="modal-footer">
-								<button
-									type="button"
-									className="btn btn-primary"
-									onClick={this.props.handleClose}
-								>
+								<button type="button" className="btn btn-primary" onClick={this.props.handleClose}>
 									Done
 								</button>
 							</div>
@@ -105,13 +93,13 @@ class TestConfigurationModal extends React.Component {
 
 TestConfigurationModal.propTypes = {
 	grouping: PropTypes.string.isRequired,
-	updateGrouping: PropTypes.func.isRequired,
+	handleUpdateGrouping: PropTypes.func.isRequired,
 	sorting: PropTypes.string.isRequired,
-	updateSorting: PropTypes.func.isRequired,
+	handleUpdateSorting: PropTypes.func.isRequired,
 	testLocations: PropTypes.array.isRequired,
 	updateLocations: PropTypes.func.isRequired,
 	numberOfTests: PropTypes.number.isRequired,
-	updateNumberOfTests: PropTypes.func.isRequired,
+	handleUpdateNumberOfTests: PropTypes.func.isRequired,
 	testResultOptions: PropTypes.array.isRequired,
 	updateTestResultOptions: PropTypes.func.isRequired,
 	openClose: PropTypes.bool.isRequired,
