@@ -1,3 +1,4 @@
+import sha256 from "js-sha256";
 /**
  * Produces an array of a list of all pervios tests in localStorage
  *
@@ -24,8 +25,9 @@ export const getAllPreviousTests = () => {
  */
 export const getPreviousTest = previousTestId => {
 	let previousTest = {};
+	console.log(`getPreviousTest previousTestId: --${previousTestId}--`);
 	getAllPreviousTests().forEach(test => {
-		if (test.date === previousTestId) {
+		if (test.id.toString() === previousTestId) {
 			previousTest = test;
 		}
 	});
@@ -42,7 +44,7 @@ export const getPreviousTest = previousTestId => {
 export const addPreviousTest = (date, tests) => {
 	let previousTests = getAllPreviousTests() || [];
 	if (localStorage) {
-		previousTests.push({ date: date, testConfig: tests });
+		previousTests.push({ date: date, id: sha256(date), testConfig: tests });
 		localStorage.setItem("previousTests", JSON.stringify(previousTests));
 	}
 	return previousTests;

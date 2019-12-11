@@ -33,9 +33,9 @@ class PreviousTests extends React.Component {
 			prevTests = prevTests.reverse();
 			return prevTests.map((test, idx) => {
 				return (
-					<tr>
+					<tr key={idx}>
 						<td>
-							<Link href={`/?previousTestId=${encodeURI(test.date)}`}>
+							<Link href={`/?previousTestId=${test.id}`}>
 								<a className="text-primary">{getReadableDateFromMoment(test.date)}</a>
 							</Link>
 						</td>
