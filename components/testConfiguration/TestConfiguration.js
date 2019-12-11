@@ -25,7 +25,6 @@ class TestConfiguration extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			testLocations: [],
 			advancedConfigOpen: false,
 			showTestLocationFetchError: true
 		};
@@ -38,7 +37,7 @@ class TestConfiguration extends React.Component {
 	 */
 	submitTests = () => {
 		this.setState({ advancedConfigOpen: false });
-		this.props.submitTests(this.state);
+		this.props.submitTests();
 	};
 
 	/**
@@ -51,35 +50,12 @@ class TestConfiguration extends React.Component {
 	};
 
 	/**
-	 * Receives call from component to update locations to test against. Sets React state.
-	 *
-	 * @param {array} locations -- Locations to test against
-	 * @memberof TestConfiguration
-	 */
-	updateLocations = locations => {
-		this.setState({ locations: locations });
-	};
-
-	/**
 	 * Handles user closing of error dialog. Sets React state.
 	 *
 	 * @memberof TestConfiguration
 	 */
 	closeError = () => {
 		this.setState({ showTestLocationFetchError: false });
-	};
-
-	/**
-	 * React lifecycle method.
-	 * Takes Next js getInitialProps of locations and sets React state.
-	 *
-	 * @memberof TestConfiguration
-	 */
-	componentDidMount = () => {
-		if (!this.props.testLocationFetchError && this.props.testLocations) {
-			// move test locations into state so we can change them
-			this.setState({ testLocations: this.props.testLocations });
-		}
 	};
 
 	/**
@@ -133,8 +109,8 @@ class TestConfiguration extends React.Component {
 						handleUpdateGrouping={this.props.handleUpdateGrouping}
 						sorting={this.props.sorting}
 						handleUpdateSorting={this.props.handleUpdateSorting}
-						testLocations={this.state.testLocations}
-						updateLocations={this.updateLocations}
+						testLocations={this.props.testLocations}
+						handleUpdateTestLocations={this.props.handleUpdateTestLocations}
 						numberOfTests={this.props.numberOfTests}
 						handleUpdateNumberOfTests={this.props.handleUpdateNumberOfTests}
 						resultOptions={this.props.resultOptions}
@@ -162,7 +138,8 @@ TestConfiguration.propTypes = {
 	handleUpdateResultOptions: PropTypes.func.isRequired,
 	submitTests: PropTypes.func.isRequired,
 	testLocationFetchError: PropTypes.string,
-	testLocations: PropTypes.array
+	testLocations: PropTypes.array,
+	handleUpdateTestLocations: PropTypes.func.isRequired
 };
 
 export default TestConfiguration;

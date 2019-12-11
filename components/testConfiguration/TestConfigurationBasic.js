@@ -23,14 +23,14 @@ class TestConfigurationBasic extends React.Component {
 	 *
 	 * @memberof TestConfigurationBasic
 	 */
-	handleLocationChange = idx => e => {
+	handleTestLocationChange = idx => e => {
 		const tempLocations = this.props.testLocations.map((location, locationIdx) => {
 			if (idx !== locationIdx) return location;
 			const tempLoc = location;
 			tempLoc.active = e.target.checked;
 			return tempLoc;
 		});
-		this.props.updateLocations(tempLocations);
+		this.props.handleUpdateTestLocations(tempLocations);
 	};
 
 	/**
@@ -105,7 +105,7 @@ class TestConfigurationBasic extends React.Component {
 									key={idx}
 									type="checkbox"
 									value={location.location}
-									onChange={this.handleLocationChange(idx)}
+									onChange={this.handleTestLocationChange(idx)}
 									checked={location.active === true ? "checked" : ""}
 								/>
 								&nbsp;{location.label} ({location.location})
@@ -130,8 +130,8 @@ TestConfigurationBasic.propTypes = {
 	handleUpdateGrouping: PropTypes.func.isRequired,
 	sorting: PropTypes.string.isRequired,
 	handleUpdateSorting: PropTypes.func.isRequired,
-	testLocations: PropTypes.array.isRequired,
-	updateLocations: PropTypes.func.isRequired,
+	testLocations: PropTypes.array,
+	handleUpdateTestLocations: PropTypes.func.isRequired,
 	numberOfTests: PropTypes.number.isRequired,
 	handleUpdateNumberOfTests: PropTypes.func.isRequired
 };

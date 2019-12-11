@@ -32,6 +32,7 @@ class Index extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			testLocations: this.props.testLocations.testLocations,
 			urls: ["", "", ""],
 			tests: [],
 			resultOptions: resultsOptions,
@@ -45,11 +46,11 @@ class Index extends React.Component {
 	/**
 	 * Looks up previous test set and loads into state. Also calls watch tests to populate data into state
 	 *
-	 * @param {string} previousTestId -- Test set ID (in moment date format)
+	 * @param {object} props -- props object
 	 */
-	populateStateFromInitialProps = previousTestId => {
-		if (previousTestId) {
-			const previousTest = getPreviousTest(previousTestId);
+	populateStateFromInitialProps = props => {
+		if (props.previousTestId) {
+			const previousTest = getPreviousTest(props.previousTestId);
 			//Maybe we don't have a previous test to lookup?
 			if (previousTest.testConfig) {
 				this.setState({
@@ -78,7 +79,7 @@ class Index extends React.Component {
 	static async getInitialProps({ query }) {
 		let initialProps = {};
 		initialProps.previousTestId = query.previousTestId;
-		initialProps.locations = await fetchLocations(UI_GET_LOCATIONS_FETCH_TIMEOUT, `${SERVER_URL}:${SERVER_PORT}`);
+		initialProps.testLocations = await fetchLocations(UI_GET_LOCATIONS_FETCH_TIMEOUT, `${SERVER_URL}:${SERVER_PORT}`);
 		return initialProps;
 	}
 
@@ -86,7 +87,7 @@ class Index extends React.Component {
 	 * Standard React lifecycle method, called on client only
 	 */
 	componentDidMount() {
-		this.populateStateFromInitialProps(this.props.previousTestId);
+		this.populateStateFromInitialProps(this.props);
 	}
 
 	/**
@@ -143,20 +144,25 @@ class Index extends React.Component {
 	};
 
 	/**
-	 * Takes event from submit tests button and kicks off the tests
+	 * Receives call from component to update locations to test against. Sets React state.
 	 *
-	 * @param {object} -- testConfiguration -- Deprecated, all this is moving to state
+	 * @param {array} locations -- Locations to test against
+	 *
 	 */
-	handleSubmitTests = async testConfiguration => {
-		//filter the tests for URLs and locations
-		const urls = this.state.urls.filter(url => url),
-			locations = testConfiguration.testLocations.filter(location => location.active);
+	handleUpdateTestLocations = testLocations => {
+		this.setState({ testLocations });
+	};
 
+	/**
+	 * Takes event from submit tests button and kicks off the tests
+	 */
+	handleSubmitTests = async () => {
 		try {
 			const tests = await submitTests(
+				//filter the tests for populated URLs and active locations
 				{
-					testUrls: urls,
-					testLocations: locations,
+					testUrls: this.state.urls.filter(url => url),
+					testLocations: this.state.testLocations.filter(location => location.active),
 					numberOfTests: this.state.numberOfTests
 				},
 				UI_SUBMIT_TESTS_TIMEOUT
@@ -226,7 +232,6 @@ class Index extends React.Component {
 				/>
 			);
 		}
-
 		return (
 			<StandardLayout>
 				<div className="indexPageContainer">
@@ -244,8 +249,9 @@ class Index extends React.Component {
 							resultOptions={this.state.resultOptions}
 							handleUpdateResultOptions={this.handleUpdateResultOptions}
 							submitTests={this.handleSubmitTests}
-							testLocations={this.props.locations.testLocations}
-							testLocationFetchError={this.props.locations.testLocationFetchError}
+							testLocations={this.state.testLocations}
+							handleUpdateTestLocations={this.handleUpdateTestLocations}
+							testLocationFetchError={this.props.testLocations.testLocationFetchError}
 						/>
 						<div ref={this.inProgress}></div>
 						<TestsInProgress tests={testsInProgress} totalNumberOfTests={this.state.tests.length} />

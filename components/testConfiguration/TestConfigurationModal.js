@@ -66,7 +66,7 @@ class TestConfigurationModal extends React.Component {
 									sorting={this.props.sorting}
 									handleUpdateSorting={this.props.handleUpdateSorting}
 									testLocations={this.props.testLocations}
-									updateLocations={this.props.updateLocations}
+									handleUpdateTestLocations={this.props.handleUpdateTestLocations}
 									numberOfTests={this.props.numberOfTests}
 									handleUpdateNumberOfTests={this.props.handleUpdateNumberOfTests}
 									shown={this.state.selectedTab === "basic"}
@@ -96,8 +96,8 @@ TestConfigurationModal.propTypes = {
 	handleUpdateGrouping: PropTypes.func.isRequired,
 	sorting: PropTypes.string.isRequired,
 	handleUpdateSorting: PropTypes.func.isRequired,
-	testLocations: PropTypes.array.isRequired,
-	updateLocations: PropTypes.func.isRequired,
+	testLocations: PropTypes.array,
+	handleUpdateTestLocations: PropTypes.func.isRequired,
 	numberOfTests: PropTypes.number.isRequired,
 	handleUpdateNumberOfTests: PropTypes.func.isRequired,
 	resultOptions: PropTypes.array.isRequired,
