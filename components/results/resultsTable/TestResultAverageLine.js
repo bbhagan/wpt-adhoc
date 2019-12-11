@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { calcUOMPrecision } from "../../../public/static/js/mathUtils";
+import { getActiveResultOptions } from "../../../public/static/js/filterUtils";
 
 /**
  * Renders the result table average line (row)
@@ -16,12 +17,13 @@ class TestResultAverageLine extends React.Component {
 	 * @memberof TestResultAverageLine
 	 */
 	render() {
+		const activeResultOptions = getActiveResultOptions(this.props.resultOptions);
 		return (
 			<tr className="table-light">
 				<th scope="row">
 					<strong>{this.props.mobDesk} Avg.</strong>
 				</th>
-				{this.props.resultOptions.map((resultOption, idx) => (
+				{activeResultOptions.map((resultOption, idx) => (
 					<td key={idx} style={{ textAlign: "right" }}>
 						<strong key={idx}>
 							{calcUOMPrecision(

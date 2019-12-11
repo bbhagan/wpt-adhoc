@@ -15,13 +15,13 @@ class TestConfigurationResults extends React.Component {
 	 * @memberof TestConfigurationResults
 	 */
 	handleResultOptionChange = e => {
-		const tempResultOptions = this.props.testResultOptions.map(resultOption => {
+		const tempResultOptions = this.props.resultOptions.map(resultOption => {
 			if (resultOption.wptField !== e.target.value) return resultOption;
 			const tempresultOption = resultOption;
 			tempresultOption.active = e.target.checked;
 			return tempresultOption;
 		});
-		this.props.updateTestResultOptions(tempResultOptions);
+		this.props.handleUpdateResultOptions(tempResultOptions);
 	};
 
 	/**
@@ -37,7 +37,7 @@ class TestConfigurationResults extends React.Component {
 				<fieldset className="form-group">
 					<legend>Common Tests:</legend>
 					<div className="row">
-						{this.props.testResultOptions.map((resultOption, idx) => {
+						{this.props.resultOptions.map((resultOption, idx) => {
 							if (resultOption.type === "common") {
 								return (
 									<div className="col-3" key={idx}>
@@ -47,9 +47,7 @@ class TestConfigurationResults extends React.Component {
 													type="checkbox"
 													value={resultOption.wptField}
 													onChange={this.handleResultOptionChange}
-													checked={
-														resultOption.active === true ? "checked" : ""
-													}
+													checked={resultOption.active === true ? "checked" : ""}
 													className="form-check-input"
 													key={idx}
 												/>
@@ -68,7 +66,7 @@ class TestConfigurationResults extends React.Component {
 				<fieldset className="form-group">
 					<legend>Uncommon Tests:</legend>
 					<div className="row">
-						{this.props.testResultOptions.map((resultOption, idx) => {
+						{this.props.resultOptions.map((resultOption, idx) => {
 							if (resultOption.type === "uncommon") {
 								return (
 									<div className="col-3" key={idx}>
@@ -78,9 +76,7 @@ class TestConfigurationResults extends React.Component {
 													type="checkbox"
 													value={resultOption.wptField}
 													onChange={this.handleResultOptionChange}
-													checked={
-														resultOption.active === true ? "checked" : ""
-													}
+													checked={resultOption.active === true ? "checked" : ""}
 													className="form-check-input"
 													key={idx}
 												/>
@@ -100,7 +96,7 @@ class TestConfigurationResults extends React.Component {
 					<legend>Synthetic Tests:</legend>
 
 					<div className="row">
-						{this.props.testResultOptions.map((resultOption, idx) => {
+						{this.props.resultOptions.map((resultOption, idx) => {
 							if (resultOption.type === "synthetic") {
 								return (
 									<div className="col-3" key={idx}>
@@ -110,9 +106,7 @@ class TestConfigurationResults extends React.Component {
 													type="checkbox"
 													value={resultOption.wptField}
 													onChange={this.handleResultOptionChange}
-													checked={
-														resultOption.active === true ? "checked" : ""
-													}
+													checked={resultOption.active === true ? "checked" : ""}
 													className="form-check-input"
 													key={idx}
 												/>
@@ -133,8 +127,8 @@ class TestConfigurationResults extends React.Component {
 }
 
 TestConfigurationResults.propTypes = {
-	testResultOptions: PropTypes.array.isRequired,
-	updateTestResultOptions: PropTypes.func.isRequired
+	resultOptions: PropTypes.array.isRequired,
+	handleUpdateResultOptions: PropTypes.func.isRequired
 };
 
 export default TestConfigurationResults;

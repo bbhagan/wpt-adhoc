@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { getActiveResultOptions } from "../../../public/static/js/filterUtils";
 
 /**
  * Renders the table header (column description) (row) for each test
@@ -27,11 +28,12 @@ class TestResultTableHeader extends React.Component {
 	 * @memberof TestResultTableHeader
 	 */
 	render() {
+		const activeResultOptions = getActiveResultOptions(this.props.resultOptions);
 		return (
 			<thead>
 				<tr>
 					<th scope="col"></th>
-					{this.props.resultOptions.map((resultOption, idx) => (
+					{activeResultOptions.map((resultOption, idx) => (
 						<th key={idx} scope="col">
 							{this.renderCopy(resultOption)}
 						</th>

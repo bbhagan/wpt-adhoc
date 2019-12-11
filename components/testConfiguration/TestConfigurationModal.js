@@ -73,8 +73,8 @@ class TestConfigurationModal extends React.Component {
 								/>
 
 								<TestConfigurationResults
-									testResultOptions={this.props.testResultOptions}
-									updateTestResultOptions={this.props.updateTestResultOptions}
+									resultOptions={this.props.resultOptions}
+									handleUpdateResultOptions={this.props.handleUpdateResultOptions}
 									shown={this.state.selectedTab === "results"}
 								/>
 							</div>
@@ -100,8 +100,8 @@ TestConfigurationModal.propTypes = {
 	updateLocations: PropTypes.func.isRequired,
 	numberOfTests: PropTypes.number.isRequired,
 	handleUpdateNumberOfTests: PropTypes.func.isRequired,
-	testResultOptions: PropTypes.array.isRequired,
-	updateTestResultOptions: PropTypes.func.isRequired,
+	resultOptions: PropTypes.array.isRequired,
+	handleUpdateResultOptions: PropTypes.func.isRequired,
 	openClose: PropTypes.bool.isRequired,
 	handleClose: PropTypes.func.isRequired
 };

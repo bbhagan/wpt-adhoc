@@ -1,6 +1,7 @@
 import React from "react";
 import { calcUOMPrecision } from "../../../public/static/js/mathUtils";
 import { determineWinner } from "../../../public/static/js/mathUtils";
+import { getActiveResultOptions } from "../../../public/static/js/filterUtils";
 import PropTypes from "prop-types";
 
 /**
@@ -16,15 +17,15 @@ class TestResultDifferenceLine extends React.Component {
 	 * @returns {object}
 	 */
 	render() {
+		const activeResultOptions = getActiveResultOptions(this.props.resultOptions);
 		return (
 			<>
 				<tr className="table-info">
 					<th scope="row">Difference</th>
-					{this.props.resultOptions.map((resultOption, idx) => (
+					{activeResultOptions.map((resultOption, idx) => (
 						<td key={idx} style={{ textAlign: "right" }}>
 							{calcUOMPrecision(
-								this.props.test1Data[resultOption.wptField] -
-									this.props.test2Data[resultOption.wptField],
+								this.props.test1Data[resultOption.wptField] - this.props.test2Data[resultOption.wptField],
 								resultOption.uom,
 								resultOption.decimalPlacePrecision
 							)}
@@ -33,7 +34,7 @@ class TestResultDifferenceLine extends React.Component {
 				</tr>
 				<tr className="table-danger">
 					<th scope="row">Winner</th>
-					{this.props.resultOptions.map((resultOption, idx) => (
+					{activeResultOptions.map((resultOption, idx) => (
 						<td key={idx} style={{ textAlign: "right" }}>
 							{determineWinner(
 								this.props.test1Data[resultOption.wptField],

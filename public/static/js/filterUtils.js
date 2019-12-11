@@ -33,3 +33,14 @@ export const getUniqueURLsString = testArray => {
 	const testsArray = getUniqueURLs(testArray);
 	return testsArray.join(", ");
 };
+
+/**
+ * Returns an array of just active resultOptions
+ *
+ * @param {array} resultOptions -- Result options array to filter through
+ *
+ * @return {array}
+ */
+export const getActiveResultOptions = resultOptions => {
+	return resultOptions.filter(resultOption => resultOption.active);
+};

@@ -4,6 +4,7 @@ import TestResultMobileVsDesktop from "./TestResultMobileVsDesktop";
 import TestResultCompetativeAnalysis from "./TestResultCompetativeAnalysis";
 import { sortTestsByURL } from "../../public/static/js/sortTests";
 import { sortTestsByLocation } from "../../public/static/js/sortTests";
+import { getActiveResultOptions } from "../../public/static/js/filterUtils";
 import PropTypes from "prop-types";
 
 /**
@@ -20,10 +21,11 @@ class TestResults extends React.Component {
 
 	downloadCSV = () => {
 		const testIds = this.props.tests.map(test => test.testId);
+		const activeResultOptions = getActiveResultOptions(this.props.resultOptions);
 
 		let postBody = {
 			testIds,
-			resultOptions: this.props.resultOptions,
+			resultOptions: activeResultOptions,
 			grouping: this.props.grouping,
 			sorting: this.props.sorting
 		};
@@ -52,32 +54,18 @@ class TestResults extends React.Component {
 		let downloadCSVButton = [];
 		let result = [];
 
-		if (
-			this.props.totalNumberOfTests >= 1 &&
-			this.props.totalNumberOfTests === this.props.tests.length
-		) {
+		if (this.props.totalNumberOfTests >= 1 && this.props.totalNumberOfTests === this.props.tests.length) {
 			downloadCSVButton = (
-				<button
-					key={0}
-					type="button"
-					className="btn btn-primary"
-					onClick={this.downloadCSV}
-				>
+				<button key={0} type="button" className="btn btn-primary" onClick={this.downloadCSV}>
 					Download Results (CSV)
 				</button>
 			);
 		}
 
 		if (this.props.grouping === "none") {
-			result = sortTestsByURL(this.props.tests, this.props.sorting).map(
-				(test, idx) => (
-					<TestResultNoGrouping
-						test={test}
-						key={idx}
-						resultOptions={this.props.resultOptions}
-					/>
-				)
-			);
+			result = sortTestsByURL(this.props.tests, this.props.sorting).map((test, idx) => (
+				<TestResultNoGrouping test={test} key={idx} resultOptions={this.props.resultOptions} />
+			));
 		} else if (this.props.grouping === "mobVsDesk") {
 			const sortedTests = sortTestsByURL(this.props.tests, this.props.sorting);
 			//using for loop here for look ahead/behind
@@ -90,20 +78,11 @@ class TestResults extends React.Component {
 					pairBehind = true;
 				}
 
-				if (
-					i !== sortedTests.length - 1 &&
-					sortedTests[i].url === sortedTests[i + 1].url
-				) {
+				if (i !== sortedTests.length - 1 && sortedTests[i].url === sortedTests[i + 1].url) {
 					pairAhead = true;
 				}
 				if (!pairAhead && !pairBehind) {
-					result.push(
-						<TestResultNoGrouping
-							test={sortedTests[i]}
-							key={i}
-							resultOptions={this.props.resultOptions}
-						/>
-					);
+					result.push(<TestResultNoGrouping test={sortedTests[i]} key={i} resultOptions={this.props.resultOptions} />);
 				}
 				if (pairAhead) {
 					result.push(

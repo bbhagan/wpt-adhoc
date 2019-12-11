@@ -1,5 +1,6 @@
 import React from "react";
 import { calcUOMPrecision } from "../../../public/static/js/mathUtils";
+import { getActiveResultOptions } from "../../../public/static/js/filterUtils";
 import PropTypes from "prop-types";
 
 /**
@@ -16,12 +17,13 @@ class TestResultLine extends React.Component {
 	 * @memberof TestResultLine
 	 */
 	render() {
+		const activeResultOptions = getActiveResultOptions(this.props.resultOptions);
 		return (
 			<tr className="table-active">
 				<th scope="row">
 					{this.props.mobDesk} Run {this.props.idx + 1}
 				</th>
-				{this.props.resultOptions.map((resultOption, idx) => (
+				{activeResultOptions.map((resultOption, idx) => (
 					<td key={idx} style={{ textAlign: "right" }}>
 						{calcUOMPrecision(
 							this.props.run.firstView[resultOption.wptField],

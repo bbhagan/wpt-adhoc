@@ -6,7 +6,7 @@ import TestConfigurationModal from "./TestConfigurationModal";
 import TestConfigurationAddMoreURLs from "./TestConfigurationAddMoreURLs";
 
 import Error from "../global/Error";
-import { resultsOptions } from "../../data/resultsOptionsData";
+
 import PropTypes from "prop-types";
 import "./testConfiguration.scss";
 
@@ -26,7 +26,6 @@ class TestConfiguration extends React.Component {
 		super(props);
 		this.state = {
 			testLocations: [],
-			testResultOptions: resultsOptions,
 			advancedConfigOpen: false,
 			showTestLocationFetchError: true
 		};
@@ -59,16 +58,6 @@ class TestConfiguration extends React.Component {
 	 */
 	updateLocations = locations => {
 		this.setState({ locations: locations });
-	};
-
-	/**
-	 * Receives call from component to update test result options. Sets React state.
-	 *
-	 * @param {array} options -- Array of test result options
-	 * @memberof TestConfiguration
-	 */
-	updateTestResultOptions = options => {
-		this.setState({ testResultOptions: options });
 	};
 
 	/**
@@ -148,8 +137,8 @@ class TestConfiguration extends React.Component {
 						updateLocations={this.updateLocations}
 						numberOfTests={this.props.numberOfTests}
 						handleUpdateNumberOfTests={this.props.handleUpdateNumberOfTests}
-						testResultOptions={this.state.testResultOptions}
-						updateTestResultOptions={this.updateTestResultOptions}
+						resultOptions={this.props.resultOptions}
+						handleUpdateResultOptions={this.props.handleUpdateResultOptions}
 						openClose={this.state.advancedConfigOpen}
 						handleClose={this.handleToggleAdvancedConfig}
 					/>
@@ -169,6 +158,8 @@ TestConfiguration.propTypes = {
 	handleUpdateSorting: PropTypes.func.isRequired,
 	numberOfTests: PropTypes.number.isRequired,
 	handleUpdateNumberOfTests: PropTypes.func.isRequired,
+	resultOptions: PropTypes.array.isRequired,
+	handleUpdateResultOptions: PropTypes.func.isRequired,
 	submitTests: PropTypes.func.isRequired,
 	testLocationFetchError: PropTypes.string,
 	testLocations: PropTypes.array

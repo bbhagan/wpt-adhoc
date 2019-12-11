@@ -3,6 +3,7 @@ import TestConfiguration from "../components/testConfiguration/TestConfiguration
 import StandardLayout from "../layouts/StandardLayout";
 import TestResults from "../components/results/TestResults";
 import TestsInProgress from "../components/results/TestsInProgress";
+import { resultsOptions } from "../data/resultsOptionsData";
 import moment from "moment";
 import { fetchTestResults } from "../public/static/js/wptInterface";
 import { fetchLocations } from "../public/static/js/wptInterface";
@@ -33,7 +34,7 @@ class Index extends React.Component {
 		this.state = {
 			urls: ["", "", ""],
 			tests: [],
-			resultOptions: [],
+			resultOptions: resultsOptions,
 			grouping: "none",
 			sorting: "alpha",
 			numberOfTests: 2
@@ -133,20 +134,20 @@ class Index extends React.Component {
 	};
 
 	/**
+	 * Receives call from component to update test result options. Sets React state.
+	 *
+	 * @param {array} options -- Array of test result options
+	 */
+	handleUpdateResultOptions = options => {
+		this.setState({ resultOptions: options });
+	};
+
+	/**
 	 * Takes event from submit tests button and kicks off the tests
 	 *
 	 * @param {object} -- testConfiguration -- Deprecated, all this is moving to state
 	 */
 	handleSubmitTests = async testConfiguration => {
-		//populate state's result options with the selected options
-		const selectedResultOptions = [];
-		testConfiguration.testResultOptions.forEach(resultOption => {
-			if (resultOption.active) selectedResultOptions.push(resultOption);
-		});
-		this.setState({
-			resultOptions: selectedResultOptions
-		});
-
 		//filter the tests for URLs and locations
 		const urls = this.state.urls.filter(url => url),
 			locations = testConfiguration.testLocations.filter(location => location.active);
@@ -240,6 +241,8 @@ class Index extends React.Component {
 							handleUpdateSorting={this.handleUpdateSorting}
 							numberOfTests={this.state.numberOfTests}
 							handleUpdateNumberOfTests={this.handleUpdateNumberOfTests}
+							resultOptions={this.state.resultOptions}
+							handleUpdateResultOptions={this.handleUpdateResultOptions}
 							submitTests={this.handleSubmitTests}
 							testLocations={this.props.locations.testLocations}
 							testLocationFetchError={this.props.locations.testLocationFetchError}
