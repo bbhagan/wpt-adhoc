@@ -6,6 +6,13 @@ import { getReadableDateFromMoment } from "../public/static/js/dateUtil";
 import { getUniqueURLsString } from "../public/static/js/filterUtils";
 
 class PreviousTests extends React.Component {
+	/**
+	 * Determine if a set of tests was run against Desktop, Mobile or both
+	 *
+	 * @param {array} testArray -- Allthe tests that were run in a test group
+	 *
+	 * @returns {string}
+	 */
 	getMobDeskFlag = testArray => {
 		let foundMob = false;
 		let foundDesk = false;
@@ -27,6 +34,11 @@ class PreviousTests extends React.Component {
 		return returnString;
 	};
 
+	/**
+	 * Produces the row dom for all of the tests
+	 *
+	 * @returns {array}
+	 */
 	getTests = () => {
 		let prevTests = getAllPreviousTests();
 		if (prevTests && prevTests.length) {

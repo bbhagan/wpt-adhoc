@@ -27,7 +27,10 @@ class TestConfigurationURLs extends React.Component {
 	 * @memberof TestConfigurationURLs
 	 */
 	componentDidMount = () => {
-		this.urlRefs[0].current.focus();
+		//Possible race condition from empty props being sent
+		if (this.urlRefs[0]) {
+			this.urlRefs[0].current.focus();
+		}
 	};
 
 	/**

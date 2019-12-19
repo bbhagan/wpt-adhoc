@@ -16,6 +16,10 @@ const SERVER_PORT = process.env.SERVER_PORT;
 const UI_GET_LOCATIONS_FETCH_TIMEOUT = process.env.UI_GET_LOCATIONS_FETCH_TIMEOUT;
 const UI_SUBMIT_TESTS_TIMEOUT = process.env.UI_SUBMIT_TESTS_TIMEOUT;
 const UI_GET_TEST_RESULTS_TIMEOUT = process.env.UI_GET_TEST_RESULTS_TIMEOUT;
+const DEFAULT_NUMBER_OF_TESTS = Number(process.env.DEFAULT_NUMBER_OF_TESTS);
+const DEFAULT_GROUPING = process.env.DEFAULT_GROUPING;
+const DEFAULT_SORTING = process.env.DEFAULT_SORTING;
+const DEFAULT_NUMBER_OF_URLS = Number(process.env.DEFAULT_NUMBER_OF_URLS);
 
 /**
  * Renders main index page
@@ -33,12 +37,12 @@ class Index extends React.Component {
 		super(props);
 		this.state = {
 			testLocations: this.props.testLocations.testLocations,
-			urls: ["", "", ""],
+			urls: [],
 			tests: [],
 			resultOptions: resultsOptions,
-			grouping: "none",
-			sorting: "alpha",
-			numberOfTests: 2
+			grouping: "",
+			sorting: "",
+			numberOfTests: 0
 		};
 		this.inProgress = React.createRef();
 	}
@@ -69,6 +73,22 @@ class Index extends React.Component {
 	};
 
 	/**
+	 * Populates React state from .env defaults
+	 */
+	pupulateSateFromDeafaults = () => {
+		let defaultUrls = [];
+		for (let i = 0; i < DEFAULT_NUMBER_OF_URLS; i++) {
+			defaultUrls.push("");
+		}
+		this.setState({
+			urls: defaultUrls,
+			grouping: DEFAULT_GROUPING,
+			sorting: DEFAULT_SORTING,
+			numberOfTests: DEFAULT_NUMBER_OF_TESTS
+		});
+	};
+
+	/**
 	 * Next lifecycle method. Return the Page's initial properties.
 	 *
 	 * @static
@@ -87,7 +107,12 @@ class Index extends React.Component {
 	 * Standard React lifecycle method, called on client only
 	 */
 	componentDidMount() {
-		this.populateStateFromInitialProps(this.props);
+		if (this.props.previousTestId) {
+			this.populateStateFromInitialProps(this.props);
+		} else {
+			//no previous tests, populate state defaults
+			this.pupulateSateFromDeafaults();
+		}
 	}
 
 	/**

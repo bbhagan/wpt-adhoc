@@ -1,11 +1,11 @@
 import { Router as _Router } from "express";
 import timeoutFetch from "../../public/static/js/timeoutFetch";
 import { syntheticTests } from "../../data/syntheticTestsData";
+import moment from "moment";
 require("dotenv").config();
 const router = _Router();
 const WPTSERVER = process.env.WPTSERVER;
-const SERVER_GET_TEST_RESULTS_TIMEOUT =
-	process.env.SERVER_GET_TEST_RESULTS_TIMEOUT;
+const SERVER_GET_TEST_RESULTS_TIMEOUT = process.env.SERVER_GET_TEST_RESULTS_TIMEOUT;
 
 router.get("/:testId", async (req, res) => {
 	try {
