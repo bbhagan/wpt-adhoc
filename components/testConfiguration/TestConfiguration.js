@@ -40,6 +40,11 @@ class TestConfiguration extends React.Component {
 		this.props.submitTests();
 	};
 
+	resetTests = () => {
+		this.setState({ advancedConfigOpen: false });
+		this.props.resetTests();
+	};
+
 	/**
 	 * Handles call to open/close advanced config modal. Sets React state.
 	 *
@@ -89,7 +94,7 @@ class TestConfiguration extends React.Component {
 											<TestConfigurationAddMoreURLs handleAddMoreURLs={this.props.handleAddMoreURLs} />
 										</div>
 										<div className="col-4">
-											<TestConfigurationSubmitTests submitTests={this.submitTests} />
+											<TestConfigurationSubmitTests submitTests={this.submitTests} resetTests={this.resetTests} />
 										</div>
 									</div>
 
@@ -137,6 +142,7 @@ TestConfiguration.propTypes = {
 	resultOptions: PropTypes.array.isRequired,
 	handleUpdateResultOptions: PropTypes.func.isRequired,
 	submitTests: PropTypes.func.isRequired,
+	resetTests: PropTypes.func.isRequired,
 	testLocationFetchError: PropTypes.string,
 	testLocations: PropTypes.array,
 	handleUpdateTestLocations: PropTypes.func.isRequired

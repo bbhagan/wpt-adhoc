@@ -84,7 +84,10 @@ class Index extends React.Component {
 			urls: defaultUrls,
 			grouping: DEFAULT_GROUPING,
 			sorting: DEFAULT_SORTING,
-			numberOfTests: DEFAULT_NUMBER_OF_TESTS
+			numberOfTests: DEFAULT_NUMBER_OF_TESTS,
+			tests: [],
+			resultOptions: resultsOptions,
+			testLocations: this.props.testLocations.testLocations
 		});
 	};
 
@@ -210,6 +213,10 @@ class Index extends React.Component {
 		}
 	};
 
+	handleResetTests = () => {
+		this.pupulateSateFromDeafaults();
+	};
+
 	/**
 	 * Monitors state of test. Sets React state. Recursive.
 	 *
@@ -274,6 +281,7 @@ class Index extends React.Component {
 							resultOptions={this.state.resultOptions}
 							handleUpdateResultOptions={this.handleUpdateResultOptions}
 							submitTests={this.handleSubmitTests}
+							resetTests={this.handleResetTests}
 							testLocations={this.state.testLocations}
 							handleUpdateTestLocations={this.handleUpdateTestLocations}
 							testLocationFetchError={this.props.testLocations.testLocationFetchError}

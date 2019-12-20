@@ -18,6 +18,10 @@ class TestConfigurationSubmitTests extends React.Component {
 		this.props.submitTests();
 	};
 
+	handleResetTests = e => {
+		this.props.resetTests();
+	};
+
 	/**
 	 * React lifecycle method
 	 *
@@ -27,11 +31,11 @@ class TestConfigurationSubmitTests extends React.Component {
 	render() {
 		return (
 			<div className="TestConfigurationSubmitTestsContainer">
-				<button
-					onClick={this.handleSubmitTests}
-					className="btn btn-success btn-lg btn-block"
-				>
+				<button onClick={this.handleSubmitTests} className="btn btn-success btn-lg btn-block">
 					Start Test(s)
+				</button>
+				<button onClick={this.handleResetTests} className="btn btn-warning btn-block">
+					Reset Test(s)
 				</button>
 			</div>
 		);
@@ -39,7 +43,8 @@ class TestConfigurationSubmitTests extends React.Component {
 }
 
 TestConfigurationSubmitTests.propTypes = {
-	submitTests: PropTypes.func.isRequired
+	submitTests: PropTypes.func.isRequired,
+	resetTests: PropTypes.func.isRequired
 };
 
 export default TestConfigurationSubmitTests;
