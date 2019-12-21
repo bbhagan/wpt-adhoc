@@ -39,8 +39,8 @@ class TestResultDifferenceLine extends React.Component {
 							{determineWinner(
 								this.props.test1Data[resultOption.wptField],
 								this.props.test2Data[resultOption.wptField],
-								this.props.test1MobDesk,
-								this.props.test2MobDesk
+								this.props.test1Label,
+								this.props.test2Label
 							)}
 						</td>
 					))}
@@ -52,9 +52,9 @@ class TestResultDifferenceLine extends React.Component {
 
 TestResultDifferenceLine.propTypes = {
 	test1Data: PropTypes.object.isRequired,
-	test1MobDesk: PropTypes.string.isRequired,
+	test1Label: PropTypes.string.isRequired,
 	test2Data: PropTypes.object.isRequired,
-	test2MobDesk: PropTypes.string.isRequired,
+	test2Label: PropTypes.string.isRequired,
 	resultOptions: PropTypes.array.isRequired
 };
 

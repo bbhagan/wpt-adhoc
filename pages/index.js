@@ -39,6 +39,7 @@ class Index extends React.Component {
 			testLocations: this.props.testLocations.testLocations,
 			urls: [],
 			tests: [],
+			afterTests: [],
 			resultOptions: resultsOptions,
 			grouping: "",
 			sorting: "",
@@ -60,12 +61,16 @@ class Index extends React.Component {
 				this.setState({
 					urls: previousTest.testConfig.urls,
 					tests: previousTest.testConfig.tests,
+					afterTests: previousTest.testConfig.afterTests,
 					resultOptions: previousTest.testConfig.resultOptions,
 					grouping: previousTest.testConfig.grouping,
 					sorting: previousTest.testConfig.sorting,
 					numberOfTests: previousTest.testConfig.numberOfTests
 				});
 				previousTest.testConfig.tests.forEach(test => {
+					this.watchTest(test);
+				});
+				previousTest.testConfig.afterTests.forEach(test => {
 					this.watchTest(test);
 				});
 			}
@@ -86,6 +91,7 @@ class Index extends React.Component {
 			sorting: DEFAULT_SORTING,
 			numberOfTests: DEFAULT_NUMBER_OF_TESTS,
 			tests: [],
+			afterTests: [],
 			resultOptions: resultsOptions,
 			testLocations: this.props.testLocations.testLocations
 		});
@@ -182,9 +188,18 @@ class Index extends React.Component {
 	};
 
 	/**
-	 * Takes event from submit tests button and kicks off the tests
+	 * Takes event and submits tests for re-test (for comparison to formerly run tests)
 	 */
-	handleSubmitTests = async () => {
+	handleResubmitTests = () => {
+		this.handleSubmitTests(true);
+	};
+
+	/**
+	 * Takes event from submit tests button and kicks off the tests
+	 *
+	 * @param {boolean} afterTest -- Trigger to re-run tests as afterTests (comparison to previous tests)
+	 */
+	handleSubmitTests = async afterTest => {
 		try {
 			const tests = await submitTests(
 				//filter the tests for populated URLs and active locations
@@ -196,11 +211,18 @@ class Index extends React.Component {
 				UI_SUBMIT_TESTS_TIMEOUT
 			);
 			//At this point we have the basic test structure (with test id, without any data)
-			this.setState({ tests });
+			if (afterTest) {
+				this.setState({ afterTests: tests });
+			} else {
+				this.setState({ tests });
+			}
+
 			//Save off to local storage
 			addPreviousTest(moment().format(), this.state);
+
+			//Start watching tests for completion
 			tests.forEach(test => {
-				this.watchTest(test);
+				this.watchTest(test, afterTest);
 			});
 
 			//Scroll page to in progress section
@@ -213,6 +235,9 @@ class Index extends React.Component {
 		}
 	};
 
+	/**
+	 * Takes event from button and calls pupulateSateFromDeafaults to reset the state
+	 */
 	handleResetTests = () => {
 		this.pupulateSateFromDeafaults();
 	};
@@ -220,13 +245,20 @@ class Index extends React.Component {
 	/**
 	 * Monitors state of test. Sets React state. Recursive.
 	 *
-	 * @memberof index
+	 * @param {object} testToWatch -- Test object
+	 * @param {boolean} afterTest -- Whether this is a comparison after test
 	 */
-	watchTest = testToWatch => {
+	watchTest = (testToWatch, afterTest) => {
 		setTimeout(async () => {
 			const newTest = await fetchTestResults(testToWatch, UI_GET_TEST_RESULTS_TIMEOUT, `${SERVER_URL}:${SERVER_PORT}`);
+			let srcTests = [];
+			if (afterTest) {
+				srcTests = this.state.afterTests;
+			} else {
+				srcTests = this.state.tests;
+			}
 
-			const updatedTests = this.state.tests.map(test => {
+			const updatedTests = srcTests.map(test => {
 				//not the test we are looking for
 				if (test.testId !== testToWatch.testId) return test;
 
@@ -234,7 +266,11 @@ class Index extends React.Component {
 				if (!newTest.completed) this.watchTest(newTest);
 				return newTest;
 			});
-			this.setState({ tests: updatedTests });
+			if (afterTest) {
+				this.setState({ afterTests: updatedTests });
+			} else {
+				this.setState({ tests: updatedTests });
+			}
 		}, 1500);
 	};
 
@@ -246,21 +282,35 @@ class Index extends React.Component {
 	 */
 	render() {
 		let testsInProgress = [];
-		let completedTests = [];
+		let testsCompleted = [];
+		let afterTestsInProgress = [];
+		let afterTestsCompleted = [];
+		let completedTestsComponent;
+		let numberOfTests = 0;
+		let numberOfAfterTests = 0;
+
 		if (this.state.tests) {
-			testsInProgress = this.state.tests.filter(test => test.completed === false);
-			completedTests = this.state.tests.filter(test => test.completed === true);
+			testsInProgress = this.state.tests.filter(test => !test.completed);
+			testsCompleted = this.state.tests.filter(test => test.completed);
+			numberOfTests = this.state.tests.length;
+		}
+		if (this.state.afterTests) {
+			afterTestsInProgress = this.state.afterTests.filter(test => test.completed === false);
+			afterTestsCompleted = this.state.afterTests.filter(test => test.completed === true);
+			numberOfAfterTests = this.state.afterTests.length;
 		}
 
-		let completedTestsComponent;
-		if (completedTests) {
+		if (testsCompleted) {
 			completedTestsComponent = (
 				<TestResults
-					tests={completedTests}
+					tests={testsCompleted}
+					afterTests={afterTestsCompleted}
 					resultOptions={this.state.resultOptions}
 					grouping={this.state.grouping}
 					sorting={this.state.sorting}
-					totalNumberOfTests={this.state.tests.length}
+					totalNumberOfTests={numberOfTests}
+					totalNumberOfAfterTests={numberOfAfterTests}
+					handleResubmitTests={this.handleResubmitTests}
 				/>
 			);
 		}
@@ -287,7 +337,12 @@ class Index extends React.Component {
 							testLocationFetchError={this.props.testLocations.testLocationFetchError}
 						/>
 						<div ref={this.inProgress}></div>
-						<TestsInProgress tests={testsInProgress} totalNumberOfTests={this.state.tests.length} />
+						<TestsInProgress
+							testsInProgress={testsInProgress}
+							afterTestsInProgress={afterTestsInProgress}
+							totalNumberOfTests={numberOfTests}
+							totalNumberOfAfterTests={numberOfAfterTests}
+						/>
 						{completedTestsComponent}
 					</div>
 				</div>

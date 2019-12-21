@@ -12,11 +12,14 @@ class TestsInProgress extends React.Component {
 	/**
 	 * Custom render of "done" in header
 	 *
+	 * @param {array} testsInProgress -- Tests in progress
+	 * @param {number} totalNumberOfTests -- Total number of tests being run
+	 *
 	 * @return {object}
 	 * @memberof TestsInProgress
 	 */
-	renderDoneInProgressToggle = () => {
-		if (this.props.tests.length === 0 && this.props.totalNumberOfTests > 0) {
+	renderDoneInProgressToggle = (testsInProgress, totalNumberOfTests) => {
+		if (testsInProgress.length === 0 && totalNumberOfTests > 0) {
 			return (
 				<React.Fragment>
 					- Done!{" "}
@@ -44,16 +47,19 @@ class TestsInProgress extends React.Component {
 	 * @memberof TestsInProgress
 	 */
 	render() {
-		if (this.props.totalNumberOfTests > 0) {
+		const mergedTests = [...this.props.testsInProgress, ...this.props.afterTestsInProgress];
+		const mergedTotalNumberOfTests = this.props.totalNumberOfTests + this.props.totalNumberOfAfterTests;
+
+		if (mergedTotalNumberOfTests > 0) {
 			return (
 				<div className="TestsInProgressContainer">
 					<div className="wptah-section clearfix">
-						<h2>Test(s) in Progress {this.renderDoneInProgressToggle()}</h2>
+						<h2>Test(s) in Progress {this.renderDoneInProgressToggle(mergedTests, mergedTotalNumberOfTests)}</h2>
 						<TestResultsProgressBar
-							numberOfTestsInProgress={this.props.tests.length}
-							totalNumberOfTests={this.props.totalNumberOfTests}
+							numberOfTestsInProgress={mergedTests.length}
+							totalNumberOfTests={mergedTotalNumberOfTests}
 						/>
-						{this.props.tests.map((test, idx) => (
+						{mergedTests.map((test, idx) => (
 							<TestResultHeaderDescription key={idx} test={test} />
 						))}
 					</div>
@@ -66,8 +72,10 @@ class TestsInProgress extends React.Component {
 }
 
 TestsInProgress.propTypes = {
-	tests: PropTypes.array.isRequired,
-	totalNumberOfTests: PropTypes.number.isRequired
+	testsInProgress: PropTypes.array.isRequired,
+	afterTestsInProgress: PropTypes.array,
+	totalNumberOfTests: PropTypes.number.isRequired,
+	totalNumberOfAfterTests: PropTypes.number
 };
 
 export default TestsInProgress;

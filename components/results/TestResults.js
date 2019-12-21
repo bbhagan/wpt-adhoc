@@ -14,11 +14,19 @@ import PropTypes from "prop-types";
  * @extends {React.Component}
  */
 class TestResults extends React.Component {
+	/**
+	 * Constructor
+	 *
+	 * @param {object} props
+	 */
 	constructor(props) {
 		super(props);
 		this.state = { csvData: [] };
 	}
 
+	/**
+	 * Sets up a hidden form and submits it to backend for download of CSV data
+	 */
 	downloadCSV = () => {
 		const testIds = this.props.tests.map(test => test.testId);
 		const activeResultOptions = getActiveResultOptions(this.props.resultOptions);
@@ -43,6 +51,10 @@ class TestResults extends React.Component {
 		hiddenForm.submit();
 	};
 
+	handleResubmitTests = () => {
+		this.props.handleResubmitTests();
+	};
+
 	/**
 	 * React lifecycle method
 	 *
@@ -52,6 +64,7 @@ class TestResults extends React.Component {
 	render() {
 		const header = this.props.tests.length ? "Test Results" : "";
 		let downloadCSVButton = [];
+		let resubmitTestsButton = "";
 		let result = [];
 
 		if (this.props.totalNumberOfTests >= 1 && this.props.totalNumberOfTests === this.props.tests.length) {
@@ -60,12 +73,38 @@ class TestResults extends React.Component {
 					Download Results (CSV)
 				</button>
 			);
+			if (
+				(!this.props.totalNumberOfAfterTests || this.props.totalNumberOfAfterTests === 0) &&
+				this.props.grouping === "none"
+			) {
+				resubmitTestsButton = (
+					<button type="button" className="btn btn btn-success" onClick={this.handleResubmitTests}>
+						Re-submit Tests (Comparison)
+					</button>
+				);
+			}
 		}
 
 		if (this.props.grouping === "none") {
-			result = sortTestsByURL(this.props.tests, this.props.sorting).map((test, idx) => (
-				<TestResultNoGrouping test={test} key={idx} resultOptions={this.props.resultOptions} />
-			));
+			result = sortTestsByURL(this.props.tests, this.props.sorting).map((test, idx) => {
+				//need to see if we have a corresponding afterTest
+				let returnAfterTest = {};
+				if (this.props.afterTests) {
+					this.props.afterTests.forEach(afterTest => {
+						if (test.url === afterTest.url && test.location === afterTest.location) {
+							returnAfterTest = afterTest;
+						}
+					});
+				}
+				return (
+					<TestResultNoGrouping
+						test={test}
+						afterTest={returnAfterTest}
+						key={idx}
+						resultOptions={this.props.resultOptions}
+					/>
+				);
+			});
 		} else if (this.props.grouping === "mobVsDesk") {
 			const sortedTests = sortTestsByURL(this.props.tests, this.props.sorting);
 			//using for loop here for look ahead/behind
@@ -116,7 +155,7 @@ class TestResults extends React.Component {
 		return (
 			<div className="TestResultsContainer">
 				<div className="wptah-section clearfix">
-					<h2>{header}</h2> {downloadCSVButton}
+					<h2>{header}</h2> {resubmitTestsButton} {downloadCSVButton}
 					{result}
 				</div>
 			</div>
@@ -126,10 +165,13 @@ class TestResults extends React.Component {
 
 TestResults.propTypes = {
 	tests: PropTypes.array.isRequired,
+	afterTests: PropTypes.array,
 	resultOptions: PropTypes.array.isRequired,
 	grouping: PropTypes.string.isRequired,
 	sorting: PropTypes.string.isRequired,
-	totalNumberOfTests: PropTypes.number.isRequired
+	totalNumberOfTests: PropTypes.number.isRequired,
+	totalNumberOfAfterTests: PropTypes.number,
+	handleResubmitTests: PropTypes.func.isRequired
 };
 
 export default TestResults;

@@ -19,10 +19,8 @@ class TestResultMobileVsDesktop extends React.Component {
 	 * @returns {object}
 	 */
 	render() {
-		let test1MobDesk =
-			this.props.test1.location.indexOf("mobile") > -1 ? "Mob" : "Desk";
-		let test2MobDesk =
-			this.props.test2.location.indexOf("mobile") > -1 ? "Mob" : "Desk";
+		let test1MobDesk = this.props.test1.location.indexOf("mobile") > -1 ? "Mob" : "Desk";
+		let test2MobDesk = this.props.test2.location.indexOf("mobile") > -1 ? "Mob" : "Desk";
 		return (
 			<div className="TestResultMobileVsDesktopContainer">
 				<TestResultHeaderDescription test={this.props.test1} />
@@ -60,9 +58,9 @@ class TestResultMobileVsDesktop extends React.Component {
 						/>
 						<TestResultDifferenceLine
 							test1Data={this.props.test1.data.average.firstView}
-							test1MobDesk={test1MobDesk}
+							test1Label={test1MobDesk}
 							test2Data={this.props.test2.data.average.firstView}
-							test2MobDesk={test2MobDesk}
+							test2Label={test2MobDesk}
 							resultOptions={this.props.resultOptions}
 						/>
 					</tbody>

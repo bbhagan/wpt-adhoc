@@ -44,6 +44,7 @@ class PreviousTests extends React.Component {
 		if (prevTests && prevTests.length) {
 			prevTests = prevTests.reverse();
 			return prevTests.map((test, idx) => {
+				const validAfterTest = test.testConfig.afterTests && test.testConfig.afterTests.length;
 				return (
 					<tr key={idx}>
 						<td>
@@ -52,7 +53,7 @@ class PreviousTests extends React.Component {
 							</Link>
 						</td>
 						<td>{getUniqueURLsString(test.testConfig.tests)}</td>
-						<td>{test.testConfig.grouping}</td>
+						<td>{`${test.testConfig.grouping} ${validAfterTest ? "(Before & After)" : ""}`}</td>
 						<td>{this.getMobDeskFlag(test.testConfig.tests)}</td>
 					</tr>
 				);

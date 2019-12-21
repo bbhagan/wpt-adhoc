@@ -25,7 +25,6 @@ export const getAllPreviousTests = () => {
  */
 export const getPreviousTest = previousTestId => {
 	let previousTest = {};
-	console.log(`getPreviousTest previousTestId: --${previousTestId}--`);
 	getAllPreviousTests().forEach(test => {
 		if (test.id.toString() === previousTestId) {
 			previousTest = test;
@@ -37,14 +36,41 @@ export const getPreviousTest = previousTestId => {
 /**
  *
  * @param {string} date -- Moment formatted date string
- * @param {object} tests -- State object representing a test set
+ * @param {object} reactState -- State object representing a test set
  *
  * @returns {array} -- All previous tests
  */
-export const addPreviousTest = (date, tests) => {
+export const addPreviousTest = (date, reactState) => {
 	let previousTests = getAllPreviousTests() || [];
+
+	function cleanseDataFromTest(test) {
+		let returnTest = test;
+		//save off test as incomplete, bringing back up will "complete" it
+		returnTest.completed = false;
+		//Need to rip out any result data (doesn't need to be stored in local storage)
+		returnTest.data = {};
+		return returnTest;
+	}
+
 	if (localStorage) {
-		previousTests.push({ date: date, id: sha256(date), testConfig: tests });
+		let cleansedTests = [];
+		let cleansedAfterTests = [];
+
+		if (reactState.tests) {
+			cleansedTests = reactState.tests.map(test => {
+				return cleanseDataFromTest(test);
+			});
+		}
+
+		if (reactState.afterTests) {
+			cleansedAfterTests = reactState.afterTests.map(test => {
+				return cleanseDataFromTest(test);
+			});
+		}
+
+		reactState.tests = cleansedTests;
+		reactState.afterTests = cleansedAfterTests;
+		previousTests.push({ date: date, id: sha256(date), testConfig: reactState });
 		localStorage.setItem("previousTests", JSON.stringify(previousTests));
 	}
 	return previousTests;

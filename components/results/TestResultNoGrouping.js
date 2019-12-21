@@ -3,6 +3,7 @@ import TestResultTableHeader from "./resultsTable/TestResultTableHeader";
 import TestResultsLine from "./resultsTable/TestResultLine";
 import TestResultAverageLine from "./resultsTable/TestResultAverageLine";
 import TestResultHeaderDescription from "./TestResultHeaderDescription";
+import TestResultDifferenceLine from "./resultsTable/TestResultDifferenceLine";
 import PropTypes from "prop-types";
 
 /**
@@ -13,38 +14,44 @@ import PropTypes from "prop-types";
  */
 class TestResultNoGrouping extends React.Component {
 	/**
-	 * Render function for custom output
+	 * Renders individual data table lines
 	 *
-	 * @memberof TestResult
+	 * @param {object} test -- Test object
+	 *
 	 * @return {object}
 	 */
-	renderResultsTable = () => {
-		let mobDesk =
-			this.props.test.location.indexOf("mobile") > -1 ? "Mob" : "Desk";
-		return (
-			<div className="TestResultNoGroupingContainer">
-				<TestResultHeaderDescription test={this.props.test} />
-				<table className="table table-hover">
-					<TestResultTableHeader resultOptions={this.props.resultOptions} />
-					<tbody>
-						{this.props.test.data.runs.map((run, idx) => (
-							<TestResultsLine
-								key={idx}
-								idx={idx}
-								run={run}
-								resultOptions={this.props.resultOptions}
-								mobDesk={mobDesk}
-							/>
-						))}
+	renderResultsLines = (test, beforeAfter) => {
+		let domResults = [];
 
-						<TestResultAverageLine
-							data={this.props.test.data.average.firstView}
-							resultOptions={this.props.resultOptions}
-							mobDesk={mobDesk}
-						/>
-					</tbody>
-				</table>
-			</div>
+		domResults = test.data.runs.map((run, idx) => (
+			<TestResultsLine
+				key={idx}
+				idx={idx}
+				run={run}
+				resultOptions={this.props.resultOptions}
+				mobDesk={test.location.indexOf("mobile") > -1 ? "Mob" : "Desk"}
+				beforeAfterLabel={beforeAfter}
+			/>
+		));
+
+		return domResults;
+	};
+
+	/**
+	 * Renders average table line
+	 *
+	 * @param {object} test -- Test object
+	 *
+	 * @return {string}
+	 */
+	renderAverageLine = (test, beforeAfter) => {
+		return (
+			<TestResultAverageLine
+				data={test.data.average.firstView}
+				resultOptions={this.props.resultOptions}
+				mobDesk={test.location.indexOf("mobile") > -1 ? "Mob" : "Desk"}
+				beforeAfterLabel={beforeAfter}
+			/>
 		);
 	};
 
@@ -55,14 +62,38 @@ class TestResultNoGrouping extends React.Component {
 	 * @memberof TestResultNoGrouping
 	 */
 	render() {
+		const validAfterTest = this.props.afterTest && this.props.afterTest.location && this.props.afterTest.data;
 		return (
-			<div className="TestResultContainer">{this.renderResultsTable()}</div>
+			<div className="TestResultNoGroupingContainer">
+				<TestResultHeaderDescription test={this.props.test} />
+				<table className="table table-hover">
+					<TestResultTableHeader resultOptions={this.props.resultOptions} />
+					<tbody>
+						{this.renderResultsLines(this.props.test, validAfterTest ? "Before" : "")}
+						{this.renderAverageLine(this.props.test, validAfterTest ? "Before" : "")}
+						{validAfterTest ? this.renderResultsLines(this.props.afterTest, "After") : ""}
+						{validAfterTest ? this.renderAverageLine(this.props.afterTest, "After") : ""}
+						{validAfterTest ? (
+							<TestResultDifferenceLine
+								test1Data={this.props.test.data.average.firstView}
+								test1Label="Before"
+								test2Data={this.props.afterTest.data.average.firstView}
+								test2Label="After"
+								resultOptions={this.props.resultOptions}
+							/>
+						) : (
+							""
+						)}
+					</tbody>
+				</table>
+			</div>
 		);
 	}
 }
 
 TestResultNoGrouping.propTypes = {
 	test: PropTypes.object.isRequired,
+	afterTest: PropTypes.object,
 	resultOptions: PropTypes.array.isRequired
 };
 
