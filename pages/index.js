@@ -217,11 +217,12 @@ class Index extends React.Component {
 				this.setState({ tests });
 			}
 
-			//Save off to local storage
-			addPreviousTest(moment().format(), this.state);
+			//Save off to local storage (deep copy state so state does not get modified)
+			addPreviousTest(moment().format(), JSON.parse(JSON.stringify(this.state)));
 
 			//Start watching tests for completion
 			tests.forEach(test => {
+				console.log(`handleSubmitTests test.testId ${test.testId}`);
 				this.watchTest(test, afterTest);
 			});
 
@@ -249,6 +250,7 @@ class Index extends React.Component {
 	 * @param {boolean} afterTest -- Whether this is a comparison after test
 	 */
 	watchTest = (testToWatch, afterTest) => {
+		console.log(`testToWatch.testId ${testToWatch.testId}`);
 		setTimeout(async () => {
 			const newTest = await fetchTestResults(testToWatch, UI_GET_TEST_RESULTS_TIMEOUT, `${SERVER_URL}:${SERVER_PORT}`);
 			let srcTests = [];
@@ -263,7 +265,7 @@ class Index extends React.Component {
 				if (test.testId !== testToWatch.testId) return test;
 
 				//test we are looking for
-				if (!newTest.completed) this.watchTest(newTest);
+				if (!newTest.completed) this.watchTest(newTest, afterTest);
 				return newTest;
 			});
 			if (afterTest) {
