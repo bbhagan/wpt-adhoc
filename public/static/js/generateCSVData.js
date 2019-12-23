@@ -33,9 +33,7 @@ const getTestTextHeader = test => {
 
 const getCompAnalysisTextHeader = (test, resultOption) => {
 	console.log(`test.data.location: ${test.data.location}`);
-	return `${test.data.location.indexOf("mobile") > -1 ? "Mobile" : "Desktop"} ${
-		resultOption.name
-	}, Using Average`;
+	return `${test.data.location.indexOf("mobile") > -1 ? "Mobile" : "Desktop"} ${resultOption.name}, Using Average`;
 };
 
 /**
@@ -92,14 +90,7 @@ const formatCompAnalysisRow = (test, rowNum, resultOption, bestValue) => {
 		returnRow.push("N/A");
 	} else {
 		//Not winner, cal difference and percentage diff
-		returnRow.push(
-			calcDiffFromRank1(
-				testValue,
-				bestValue,
-				resultOption.uom,
-				resultOption.decimalPlacePrecision
-			)
-		);
+		returnRow.push(calcDiffFromRank1(testValue, bestValue, resultOption.uom, resultOption.decimalPlacePrecision));
 		returnRow.push(calcPercentFromRank1(testValue, bestValue));
 	}
 	return returnRow;
@@ -137,8 +128,7 @@ const getDifferenceRow = (test1, test2, resultOptions) => {
 	return [`Difference`].concat(
 		resultOptions.map(requestOption => {
 			return calcUOMPrecision(
-				test1.data.average.firstView[requestOption.wptField] -
-					test2.data.average.firstView[requestOption.wptField],
+				test1.data.average.firstView[requestOption.wptField] - test2.data.average.firstView[requestOption.wptField],
 				requestOption.uom,
 				requestOption.decimalPlacePrecision
 			);
@@ -179,6 +169,8 @@ const getWinnerRow = (test1, test2, resultOptions, test1Label, test2Label) => {
 export const generateNoGroupingData = async testConfig => {
 	const csvData = [];
 	try {
+		console.log(`testConfig.testIds: ${JSON.stringify(testConfig.testIds)}`);
+		console.log(`testConfig.afterTestIds: ${JSON.stringify(testConfig.afterTestIds)}`);
 		const tests = sortTestsByURL(
 			await getTestSet(testConfig.testIds, {
 				SERVER_URL,
@@ -186,8 +178,28 @@ export const generateNoGroupingData = async testConfig => {
 			}),
 			testConfig.sorting
 		);
+		let afterTests = [];
+		if (testConfig.afterTestIds && testConfig.afterTestIds.length) {
+			(afterTests = await getTestSet(testConfig.afterTestIds, {
+				SERVER_URL,
+				SERVER_PORT
+			})),
+				testConfig.sorting;
+		}
 
 		tests.forEach(test => {
+			//Do we have a corresponding afterTest?
+			let matchingAfterTest = {};
+			if (afterTests.length) {
+				afterTests.forEach(afterTest => {
+					console.log(
+						`test.url: ${test.data.url} afterTest.url: ${afterTest.data.url} test.location: ${test.data.location} afterTest.location: ${afterTest.data.location}`
+					);
+					if (test.data.url === afterTest.data.url && test.data.location === afterTest.data.location) {
+						matchingAfterTest = afterTest;
+					}
+				});
+			}
 			const mobDesk = mobDeskLabel(test.data.location);
 			//Description header
 			csvData.push([getTestTextHeader(test)]);
@@ -199,6 +211,19 @@ export const generateNoGroupingData = async testConfig => {
 			});
 			//Average Line
 			csvData.push(getAvgRow(test, testConfig.resultOptions, mobDesk));
+			if (matchingAfterTest) {
+				//AfterTest run data
+				matchingAfterTest.data.runs.forEach((run, idx) => {
+					csvData.push(getRunRow(run, idx, testConfig.resultOptions, mobDesk));
+				});
+				//Average Line
+				csvData.push(getAvgRow(matchingAfterTest, testConfig.resultOptions, mobDesk));
+
+				//Difference
+				csvData.push(getDifferenceRow(test, matchingAfterTest, testConfig.resultOptions));
+				//Winner
+				csvData.push(getWinnerRow(test, matchingAfterTest, testConfig.resultOptions, "Before", "After"));
+			}
 			//Blank line to separate the tests
 			csvData.push([" "]);
 		});
@@ -248,28 +273,14 @@ export const generateMobVsDeskGroupingData = async testConfig => {
 
 				//Alternate Mob/Desk runs
 				tests[i + 1].data.runs.forEach((run, idx) => {
-					csvData.push(
-						getRunRow(run, idx, testConfig.resultOptions, mobDeskAhead)
-					);
+					csvData.push(getRunRow(run, idx, testConfig.resultOptions, mobDeskAhead));
 				});
 				//Average
-				csvData.push(
-					getAvgRow(tests[i + 1], testConfig.resultOptions, mobDeskAhead)
-				);
+				csvData.push(getAvgRow(tests[i + 1], testConfig.resultOptions, mobDeskAhead));
 				//Difference
-				csvData.push(
-					getDifferenceRow(tests[i], tests[i + 1], testConfig.resultOptions)
-				);
+				csvData.push(getDifferenceRow(tests[i], tests[i + 1], testConfig.resultOptions));
 				//Winner
-				csvData.push(
-					getWinnerRow(
-						tests[i],
-						tests[i + 1],
-						testConfig.resultOptions,
-						mobDesk,
-						mobDeskAhead
-					)
-				);
+				csvData.push(getWinnerRow(tests[i], tests[i + 1], testConfig.resultOptions, mobDesk, mobDeskAhead));
 				//Blank line to separate the tests
 				csvData.push([" "]);
 			}
@@ -297,31 +308,26 @@ export const generateCompetativeAnalysisGroupingData = async testConfig => {
 		});
 		//Array of two arrays of tests, mob and desktop
 		const testSets = sortTestsByLocation(tests);
-		testSets.forEach(testSet =>{
+		testSets.forEach(testSet => {
 			testConfig.resultOptions.forEach(resultOption => {
-				
 				const testsSortedByField = sortTestsByField(testSet, resultOption.wptField);
 				//This value is the "best" value that the others will be ranked against in their tests
-				const bestResult =
-				testSet[0].data.average.firstView[resultOption.wptField];
+				const bestResult = testSet[0].data.average.firstView[resultOption.wptField];
 
 				//Test header
 				//csvData.push(getCompAnalysisTextHeader());
-	
+
 				//Table header
 				csvData.push(getCompAnalysisTableHeader(resultOption));
 				//Table rows
-	
+
 				testsSortedByField.forEach((test, index) => {
-					csvData.push(
-						formatCompAnalysisRow(test, index + 1, resultOption, bestResult)
-					);
+					csvData.push(formatCompAnalysisRow(test, index + 1, resultOption, bestResult));
 				});
 				//Blank line to separate the tests
 				csvData.push([" "]);
 			});
 		});
-		
 	} catch (e) {
 		console.log(`generateCompetativeAnalysisGroupingData error: ${e.stack}`);
 	}

@@ -29,10 +29,12 @@ class TestResults extends React.Component {
 	 */
 	downloadCSV = () => {
 		const testIds = this.props.tests.map(test => test.testId);
+		const afterTestIds = this.props.afterTests.map(test => test.testId);
 		const activeResultOptions = getActiveResultOptions(this.props.resultOptions);
 
 		let postBody = {
 			testIds,
+			afterTestIds,
 			resultOptions: activeResultOptions,
 			grouping: this.props.grouping,
 			sorting: this.props.sorting

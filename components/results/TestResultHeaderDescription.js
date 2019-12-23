@@ -8,6 +8,43 @@ const WPTSERVER = process.env.WPTSERVER;
  * @extends {React.Component}
  */
 class TestResultHeaderDescription extends React.Component {
+	renderTestId = test => {
+		return (
+			<a href={WPTSERVER + "/result/" + test.testId} target="_blank" rel="noopener noreferrer">
+				{test.testId}
+			</a>
+		);
+	};
+
+	renderTestURL = test => {
+		return (
+			<a href={test.url} target="_blank" rel="noopener noreferrer">
+				{test.url}
+			</a>
+		);
+	};
+
+	renderElapsedSeconds = test => {
+		return test.elapsedSeconds ? ", Elapsed Time: " + this.props.test.elapsedSeconds + " seconds" : "";
+	};
+
+	renderBehindCount = test => {
+		return test.behindCount ? ", Behind Count: " + this.props.behindCount : "";
+	};
+
+	renderHeaderBlock = (test, testLabel) => {
+		if (test && test.testId && test.url) {
+			return (
+				<p>
+					Test Id{testLabel}: {this.renderTestId(test)}, Test URL: {this.renderTestURL(test)}, Location:{" "}
+					{this.props.test.location} {this.renderElapsedSeconds(test)} {this.renderBehindCount(test)}
+				</p>
+			);
+		} else {
+			return "";
+		}
+	};
+
 	/**
 	 * React lifecycle method.
 	 *
@@ -16,39 +53,20 @@ class TestResultHeaderDescription extends React.Component {
 	 */
 	render() {
 		return (
-			<div className="TestResultHeaderDescription">
-				<p>
-					Test Id:{" "}
-					<a
-						href={WPTSERVER + "/result/" + this.props.test.testId}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						{this.props.test.testId}
-					</a>
-					, Test URL:{" "}
-					<a
-						href={this.props.test.url}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						{this.props.test.url}
-					</a>
-					, Location: {this.props.test.location}
-					{this.props.test.elapsedSeconds
-						? ", Elapsed Time: " + this.props.test.elapsedSeconds + " seconds"
-						: ""}
-					{this.props.behindCount
-						? ", Behind Count: " + this.props.behindCount
-						: ""}
-				</p>
+			<div className="TestResultHeaderDescriptionContainer">
+				{this.renderHeaderBlock(
+					this.props.test,
+					this.props.afterTest && this.props.afterTest.testId && this.props.afterTest.url ? " (Before)" : ""
+				)}
+				{this.renderHeaderBlock(this.props.afterTest, " (After)")}
 			</div>
 		);
 	}
 }
 
 TestResultHeaderDescription.propTypes = {
-	test: PropTypes.object.isRequired
+	test: PropTypes.object.isRequired,
+	afterTest: PropTypes.object
 };
 
 export default TestResultHeaderDescription;

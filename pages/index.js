@@ -222,7 +222,6 @@ class Index extends React.Component {
 
 			//Start watching tests for completion
 			tests.forEach(test => {
-				console.log(`handleSubmitTests test.testId ${test.testId}`);
 				this.watchTest(test, afterTest);
 			});
 
@@ -250,7 +249,6 @@ class Index extends React.Component {
 	 * @param {boolean} afterTest -- Whether this is a comparison after test
 	 */
 	watchTest = (testToWatch, afterTest) => {
-		console.log(`testToWatch.testId ${testToWatch.testId}`);
 		setTimeout(async () => {
 			const newTest = await fetchTestResults(testToWatch, UI_GET_TEST_RESULTS_TIMEOUT, `${SERVER_URL}:${SERVER_PORT}`);
 			let srcTests = [];

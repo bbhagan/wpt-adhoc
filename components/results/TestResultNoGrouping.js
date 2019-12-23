@@ -65,7 +65,7 @@ class TestResultNoGrouping extends React.Component {
 		const validAfterTest = this.props.afterTest && this.props.afterTest.location && this.props.afterTest.data;
 		return (
 			<div className="TestResultNoGroupingContainer">
-				<TestResultHeaderDescription test={this.props.test} />
+				<TestResultHeaderDescription test={this.props.test} afterTest={this.props.afterTest} />
 				<table className="table table-hover">
 					<TestResultTableHeader resultOptions={this.props.resultOptions} />
 					<tbody>
