@@ -69,7 +69,11 @@ class TestResults extends React.Component {
 		let resubmitTestsButton = "";
 		let result = [];
 
-		if (this.props.totalNumberOfTests >= 1 && this.props.totalNumberOfTests === this.props.tests.length) {
+		if (
+			this.props.totalNumberOfTests >= 1 &&
+			this.props.totalNumberOfTests === this.props.tests.length &&
+			this.props.totalNumberOfAfterTests === this.props.afterTests.length
+		) {
 			downloadCSVButton = (
 				<button key={0} type="button" className="btn btn-primary" onClick={this.downloadCSV}>
 					Download Results (CSV)

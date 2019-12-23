@@ -33,6 +33,12 @@ export const getPreviousTest = previousTestId => {
 	return previousTest;
 };
 
+export const deletePreviousTest = previousTestId => {
+	const filteredTests = getAllPreviousTests().filter(test => test.id !== previousTestId);
+	localStorage.setItem("previousTests", JSON.stringify(filteredTests));
+	return filteredTests;
+};
+
 /**
  *
  * @param {string} date -- Moment formatted date string

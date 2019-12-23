@@ -14,8 +14,8 @@ class TestConfigurationBasic extends React.Component {
 	 * @param {event} -- The field change event
 	 * @memberof TestConfigurationBasic
 	 */
-	handleChangeNumberOfTests = e => {
-		this.props.handleUpdateNumberOfTests(Number(e.target.value));
+	handleChangeNumberOfRuns = e => {
+		this.props.handleUpdateNumberOfRuns(Number(e.target.value));
 	};
 
 	/**
@@ -116,8 +116,8 @@ class TestConfigurationBasic extends React.Component {
 
 				<div className="form-group">
 					<label>
-						Number of tests
-						<input type="text" value={this.props.numberOfTests} size="2" onChange={this.handleChangeNumberOfTests} />
+						Number of runs per test{" "}
+						<input type="text" value={this.props.numberOfRuns} size="2" onChange={this.handleChangeNumberOfRuns} />
 					</label>
 				</div>
 			</div>
@@ -132,8 +132,8 @@ TestConfigurationBasic.propTypes = {
 	handleUpdateSorting: PropTypes.func.isRequired,
 	testLocations: PropTypes.array,
 	handleUpdateTestLocations: PropTypes.func.isRequired,
-	numberOfTests: PropTypes.number.isRequired,
-	handleUpdateNumberOfTests: PropTypes.func.isRequired
+	numberOfRuns: PropTypes.number.isRequired,
+	handleUpdateNumberOfRuns: PropTypes.func.isRequired
 };
 
 export default TestConfigurationBasic;

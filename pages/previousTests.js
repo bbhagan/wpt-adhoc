@@ -4,6 +4,8 @@ import StandardLayout from "../layouts/StandardLayout";
 import { getAllPreviousTests } from "../public/static/js/localStorageInterface";
 import { getReadableDateFromMoment } from "../public/static/js/dateUtil";
 import { getUniqueURLsString } from "../public/static/js/filterUtils";
+import { getUniqueURLs } from "../public/static/js/filterUtils";
+import { deletePreviousTest } from "../public/static/js/localStorageInterface";
 
 class PreviousTests extends React.Component {
 	/**
@@ -34,6 +36,21 @@ class PreviousTests extends React.Component {
 		return returnString;
 	};
 
+	handleDeletePreviousTest = testId => e => {
+		const filteredTests = deletePreviousTest(testId);
+	};
+
+	renderURLBlock = tests => {
+		return getUniqueURLs(tests).map(URL => {
+			return (
+				<span>
+					{URL}
+					<br />
+				</span>
+			);
+		});
+	};
+
 	/**
 	 * Produces the row dom for all of the tests
 	 *
@@ -52,9 +69,15 @@ class PreviousTests extends React.Component {
 								<a className="text-primary">{getReadableDateFromMoment(test.date)}</a>
 							</Link>
 						</td>
-						<td>{getUniqueURLsString(test.testConfig.tests)}</td>
+						<td>{this.renderURLBlock(test.testConfig.tests)}</td>
 						<td>{`${test.testConfig.grouping} ${validAfterTest ? "(Before & After)" : ""}`}</td>
 						<td>{this.getMobDeskFlag(test.testConfig.tests)}</td>
+						<td>{test.testConfig.numberOfRuns}</td>
+						<td>
+							<button className="btn btn-primary btn-sm" onClick={this.handleDeletePreviousTest(test.id)}>
+								Delete
+							</button>
+						</td>
 					</tr>
 				);
 			});
@@ -77,6 +100,8 @@ class PreviousTests extends React.Component {
 										<th scope="col">URL(s)</th>
 										<th scope="col">Test Grouping</th>
 										<th scope="col">Mob/Desk</th>
+										<th scope="col">Runs Per Test</th>
+										<th scope="col">Delete Test</th>
 									</tr>
 								</thead>
 								<tbody>{this.getTests()}</tbody>

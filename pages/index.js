@@ -7,7 +7,7 @@ import { resultsOptions } from "../data/resultsOptionsData";
 import moment from "moment";
 import { fetchTestResults } from "../public/static/js/wptInterface";
 import { fetchLocations } from "../public/static/js/wptInterface";
-import { submitTests } from "../public/static/js/wptInterface";
+import { submitTests as APISubmitTests } from "../public/static/js/wptInterface";
 import { addPreviousTest } from "../public/static/js/localStorageInterface";
 import { getPreviousTest } from "../public/static/js/localStorageInterface";
 
@@ -16,10 +16,11 @@ const SERVER_PORT = process.env.SERVER_PORT;
 const UI_GET_LOCATIONS_FETCH_TIMEOUT = process.env.UI_GET_LOCATIONS_FETCH_TIMEOUT;
 const UI_SUBMIT_TESTS_TIMEOUT = process.env.UI_SUBMIT_TESTS_TIMEOUT;
 const UI_GET_TEST_RESULTS_TIMEOUT = process.env.UI_GET_TEST_RESULTS_TIMEOUT;
-const DEFAULT_NUMBER_OF_TESTS = Number(process.env.DEFAULT_NUMBER_OF_TESTS);
+const DEFAULT_NUMBER_OF_RUNS = Number(process.env.DEFAULT_NUMBER_OF_RUNS);
 const DEFAULT_GROUPING = process.env.DEFAULT_GROUPING;
 const DEFAULT_SORTING = process.env.DEFAULT_SORTING;
 const DEFAULT_NUMBER_OF_URLS = Number(process.env.DEFAULT_NUMBER_OF_URLS);
+const WATCH_TEST_CHECK_FREQUENCY = Number(process.env.WATCH_TEST_CHECK_FREQUENCY);
 
 /**
  * Renders main index page
@@ -43,7 +44,7 @@ class Index extends React.Component {
 			resultOptions: resultsOptions,
 			grouping: "",
 			sorting: "",
-			numberOfTests: 0
+			numberOfRuns: 0
 		};
 		this.inProgress = React.createRef();
 	}
@@ -65,7 +66,7 @@ class Index extends React.Component {
 					resultOptions: previousTest.testConfig.resultOptions,
 					grouping: previousTest.testConfig.grouping,
 					sorting: previousTest.testConfig.sorting,
-					numberOfTests: previousTest.testConfig.numberOfTests
+					numberOfRuns: previousTest.testConfig.numberOfRuns
 				});
 				previousTest.testConfig.tests.forEach(test => {
 					this.watchTest(test);
@@ -89,7 +90,7 @@ class Index extends React.Component {
 			urls: defaultUrls,
 			grouping: DEFAULT_GROUPING,
 			sorting: DEFAULT_SORTING,
-			numberOfTests: DEFAULT_NUMBER_OF_TESTS,
+			numberOfRuns: DEFAULT_NUMBER_OF_RUNS,
 			tests: [],
 			afterTests: [],
 			resultOptions: resultsOptions,
@@ -162,10 +163,10 @@ class Index extends React.Component {
 	/**
 	 * Receives call from component to update the number of tests to run. Sets React state.
 	 *
-	 * @param {number} numberOfTests -- Number of tests to run
+	 * @param {number} numberOfRuns -- Number of tests to run
 	 */
-	handleUpdateNumberOfTests = numberOfTests => {
-		this.setState({ numberOfTests });
+	handleUpdateNumberOfRuns = numberOfRuns => {
+		this.setState({ numberOfRuns });
 	};
 
 	/**
@@ -191,7 +192,16 @@ class Index extends React.Component {
 	 * Takes event and submits tests for re-test (for comparison to formerly run tests)
 	 */
 	handleResubmitTests = () => {
-		this.handleSubmitTests(true);
+		this.submitTests(true);
+	};
+
+	/**
+	 * Takes event and submits tests
+	 */
+	handleSubmitTests = () => {
+		//clear out any old lingering tests (from possibly previousTests)
+		this.setState({ tests: [], afterTests: [] });
+		this.submitTests(false);
 	};
 
 	/**
@@ -199,14 +209,14 @@ class Index extends React.Component {
 	 *
 	 * @param {boolean} afterTest -- Trigger to re-run tests as afterTests (comparison to previous tests)
 	 */
-	handleSubmitTests = async afterTest => {
+	submitTests = async afterTest => {
 		try {
-			const tests = await submitTests(
+			const tests = await APISubmitTests(
 				//filter the tests for populated URLs and active locations
 				{
 					testUrls: this.state.urls.filter(url => url),
 					testLocations: this.state.testLocations.filter(location => location.active),
-					numberOfTests: this.state.numberOfTests
+					numberOfRuns: this.state.numberOfRuns
 				},
 				UI_SUBMIT_TESTS_TIMEOUT
 			);
@@ -271,7 +281,7 @@ class Index extends React.Component {
 			} else {
 				this.setState({ tests: updatedTests });
 			}
-		}, 1500);
+		}, WATCH_TEST_CHECK_FREQUENCY);
 	};
 
 	/**
@@ -326,8 +336,8 @@ class Index extends React.Component {
 							handleUpdateGrouping={this.handleUpdateGrouping}
 							sorting={this.state.sorting}
 							handleUpdateSorting={this.handleUpdateSorting}
-							numberOfTests={this.state.numberOfTests}
-							handleUpdateNumberOfTests={this.handleUpdateNumberOfTests}
+							numberOfRuns={this.state.numberOfRuns}
+							handleUpdateNumberOfRuns={this.handleUpdateNumberOfRuns}
 							resultOptions={this.state.resultOptions}
 							handleUpdateResultOptions={this.handleUpdateResultOptions}
 							submitTests={this.handleSubmitTests}

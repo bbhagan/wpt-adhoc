@@ -13,7 +13,7 @@ router.post("/", (req, res) => {
 		if (url && url !== "") {
 			atLeastOneTest = true;
 			req.body.testLocations.forEach(location => {
-				const requestUrl = `${WPTSERVER}/runtest.php?url=${url}&f=json&location=${location.location}&runs=${req.body.numberOfTests}&fvonly=1`;
+				const requestUrl = `${WPTSERVER}/runtest.php?url=${url}&f=json&location=${location.location}&runs=${req.body.numberOfRuns}&fvonly=1`;
 				promises.push(
 					timeoutFetch(requestUrl, SERVER_SUBMIT_TESTS_TIMEOUT)
 						.then(serviceResponse => serviceResponse.json())

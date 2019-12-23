@@ -116,8 +116,8 @@ class TestConfiguration extends React.Component {
 						handleUpdateSorting={this.props.handleUpdateSorting}
 						testLocations={this.props.testLocations}
 						handleUpdateTestLocations={this.props.handleUpdateTestLocations}
-						numberOfTests={this.props.numberOfTests}
-						handleUpdateNumberOfTests={this.props.handleUpdateNumberOfTests}
+						numberOfRuns={this.props.numberOfRuns}
+						handleUpdateNumberOfRuns={this.props.handleUpdateNumberOfRuns}
 						resultOptions={this.props.resultOptions}
 						handleUpdateResultOptions={this.props.handleUpdateResultOptions}
 						openClose={this.state.advancedConfigOpen}
@@ -137,8 +137,8 @@ TestConfiguration.propTypes = {
 	handleUpdateGrouping: PropTypes.func.isRequired,
 	sorting: PropTypes.string.isRequired,
 	handleUpdateSorting: PropTypes.func.isRequired,
-	numberOfTests: PropTypes.number.isRequired,
-	handleUpdateNumberOfTests: PropTypes.func.isRequired,
+	numberOfRuns: PropTypes.number.isRequired,
+	handleUpdateNumberOfRuns: PropTypes.func.isRequired,
 	resultOptions: PropTypes.array.isRequired,
 	handleUpdateResultOptions: PropTypes.func.isRequired,
 	submitTests: PropTypes.func.isRequired,
