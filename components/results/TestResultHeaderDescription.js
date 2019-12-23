@@ -25,11 +25,11 @@ class TestResultHeaderDescription extends React.Component {
 	};
 
 	renderElapsedSeconds = test => {
-		return test.elapsedSeconds ? ", Elapsed Time: " + this.props.test.elapsedSeconds + " seconds" : "";
+		return test.elapsedSeconds && !test.data ? ", Elapsed Time: " + test.elapsedSeconds + " seconds" : "";
 	};
 
 	renderBehindCount = test => {
-		return test.behindCount ? ", Behind Count: " + this.props.behindCount : "";
+		return (test.behindCount || test.behindCount === 0) && !test.data ? ", Behind Count: " + test.behindCount : "";
 	};
 
 	renderHeaderBlock = (test, testLabel) => {
