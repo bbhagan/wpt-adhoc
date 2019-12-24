@@ -21,6 +21,8 @@ const DEFAULT_GROUPING = process.env.DEFAULT_GROUPING;
 const DEFAULT_SORTING = process.env.DEFAULT_SORTING;
 const DEFAULT_NUMBER_OF_URLS = Number(process.env.DEFAULT_NUMBER_OF_URLS);
 const WATCH_TEST_CHECK_FREQUENCY = Number(process.env.WATCH_TEST_CHECK_FREQUENCY);
+const WATCH_TEST_MAX_REQUESTS = Number(process.env.WATCH_TEST_MAX_REQUESTS);
+const WATCH_TEST_INTERVAL_RETRY = Number(process.env.WATCH_TEST_MAX_REQUESTS);
 
 /**
  * Renders main index page
@@ -47,6 +49,8 @@ class Index extends React.Component {
 			numberOfRuns: 0
 		};
 		this.inProgress = React.createRef();
+		//This will limit number of watches so server doesn't get bogged down
+		this.activeWatchRequests = 0;
 	}
 
 	/**
@@ -259,29 +263,40 @@ class Index extends React.Component {
 	 * @param {boolean} afterTest -- Whether this is a comparison after test
 	 */
 	watchTest = (testToWatch, afterTest) => {
-		setTimeout(async () => {
-			const newTest = await fetchTestResults(testToWatch, UI_GET_TEST_RESULTS_TIMEOUT, `${SERVER_URL}:${SERVER_PORT}`);
-			let srcTests = [];
-			if (afterTest) {
-				srcTests = this.state.afterTests;
-			} else {
-				srcTests = this.state.tests;
-			}
+		let newTest = {};
+		//The following logic prevents too many watch requests going out at once, clogging the server
+		const checkMaxWatcTestsInterval = setInterval(async () => {
+			if (this.activeWatchRequests < WATCH_TEST_MAX_REQUESTS) {
+				this.activeWatchRequests++;
+				clearInterval(checkMaxWatcTestsInterval);
+				newTest = await fetchTestResults(testToWatch, UI_GET_TEST_RESULTS_TIMEOUT, `${SERVER_URL}:${SERVER_PORT}`);
+				this.activeWatchRequests--;
+				let srcTests = [];
+				if (afterTest) {
+					srcTests = this.state.afterTests;
+				} else {
+					srcTests = this.state.tests;
+				}
 
-			const updatedTests = srcTests.map(test => {
-				//not the test we are looking for
-				if (test.testId !== testToWatch.testId) return test;
+				const updatedTests = srcTests.map(test => {
+					//not the test we are looking for
+					if (test.testId !== testToWatch.testId) return test;
 
-				//test we are looking for
-				if (!newTest.completed) this.watchTest(newTest, afterTest);
-				return newTest;
-			});
-			if (afterTest) {
-				this.setState({ afterTests: updatedTests });
-			} else {
-				this.setState({ tests: updatedTests });
+					//test we are looking for
+					if (!newTest.completed) {
+						setTimeout(() => {
+							this.watchTest(newTest, afterTest);
+						}, WATCH_TEST_CHECK_FREQUENCY);
+					}
+					return newTest;
+				});
+				if (afterTest) {
+					this.setState({ afterTests: updatedTests });
+				} else {
+					this.setState({ tests: updatedTests });
+				}
 			}
-		}, WATCH_TEST_CHECK_FREQUENCY);
+		}, WATCH_TEST_INTERVAL_RETRY);
 	};
 
 	/**

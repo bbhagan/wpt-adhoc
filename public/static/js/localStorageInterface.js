@@ -54,7 +54,7 @@ export const addPreviousTest = (date, reactState) => {
 		//save off test as incomplete, bringing back up will "complete" it
 		returnTest.completed = false;
 		//Need to rip out any result data (doesn't need to be stored in local storage)
-		returnTest.data = {};
+		delete returnTest.data;
 		return returnTest;
 	}
 
