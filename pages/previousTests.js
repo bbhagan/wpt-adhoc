@@ -8,6 +8,14 @@ import { getUniqueURLs } from "../public/static/js/filterUtils";
 import { deletePreviousTest } from "../public/static/js/localStorageInterface";
 
 class PreviousTests extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = { previousTests: [] };
+	}
+
+	componentWillMount() {
+		this.getTests();
+	}
 	/**
 	 * Determine if a set of tests was run against Desktop, Mobile or both
 	 *
@@ -38,6 +46,7 @@ class PreviousTests extends React.Component {
 
 	handleDeletePreviousTest = testId => e => {
 		const filteredTests = deletePreviousTest(testId);
+		this.setState({ previousTests: filteredTests.reverse() });
 	};
 
 	renderURLBlock = tests => {
@@ -60,30 +69,32 @@ class PreviousTests extends React.Component {
 		let prevTests = getAllPreviousTests();
 		if (prevTests && prevTests.length) {
 			prevTests = prevTests.reverse();
-			return prevTests.map((test, idx) => {
-				const validAfterTest = test.testConfig.afterTests && test.testConfig.afterTests.length;
-				return (
-					<tr key={idx}>
-						<td>
-							<Link href={`/?previousTestId=${test.id}`}>
-								<a className="text-primary">{getReadableDateFromMoment(test.date)}</a>
-							</Link>
-						</td>
-						<td>{this.renderURLBlock(test.testConfig.tests)}</td>
-						<td>{`${test.testConfig.grouping} ${validAfterTest ? "(Before & After)" : ""}`}</td>
-						<td>{this.getMobDeskFlag(test.testConfig.tests)}</td>
-						<td>{test.testConfig.numberOfRuns}</td>
-						<td>
-							<button className="btn btn-primary btn-sm" onClick={this.handleDeletePreviousTest(test.id)}>
-								Delete
-							</button>
-						</td>
-					</tr>
-				);
-			});
-		} else {
-			return "";
+			this.setState({ previousTests: prevTests });
 		}
+	};
+
+	renderPreviousTests = () => {
+		return this.state.previousTests.map((test, idx) => {
+			const validAfterTest = test.testConfig.afterTests && test.testConfig.afterTests.length;
+			return (
+				<tr key={idx}>
+					<td>
+						<Link href={`/?previousTestId=${test.id}`}>
+							<a className="text-primary">{getReadableDateFromMoment(test.date)}</a>
+						</Link>
+					</td>
+					<td>{this.renderURLBlock(test.testConfig.tests)}</td>
+					<td>{`${test.testConfig.grouping} ${validAfterTest ? "(Before & After)" : ""}`}</td>
+					<td>{this.getMobDeskFlag(test.testConfig.tests)}</td>
+					<td>{test.testConfig.numberOfRuns}</td>
+					<td>
+						<button className="btn btn-primary btn-sm" onClick={this.handleDeletePreviousTest(test.id)}>
+							Delete
+						</button>
+					</td>
+				</tr>
+			);
+		});
 	};
 
 	render() {
@@ -104,7 +115,7 @@ class PreviousTests extends React.Component {
 										<th scope="col">Delete Test</th>
 									</tr>
 								</thead>
-								<tbody>{this.getTests()}</tbody>
+								<tbody>{this.renderPreviousTests()}</tbody>
 							</table>
 						</div>
 					</div>
