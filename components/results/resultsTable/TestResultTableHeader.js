@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { getActiveResultOptions } from "../../../public/static/js/filterUtils";
+import { getActiveResultOptions } from "../../../public/static/js/filterUtils.js";
 
 /**
  * Renders the table header (column description) (row) for each test

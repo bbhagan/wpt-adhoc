@@ -1,8 +1,8 @@
 import React from "react";
-import { calcUOMPrecision } from "../../public/static/js/mathUtils";
-import { sortTestsByField } from "../../public/static/js/sortTests";
-import { calcPercentFromRank1 } from "../../public/static/js/mathUtils";
-import { calcDiffFromRank1 } from "../../public/static/js/mathUtils";
+import { calcUOMPrecision } from "../../public/static/js/mathUtils.js";
+import { sortTestsByField } from "../../public/static/js/sortTests.js";
+import { calcPercentFromRank1 } from "../../public/static/js/mathUtils.js";
+import { calcDiffFromRank1 } from "../../public/static/js/mathUtils.js";
 import PropTypes from "prop-types";
 
 /**
@@ -56,22 +56,13 @@ class TestResultCompetativeAnalysis extends React.Component {
 	 * @memberof TestResultCompetativeAnalysis
 	 */
 	render() {
-		const tests = sortTestsByField(
-			this.props.tests,
-			this.props.resultOption.wptField
-		);
+		const tests = sortTestsByField(this.props.tests, this.props.resultOption.wptField);
 
 		return (
-			<div
-				className="TestResultCompetativeAnalysisContainer"
-				style={{ marginBottom: "50px" }}
-			>
+			<div className="TestResultCompetativeAnalysisContainer" style={{ marginBottom: "50px" }}>
 				<p>
-					{this.props.tests[0].location.indexOf("mobile") > -1
-						? "Mobile"
-						: "Desktop"}{" "}
-					{this.props.resultOption.wptField}, {tests[0].data.runs.length} Tests,
-					Using Average
+					{this.props.tests[0].location.indexOf("mobile") > -1 ? "Mobile" : "Desktop"}{" "}
+					{this.props.resultOption.wptField}, {tests[0].data.runs.length} Tests, Using Average
 				</p>
 
 				<table className="table table-hover">
@@ -80,25 +71,18 @@ class TestResultCompetativeAnalysis extends React.Component {
 							<th scope="col">Rank</th>
 							<th scope="col">URL</th>
 							<th scope="col">
-								{this.props.resultOption.wptField} (
-								{this.props.resultOption.uom})
+								{this.props.resultOption.wptField} ({this.props.resultOption.uom})
 							</th>
-							<th scope="col">
-								Difference from Lead ({this.props.resultOption.uom})
-							</th>
+							<th scope="col">Difference from Lead ({this.props.resultOption.uom})</th>
 							<th scope="col">Percentage from Lead</th>
 						</tr>
 					</thead>
 					<tbody>
 						{tests.map((test, idx) => {
-							const dataValue =
-								test.data.average.firstView[this.props.resultOption.wptField];
+							const dataValue = test.data.average.firstView[this.props.resultOption.wptField];
 							this.setRank1Value(dataValue);
 							return (
-								<tr
-									key={idx}
-									className={this.getRowClass(dataValue, this.rank1Value)}
-								>
+								<tr key={idx} className={this.getRowClass(dataValue, this.rank1Value)}>
 									<td>{idx + 1}</td>
 									<td>{test.url}</td>
 									<td>

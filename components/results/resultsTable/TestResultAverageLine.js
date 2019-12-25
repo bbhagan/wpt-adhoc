@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { calcUOMPrecision } from "../../../public/static/js/mathUtils";
-import { getActiveResultOptions } from "../../../public/static/js/filterUtils";
+import { calcUOMPrecision } from "../../../public/static/js/mathUtils.js";
+import { getActiveResultOptions } from "../../../public/static/js/filterUtils.js";
 
 /**
  * Renders the result table average line (row)

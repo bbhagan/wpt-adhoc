@@ -1,11 +1,10 @@
 import { Router as _Router } from "express";
-import timeoutFetch from "../../public/static/js/timeoutFetch";
+import timeoutFetch from "../../public/static/js/timeoutFetch.js";
 import moment from "moment";
 require("dotenv").config();
 const router = _Router();
 const WPTSERVER = process.env.WPTSERVER;
-const SERVER_GET_LOCATIONS_FETCH_TIMEOUT =
-	process.env.SERVER_GET_LOCATIONS_FETCH_TIMEOUT;
+const SERVER_GET_LOCATIONS_FETCH_TIMEOUT = process.env.SERVER_GET_LOCATIONS_FETCH_TIMEOUT;
 
 router.get("/", async (req, res) => {
 	let returnJSON = {};

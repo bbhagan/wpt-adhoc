@@ -1,7 +1,7 @@
 import { Router as _Router } from "express";
-import { generateNoGroupingData } from "../../public/static/js/generateCSVData";
-import { generateMobVsDeskGroupingData } from "../../public/static/js/generateCSVData";
-import { generateCompetativeAnalysisGroupingData } from "../../public/static/js/generateCSVData";
+import { generateNoGroupingData } from "../../public/static/js/generateCSVData.js";
+import { generateMobVsDeskGroupingData } from "../../public/static/js/generateCSVData.js";
+import { generateCompetativeAnalysisGroupingData } from "../../public/static/js/generateCSVData.js";
 import stringify from "csv-stringify";
 
 const router = _Router();
@@ -28,10 +28,7 @@ router.post("/", async (req, res) => {
 		}
 
 		res.setHeader("Content-Type", "text/csv");
-		res.setHeader(
-			"Content-Disposition",
-			'attachment; filename="' + "download-" + Date.now() + '.csv"'
-		);
+		res.setHeader("Content-Disposition", 'attachment; filename="' + "download-" + Date.now() + '.csv"');
 		res.setHeader("Cache-Control", "no-cache");
 		res.setHeader("Pragma", "no-cache");
 

@@ -1,15 +1,15 @@
 import React from "react";
-import TestConfiguration from "../components/testConfiguration/TestConfiguration";
-import StandardLayout from "../layouts/StandardLayout";
-import TestResults from "../components/results/TestResults";
-import TestsInProgress from "../components/results/TestsInProgress";
-import { resultsOptions } from "../data/resultsOptionsData";
+import TestConfiguration from "../components/testConfiguration/TestConfiguration.js";
+import StandardLayout from "../layouts/StandardLayout.js";
+import TestResults from "../components/results/TestResults.js";
+import TestsInProgress from "../components/results/TestsInProgress.js";
+import { resultsOptions } from "../data/resultsOptionsData.js";
 import moment from "moment";
-import { fetchTestResults } from "../public/static/js/wptInterface";
-import { fetchLocations } from "../public/static/js/wptInterface";
-import { submitTests as APISubmitTests } from "../public/static/js/wptInterface";
-import { addPreviousTest } from "../public/static/js/localStorageInterface";
-import { getPreviousTest } from "../public/static/js/localStorageInterface";
+import { fetchTestResults } from "../public/static/js/wptInterface.js";
+import { fetchLocations } from "../public/static/js/wptInterface.js";
+import { submitTests as APISubmitTests } from "../public/static/js/wptInterface.js";
+import { addPreviousTest } from "../public/static/js/localStorageInterface.js";
+import { getPreviousTest } from "../public/static/js/localStorageInterface.js";
 
 const SERVER_URL = process.env.SERVER_URL;
 const SERVER_PORT = process.env.SERVER_PORT;

@@ -1,11 +1,11 @@
-import { getTestSet } from "./wptInterface";
-import { sortTestsByURL } from "./sortTests";
-import { sortTestsByLocation } from "./sortTests";
-import { sortTestsByField } from "./sortTests";
-import { calcUOMPrecision } from "./mathUtils";
-import { determineWinner } from "./mathUtils";
-import { calcDiffFromRank1 } from "./mathUtils";
-import { calcPercentFromRank1 } from "./mathUtils";
+import { getTestSet } from "./wptInterface.js";
+import { sortTestsByURL } from "./sortTests.js";
+import { sortTestsByLocation } from "./sortTests.js";
+import { sortTestsByField } from "./sortTests.js";
+import { calcUOMPrecision } from "./mathUtils.js";
+import { determineWinner } from "./mathUtils.js";
+import { calcDiffFromRank1 } from "./mathUtils.js";
+import { calcPercentFromRank1 } from "./mathUtils.js";
 
 require("dotenv").config();
 const SERVER_URL = process.env.SERVER_URL;

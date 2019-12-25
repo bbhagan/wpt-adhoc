@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TestConfigurationTabs from "./TestConfigurationTabs";
-import TestConfigurationBasic from "./TestConfigurationBasic";
-import TestConfigurationResults from "./TestConfigurationResults";
+import TestConfigurationTabs from "./TestConfigurationTabs.js";
+import TestConfigurationBasic from "./TestConfigurationBasic.js";
+import TestConfigurationResults from "./TestConfigurationResults.js";
 import "./TestConfigurationModal.scss";
 
 /**

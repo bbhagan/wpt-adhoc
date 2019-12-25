@@ -1,5 +1,5 @@
 import React from "react";
-import StandardLayout from "../layouts/StandardLayout";
+import StandardLayout from "../layouts/StandardLayout.js";
 
 /**
  * Renders the help page

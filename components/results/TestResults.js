@@ -1,10 +1,10 @@
 import React from "react";
-import TestResultNoGrouping from "./TestResultNoGrouping";
-import TestResultMobileVsDesktop from "./TestResultMobileVsDesktop";
-import TestResultCompetativeAnalysis from "./TestResultCompetativeAnalysis";
-import { sortTestsByURL } from "../../public/static/js/sortTests";
-import { sortTestsByLocation } from "../../public/static/js/sortTests";
-import { getActiveResultOptions } from "../../public/static/js/filterUtils";
+import TestResultNoGrouping from "./TestResultNoGrouping.js";
+import TestResultMobileVsDesktop from "./TestResultMobileVsDesktop.js";
+import TestResultCompetativeAnalysis from "./TestResultCompetativeAnalysis.js";
+import { sortTestsByURL } from "../../public/static/js/sortTests.js";
+import { sortTestsByLocation } from "../../public/static/js/sortTests.js";
+import { getActiveResultOptions } from "../../public/static/js/filterUtils.js";
 import PropTypes from "prop-types";
 
 /**

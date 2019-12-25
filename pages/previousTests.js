@@ -1,11 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import StandardLayout from "../layouts/StandardLayout";
-import { getAllPreviousTests } from "../public/static/js/localStorageInterface";
-import { getReadableDateFromMoment } from "../public/static/js/dateUtil";
-import { getUniqueURLsString } from "../public/static/js/filterUtils";
-import { getUniqueURLs } from "../public/static/js/filterUtils";
-import { deletePreviousTest } from "../public/static/js/localStorageInterface";
+import StandardLayout from "../layouts/StandardLayout.js";
+import { getAllPreviousTests } from "../public/static/js/localStorageInterface.js";
+import { getReadableDateFromMoment } from "../public/static/js/dateUtil.js";
+import { getUniqueURLs } from "../public/static/js/filterUtils.js";
+import { deletePreviousTest } from "../public/static/js/localStorageInterface.js";
 
 class PreviousTests extends React.Component {
 	constructor(props) {

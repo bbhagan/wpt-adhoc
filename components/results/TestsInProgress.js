@@ -1,5 +1,5 @@
-import TestResultHeaderDescription from "./TestResultHeaderDescription";
-import TestResultsProgressBar from "./TestResultsProgressBar";
+import TestResultHeaderDescription from "./TestResultHeaderDescription.js";
+import TestResultsProgressBar from "./TestResultsProgressBar.js";
 import PropTypes from "prop-types";
 
 /**

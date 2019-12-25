@@ -1,10 +1,10 @@
 import express, { Router as _Router } from "express";
 import next from "next";
-import apiGetLocations from "./routes/api/getLocations";
-import apiSubmitTests from "./routes/api/submitTests";
-import apiGetTestResults from "./routes/api/getTestResults";
-import downloadCSV from "./routes/download/downloadCSV";
-import logger from "./middleware/logger";
+import apiGetLocations from "./routes/api/getLocations.js";
+import apiSubmitTests from "./routes/api/submitTests.js";
+import apiGetTestResults from "./routes/api/getTestResults.js";
+import downloadCSV from "./routes/download/downloadCSV.js";
+import logger from "./middleware/logger.js";
 
 const router = _Router();
 const port = parseInt(process.env.PORT, 10) || 3000;

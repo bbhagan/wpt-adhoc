@@ -1,7 +1,7 @@
 import React from "react";
-import { calcUOMPrecision } from "../../../public/static/js/mathUtils";
-import { determineWinner } from "../../../public/static/js/mathUtils";
-import { getActiveResultOptions } from "../../../public/static/js/filterUtils";
+import { calcUOMPrecision } from "../../../public/static/js/mathUtils.js";
+import { determineWinner } from "../../../public/static/js/mathUtils.js";
+import { getActiveResultOptions } from "../../../public/static/js/filterUtils.js";
 import PropTypes from "prop-types";
 
 /**

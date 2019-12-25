@@ -1,5 +1,5 @@
 import { Router as _Router } from "express";
-import timeoutFetch from "../../public/static/js/timeoutFetch";
+import timeoutFetch from "../../public/static/js/timeoutFetch.js";
 require("dotenv").config();
 const router = _Router();
 const SERVER_SUBMIT_TESTS_TIMEOUT = process.env.SERVER_SUBMIT_TESTS_TIMEOUT;

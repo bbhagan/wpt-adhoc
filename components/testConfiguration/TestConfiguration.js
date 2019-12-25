@@ -1,9 +1,9 @@
 import React from "react";
-import TestConfigurationURLs from "./TestConfigurationURLs";
-import TestConfigurationSubmitTests from "./TestConfigurationSubmitTests";
-import TestConfigurationModal from "./TestConfigurationModal";
+import TestConfigurationURLs from "./TestConfigurationURLs.js";
+import TestConfigurationSubmitTests from "./TestConfigurationSubmitTests.js";
+import TestConfigurationModal from "./TestConfigurationModal.js";
 
-import TestConfigurationAddMoreURLs from "./TestConfigurationAddMoreURLs";
+import TestConfigurationAddMoreURLs from "./TestConfigurationAddMoreURLs.js";
 
 import Error from "../global/Error";
 

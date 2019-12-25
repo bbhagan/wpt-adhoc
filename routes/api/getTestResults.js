@@ -1,6 +1,6 @@
 import { Router as _Router } from "express";
-import timeoutFetch from "../../public/static/js/timeoutFetch";
-import { syntheticTests } from "../../data/syntheticTestsData";
+import timeoutFetch from "../../public/static/js/timeoutFetch.js";
+import { syntheticTests } from "../../data/syntheticTestsData.js";
 import moment from "moment";
 require("dotenv").config();
 const router = _Router();
