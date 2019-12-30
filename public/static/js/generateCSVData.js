@@ -25,14 +25,14 @@ const mobDeskLabel = location => {
  * Formats a string that describes basic info about a test (test id, url, location)
  *
  * @param {object} test -- WPT test
+ * @param {boolean} beforeAfterLabel -- Label text to mark as before/after test
  * @returns {string}
  */
-const getTestTextHeader = test => {
-	return `Test Id: ${test.testId}, Test URL: ${test.data.url}, Location: ${test.data.location}`;
+const getTestTextHeader = (test, beforeAfterLabel) => {
+	return `Test Id${beforeAfterLabel}: ${test.testId}, Test URL: ${test.data.url}, Location: ${test.data.location}`;
 };
 
 const getCompAnalysisTextHeader = (test, resultOption) => {
-	console.log(`test.data.location: ${test.data.location}`);
 	return `${test.data.location.indexOf("mobile") > -1 ? "Mobile" : "Desktop"} ${resultOption.name}, Using Average`;
 };
 
@@ -169,8 +169,6 @@ const getWinnerRow = (test1, test2, resultOptions, test1Label, test2Label) => {
 export const generateNoGroupingData = async testConfig => {
 	const csvData = [];
 	try {
-		console.log(`testConfig.testIds: ${JSON.stringify(testConfig.testIds)}`);
-		console.log(`testConfig.afterTestIds: ${JSON.stringify(testConfig.afterTestIds)}`);
 		const tests = sortTestsByURL(
 			await getTestSet(testConfig.testIds, {
 				SERVER_URL,
@@ -192,9 +190,6 @@ export const generateNoGroupingData = async testConfig => {
 			let matchingAfterTest = {};
 			if (afterTests.length) {
 				afterTests.forEach(afterTest => {
-					console.log(
-						`test.url: ${test.data.url} afterTest.url: ${afterTest.data.url} test.location: ${test.data.location} afterTest.location: ${afterTest.data.location}`
-					);
 					if (test.data.url === afterTest.data.url && test.data.location === afterTest.data.location) {
 						matchingAfterTest = afterTest;
 					}
@@ -202,7 +197,10 @@ export const generateNoGroupingData = async testConfig => {
 			}
 			const mobDesk = mobDeskLabel(test.data.location);
 			//Description header
-			csvData.push([getTestTextHeader(test)]);
+			csvData.push([getTestTextHeader(test, matchingAfterTest ? " (Before)" : "")]);
+			if (matchingAfterTest) {
+				csvData.push([getTestTextHeader(matchingAfterTest, " (After)")]);
+			}
 			//Table header
 			csvData.push(getTableHeader(testConfig.resultOptions));
 			//Iterate over run data
@@ -228,7 +226,7 @@ export const generateNoGroupingData = async testConfig => {
 			csvData.push([" "]);
 		});
 	} catch (e) {
-		console.log(e);
+		console.log(`generateCSVData.generateNoGroupingData ${e}`);
 	}
 
 	return csvData;
@@ -286,7 +284,7 @@ export const generateMobVsDeskGroupingData = async testConfig => {
 			}
 		}
 	} catch (e) {
-		console.log(e);
+		console.log(`generateCSVData.generateMobVsDeskGroupingData ${e}`);
 	}
 
 	return csvData;

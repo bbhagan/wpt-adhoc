@@ -1,4 +1,4 @@
-import express, { Router as _Router } from "express";
+import express from "express";
 import next from "next";
 import apiGetLocations from "./routes/api/getLocations.js";
 import apiSubmitTests from "./routes/api/submitTests.js";
@@ -6,7 +6,7 @@ import apiGetTestResults from "./routes/api/getTestResults.js";
 import downloadCSV from "./routes/download/downloadCSV.js";
 import logger from "./middleware/logger.js";
 
-const router = _Router();
+const router = express.Router();
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
