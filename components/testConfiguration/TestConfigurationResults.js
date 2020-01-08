@@ -36,11 +36,11 @@ class TestConfigurationResults extends React.Component {
 			<div className="TestConfigurationResultsContainer" style={showBlock}>
 				<fieldset className="form-group">
 					<legend>Common Tests:</legend>
-					<div className="row">
+					<div className="resultOptionsSet">
 						{this.props.resultOptions.map((resultOption, idx) => {
 							if (resultOption.type === "common") {
 								return (
-									<div className="col-3" key={idx}>
+									<div className="resultOptionItem" key={idx}>
 										<div className="form-check">
 											<label className="form-check-label">
 												<input
@@ -65,11 +65,11 @@ class TestConfigurationResults extends React.Component {
 
 				<fieldset className="form-group">
 					<legend>Uncommon Tests:</legend>
-					<div className="row">
+					<div className="resultOptionsSet">
 						{this.props.resultOptions.map((resultOption, idx) => {
 							if (resultOption.type === "uncommon") {
 								return (
-									<div className="col-3" key={idx}>
+									<div className="resultOptionItem" key={idx}>
 										<div className="form-check">
 											<label className="form-check-label">
 												<input
@@ -95,11 +95,11 @@ class TestConfigurationResults extends React.Component {
 				<fieldset className="form-group">
 					<legend>Synthetic Tests:</legend>
 
-					<div className="row">
+					<div className="resultOptionsSet">
 						{this.props.resultOptions.map((resultOption, idx) => {
 							if (resultOption.type === "synthetic") {
 								return (
-									<div className="col-3" key={idx}>
+									<div className="resultOptionItem" key={idx}>
 										<div className="form-check">
 											<label className="form-check-label">
 												<input

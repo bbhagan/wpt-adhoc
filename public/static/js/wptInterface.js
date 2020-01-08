@@ -1,6 +1,8 @@
 import timeoutFetch from "./timeoutFetch.js";
 import moment from "moment";
 
+const SERVER_GET_TEST_RESULTS_TIMEOUT = process.env.SERVER_GET_TEST_RESULTS_TIMEOUT;
+
 /**
  * Fetches location data from server
  *
@@ -129,10 +131,15 @@ export const submitTests = async (testsConfig, timeout) => {
 export const getTestSet = (testIds, serverConfig) => {
 	return new Promise((resolve, reject) => {
 		let promises = [];
+		let requestQueue = [];
 
 		testIds.forEach(testId => {
 			promises.push(
-				fetchTestResults({ testId }, 1000, `${serverConfig.SERVER_URL}:${serverConfig.SERVER_PORT}`)
+				fetchTestResults(
+					{ testId },
+					SERVER_GET_TEST_RESULTS_TIMEOUT,
+					`${serverConfig.SERVER_URL}:${serverConfig.SERVER_PORT}`
+				)
 					.then(test => {
 						return test;
 					})

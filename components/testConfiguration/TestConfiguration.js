@@ -88,12 +88,12 @@ class TestConfiguration extends React.Component {
 								<fieldset>
 									{error}
 									<h2>URL(s)</h2>
-									<div className="row">
-										<div className="col-8">
+									<div style={{ display: "flex" }}>
+										<div style={{ flex: 4 }}>
 											<TestConfigurationURLs urls={this.props.urls} handleUpdateURLs={this.props.handleUpdateURLs} />
 											<TestConfigurationAddMoreURLs handleAddMoreURLs={this.props.handleAddMoreURLs} />
 										</div>
-										<div className="col-4">
+										<div style={{ flex: 2 }}>
 											<TestConfigurationSubmitTests submitTests={this.submitTests} resetTests={this.resetTests} />
 										</div>
 									</div>
