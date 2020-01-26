@@ -2,6 +2,7 @@ import timeoutFetch from "./timeoutFetch.js";
 import moment from "moment";
 
 const SERVER_GET_TEST_RESULTS_TIMEOUT = process.env.SERVER_GET_TEST_RESULTS_TIMEOUT;
+const WATCH_TEST_MAX_REQUESTS = process.env.WATCH_TEST_MAX_REQUESTS;
 
 /**
  * Fetches location data from server
@@ -130,32 +131,40 @@ export const submitTests = async (testsConfig, timeout) => {
  */
 export const getTestSet = (testIds, serverConfig) => {
 	return new Promise((resolve, reject) => {
-		let promises = [];
-		let requestQueue = [];
+		//Reverse the tests since we will be fetching them in reverse order (making easier to pop() them off the stack)
+		let reverseTestIds = testIds.reverse();
+		let returnTests = [];
 
-		testIds.forEach(testId => {
-			promises.push(
-				fetchTestResults(
-					{ testId },
-					SERVER_GET_TEST_RESULTS_TIMEOUT,
-					`${serverConfig.SERVER_URL}:${serverConfig.SERVER_PORT}`
-				)
-					.then(test => {
-						return test;
-					})
-					.catch(error => {
-						console.log(`Promise rejected: ${error}`);
-						return {};
-					})
-			);
-		});
-		Promise.all(promises)
-			.then(tests => {
-				resolve(tests);
-			})
-			.catch(e => {
-				console.log(`getTestSet error: ${e}`);
-				reject(e);
-			});
+		/**
+		 * Recursive function that gets all of the tests in serial. This is to avoid overloading the server and not getting any of them back
+		 */
+		function makeCall() {
+			fetchTestResults(
+				//Get testId from end of the array
+				{ testId: reverseTestIds[testIds.length - 1] },
+				SERVER_GET_TEST_RESULTS_TIMEOUT,
+				`${serverConfig.SERVER_URL}:${serverConfig.SERVER_PORT}`
+			)
+				.then(test => {
+					returnTests.push(test);
+					//Remove test that we just got from the array
+					reverseTestIds.pop();
+					//If there are more to get, call self, else resolve the promise
+					if (reverseTestIds.length > 0) {
+						makeCall();
+					} else {
+						resolve(returnTests);
+					}
+				})
+				.catch(error => {
+					console.log(`wptInterface.getTestSet Promise rejected: ${error}`);
+					reject(error);
+				});
+		}
+
+		//First time through, all other iterations are recursive from makeCall()
+		if (reverseTestIds.length > 0) {
+			makeCall();
+		}
 	});
 };

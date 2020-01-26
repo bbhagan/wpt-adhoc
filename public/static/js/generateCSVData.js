@@ -198,18 +198,20 @@ export const generateNoGroupingData = async testConfig => {
 			const mobDesk = mobDeskLabel(test.data.location);
 			//Description header
 			csvData.push([getTestTextHeader(test, matchingAfterTest ? " (Before)" : "")]);
-			if (matchingAfterTest) {
+			if (Object.entries(matchingAfterTest).length !== 0) {
 				csvData.push([getTestTextHeader(matchingAfterTest, " (After)")]);
 			}
+
 			//Table header
 			csvData.push(getTableHeader(testConfig.resultOptions));
+
 			//Iterate over run data
 			test.data.runs.forEach((run, idx) => {
 				csvData.push(getRunRow(run, idx, testConfig.resultOptions, mobDesk));
 			});
 			//Average Line
 			csvData.push(getAvgRow(test, testConfig.resultOptions, mobDesk));
-			if (matchingAfterTest) {
+			if (Object.entries(matchingAfterTest).length !== 0) {
 				//AfterTest run data
 				matchingAfterTest.data.runs.forEach((run, idx) => {
 					csvData.push(getRunRow(run, idx, testConfig.resultOptions, mobDesk));
