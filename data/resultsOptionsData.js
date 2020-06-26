@@ -5,7 +5,7 @@ export const resultsOptions = [
 		type: "common",
 		active: true,
 		uom: "ms",
-		decimalPlacePrecision: 0
+		decimalPlacePrecision: 0,
 	},
 	{
 		name: "Fully Loaded Bytes Out",
@@ -13,7 +13,7 @@ export const resultsOptions = [
 		type: "uncommon",
 		active: false,
 		uom: "KB",
-		decimalPlacePrecision: 0
+		decimalPlacePrecision: 0,
 	},
 	{
 		name: "Doc. Compl. Bytes Out",
@@ -21,7 +21,7 @@ export const resultsOptions = [
 		type: "uncommon",
 		active: false,
 		uom: "KB",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Time to Negotiate SSL",
@@ -29,7 +29,7 @@ export const resultsOptions = [
 		type: "uncommon",
 		active: false,
 		uom: "ms",
-		decimalPlacePrecision: 0
+		decimalPlacePrecision: 0,
 	},
 	{
 		name: "Time to Doc. Compl.",
@@ -37,7 +37,7 @@ export const resultsOptions = [
 		type: "common",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Time to Doc. Compl. Adj",
@@ -45,7 +45,7 @@ export const resultsOptions = [
 		type: "synthetic",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "DOM Content Load Event End",
@@ -53,7 +53,7 @@ export const resultsOptions = [
 		type: "uncommon",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "DOM Content Load Event End Adj",
@@ -61,21 +61,21 @@ export const resultsOptions = [
 		type: "synthetic",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Doc. Requests",
 		wptField: "requestsDoc",
 		type: "uncommon",
 		active: false,
-		uom: "ea"
+		uom: "ea",
 	},
 	{
 		name: "Number of 404 Responses",
 		wptField: "responses_404",
 		type: "uncommon",
 		active: false,
-		uom: "ea"
+		uom: "ea",
 	},
 	{
 		name: "Load Time",
@@ -83,7 +83,7 @@ export const resultsOptions = [
 		type: "uncommon",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Load Time Adj",
@@ -91,7 +91,7 @@ export const resultsOptions = [
 		type: "synthetic",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Load Event Start",
@@ -99,7 +99,7 @@ export const resultsOptions = [
 		type: "uncommon",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Load Event Start Adj",
@@ -107,7 +107,7 @@ export const resultsOptions = [
 		type: "synthetic",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "DOM Content Load Event Start",
@@ -115,7 +115,7 @@ export const resultsOptions = [
 		type: "uncommon",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "DOM Content Load Event Start Adj",
@@ -123,7 +123,7 @@ export const resultsOptions = [
 		type: "synthetic",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Doc. Compl. Bytes In",
@@ -131,7 +131,7 @@ export const resultsOptions = [
 		type: "common",
 		active: false,
 		uom: "KB",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "End of Window Load Event",
@@ -139,7 +139,7 @@ export const resultsOptions = [
 		type: "common",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "End of Window Load Event Adj",
@@ -147,7 +147,7 @@ export const resultsOptions = [
 		type: "synthetic",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Time to Fully Loaded?",
@@ -155,7 +155,7 @@ export const resultsOptions = [
 		type: "common",
 		active: true,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Time to Fully Loaded Adj",
@@ -163,7 +163,7 @@ export const resultsOptions = [
 		type: "synthetic",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Fully Loaded Bytes In?",
@@ -171,7 +171,7 @@ export const resultsOptions = [
 		type: "uncommon",
 		active: false,
 		uom: "KB",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Time to First Paint",
@@ -179,7 +179,7 @@ export const resultsOptions = [
 		type: "common",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Time to First Paint Adj",
@@ -187,14 +187,14 @@ export const resultsOptions = [
 		type: "synthetic",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Total DOM Elements",
 		wptField: "domElements",
 		type: "common",
 		active: false,
-		uom: "ea"
+		uom: "ea",
 	},
 	{
 		name: "Time to DOM Interactive",
@@ -202,7 +202,7 @@ export const resultsOptions = [
 		type: "common",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Time to DOM Interactive Adj",
@@ -210,7 +210,7 @@ export const resultsOptions = [
 		type: "synthetic",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Time to Dom Compl.",
@@ -218,7 +218,7 @@ export const resultsOptions = [
 		type: "common",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Time to Dom Compl. Adj",
@@ -226,14 +226,14 @@ export const resultsOptions = [
 		type: "synthetic",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Speed Index",
 		wptField: "SpeedIndex",
 		type: "uncommon",
 		active: false,
-		uom: "ea"
+		uom: "ea",
 	},
 	{
 		name: "Visual Compl.",
@@ -241,7 +241,7 @@ export const resultsOptions = [
 		type: "common",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Visual Compl. Adj",
@@ -249,7 +249,7 @@ export const resultsOptions = [
 		type: "synthetic",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Render",
@@ -257,7 +257,7 @@ export const resultsOptions = [
 		type: "uncommon",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Render Adj",
@@ -265,7 +265,7 @@ export const resultsOptions = [
 		type: "synthetic",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Last Visual Change",
@@ -273,7 +273,7 @@ export const resultsOptions = [
 		type: "uncommon",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Last Visual Change Adj",
@@ -281,7 +281,7 @@ export const resultsOptions = [
 		type: "synthetic",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Total Blocking Time",
@@ -289,20 +289,20 @@ export const resultsOptions = [
 		type: "uncommon",
 		active: false,
 		uom: "s",
-		decimalPlacePrecision: 2
+		decimalPlacePrecision: 2,
 	},
 	{
 		name: "Small Image Count",
 		wptField: "smallImageCount",
 		type: "uncommon",
 		active: false,
-		uom: "ea"
+		uom: "ea",
 	},
 	{
 		name: "Big Image Count",
 		wptField: "bigImageCount",
 		type: "uncommon",
 		active: false,
-		uom: "ea"
-	}
+		uom: "ea",
+	},
 ];
