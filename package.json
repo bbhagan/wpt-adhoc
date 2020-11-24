@@ -25,8 +25,6 @@
   "homepage": "https://github.com/bbhagan/wpt-adhoc#readme",
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
-    "bootstrap": "^4.5.2",
-    "bootswatch": "^4.5.3",
     "csv-stringify": "^5.5.3",
     "dotenv": "^8.2.0",
     "dotenv-webpack": "^5.1.0",
@@ -43,6 +41,8 @@
     "@babel/core": "^7.12.8",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
+    "bootstrap": "^4.5.3",
+    "bootswatch": "^4.5.3",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^7.14.0",
