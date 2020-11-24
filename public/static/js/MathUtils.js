@@ -6,21 +6,21 @@
  * @return {number}
  */
 export const calcUOMPrecision = (value, uom, decimalPlacePrecision) => {
-	let returnValue;
-	switch (uom) {
-		case "ms":
-			returnValue = Math.round(value);
-			break;
-		case "s":
-			returnValue = (value / 1000).toFixed(decimalPlacePrecision);
-			break;
-		case "KB":
-			returnValue = (value / 1024).toFixed(decimalPlacePrecision);
-			break;
-		default:
-			returnValue = value;
-	}
-	return Number(returnValue);
+  let returnValue;
+  switch (uom) {
+    case "ms":
+      returnValue = Math.round(value);
+      break;
+    case "s":
+      returnValue = (value / 1000).toFixed(decimalPlacePrecision);
+      break;
+    case "KB":
+      returnValue = (value / 1024).toFixed(decimalPlacePrecision);
+      break;
+    default:
+      returnValue = value;
+  }
+  return Number(returnValue);
 };
 
 /**
@@ -30,7 +30,7 @@ export const calcUOMPrecision = (value, uom, decimalPlacePrecision) => {
  * @memberof TestResultCompetativeAnalysis
  */
 export const calcPercentFromRank1 = (value, rank1) => {
-	return Math.round(100 * (value / rank1) - 100);
+  return Math.round(100 * (value / rank1) - 100);
 };
 
 /**
@@ -44,12 +44,12 @@ export const calcPercentFromRank1 = (value, rank1) => {
  * @memberof TestResultCompetativeAnalysis
  */
 export const calcDiffFromRank1 = (
-	value,
-	rank1Value,
-	uom,
-	decimalPlacePrecision
+  value,
+  rank1Value,
+  uom,
+  decimalPlacePrecision
 ) => {
-	return calcUOMPrecision(value - rank1Value, uom, decimalPlacePrecision);
+  return calcUOMPrecision(value - rank1Value, uom, decimalPlacePrecision);
 };
 
 /**
@@ -62,17 +62,17 @@ export const calcDiffFromRank1 = (
  * @returns {string}
  */
 export const determineWinner = (
-	field1,
-	field2,
-	field1MobDesk,
-	field2MobDesk
+  field1,
+  field2,
+  field1MobDesk,
+  field2MobDesk
 ) => {
-	const winner = field1 > field2 ? field2MobDesk : field1MobDesk;
-	let returnText = winner;
-	if (winner === field1MobDesk) {
-		returnText += ` (${Math.round(100 - (field1 / field2) * 100)}%)`;
-	} else {
-		returnText += ` (${Math.round(100 - (field2 / field1) * 100)}%)`;
-	}
-	return returnText;
+  const winner = field1 > field2 ? field2MobDesk : field1MobDesk;
+  let returnText = winner;
+  if (winner === field1MobDesk) {
+    returnText += ` (${Math.round(100 - (field1 / field2) * 100)}%)`;
+  } else {
+    returnText += ` (${Math.round(100 - (field2 / field1) * 100)}%)`;
+  }
+  return returnText;
 };

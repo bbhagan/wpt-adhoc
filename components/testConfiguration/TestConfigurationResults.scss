@@ -1,15 +1,15 @@
 .TestConfigurationResultsContainer {
-	label {
-		font-size: 0.75rem;
-	}
+  label {
+    font-size: 0.75rem;
+  }
 
-	.resultOptionsSet {
-		display: flex;
-		flex-wrap: wrap;
-	}
+  .resultOptionsSet {
+    display: flex;
+    flex-wrap: wrap;
+  }
 
-	.resultOptionItem {
-		flex-basis: 20%;
-		margin-right: 20px;
-	}
+  .resultOptionItem {
+    flex-basis: 20%;
+    margin-right: 20px;
+  }
 }

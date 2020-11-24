@@ -8,35 +8,35 @@ import moment from "moment";
  * @param {object} init -- fetch init object
  */
 const timeoutFetch = (url, miliseconds, init) => {
-	const timeoutError = `Request for ${url} timed out after ${miliseconds} milliseconds`;
-	return new Promise((resolve, reject) => {
-		const fetcher = new Promise((fetcherResolve, fetcherReject) => {
-			fetch(url, init).then(
-				response => {
-					fetcherResolve(response);
-				},
-				error => {
-					fetcherReject(error);
-				}
-			);
-		});
+  const timeoutError = `Request for ${url} timed out after ${miliseconds} milliseconds`;
+  return new Promise((resolve, reject) => {
+    const fetcher = new Promise((fetcherResolve, fetcherReject) => {
+      fetch(url, init).then(
+        (response) => {
+          fetcherResolve(response);
+        },
+        (error) => {
+          fetcherReject(error);
+        }
+      );
+    });
 
-		const timeout = new Promise((timeoutResolve, timeoutReject) => {
-			setTimeout(() => {
-				timeoutReject(new Error(timeoutError));
-			}, miliseconds);
-		});
+    const timeout = new Promise((timeoutResolve, timeoutReject) => {
+      setTimeout(() => {
+        timeoutReject(new Error(timeoutError));
+      }, miliseconds);
+    });
 
-		Promise.race([fetcher, timeout]).then(
-			function(returnValue) {
-				resolve(returnValue);
-			},
-			function(error) {
-				console.log(`${moment().format()} ${timeoutError}`);
-				reject(error);
-			}
-		);
-	});
+    Promise.race([fetcher, timeout]).then(
+      function (returnValue) {
+        resolve(returnValue);
+      },
+      function (error) {
+        console.log(`${moment().format()} ${timeoutError}`);
+        reject(error);
+      }
+    );
+  });
 };
 
 export default timeoutFetch;

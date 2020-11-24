@@ -9,65 +9,78 @@ const WPTSERVER = process.env.WPTSERVER;
  * @extends {React.Component}
  */
 class TestResultHeaderDescription extends React.Component {
-	renderTestId = (test) => {
-		return (
-			<a href={WPTSERVER + "/result/" + test.testId} target="_blank" rel="noopener noreferrer">
-				{test.testId}
-			</a>
-		);
-	};
+  renderTestId = (test) => {
+    return (
+      <a
+        href={WPTSERVER + "/result/" + test.testId}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {test.testId}
+      </a>
+    );
+  };
 
-	renderTestURL = (test) => {
-		return (
-			<a href={test.url} target="_blank" rel="noopener noreferrer">
-				{test.url}
-			</a>
-		);
-	};
+  renderTestURL = (test) => {
+    return (
+      <a href={test.url} target="_blank" rel="noopener noreferrer">
+        {test.url}
+      </a>
+    );
+  };
 
-	renderElapsedSeconds = (test) => {
-		return test.elapsedSeconds && !test.data ? ", Elapsed Time: " + test.elapsedSeconds + " seconds" : "";
-	};
+  renderElapsedSeconds = (test) => {
+    return test.elapsedSeconds && !test.data
+      ? ", Elapsed Time: " + test.elapsedSeconds + " seconds"
+      : "";
+  };
 
-	renderBehindCount = (test) => {
-		return (test.behindCount || test.behindCount === 0) && !test.data ? ", Behind Count: " + test.behindCount : "";
-	};
+  renderBehindCount = (test) => {
+    return (test.behindCount || test.behindCount === 0) && !test.data
+      ? ", Behind Count: " + test.behindCount
+      : "";
+  };
 
-	renderHeaderBlock = (test, testLabel) => {
-		if (test && test.testId && test.url) {
-			return (
-				<p>
-					Test Id{testLabel}: {this.renderTestId(test)}, Test URL: {this.renderTestURL(test)}, Location:{" "}
-					{this.props.test.location} {this.renderElapsedSeconds(test)} {this.renderBehindCount(test)}
-				</p>
-			);
-		} else {
-			return "";
-		}
-	};
+  renderHeaderBlock = (test, testLabel) => {
+    if (test && test.testId && test.url) {
+      return (
+        <p>
+          Test Id{testLabel}: {this.renderTestId(test)}, Test URL:{" "}
+          {this.renderTestURL(test)}, Location: {this.props.test.location}{" "}
+          {this.renderElapsedSeconds(test)} {this.renderBehindCount(test)}
+        </p>
+      );
+    } else {
+      return "";
+    }
+  };
 
-	/**
-	 * React lifecycle method.
-	 *
-	 * @returns {object}
-	 * @memberof TestResultHeaderDescription
-	 */
-	render() {
-		return (
-			<div className="TestResultHeaderDescriptionContainer">
-				{this.renderHeaderBlock(
-					this.props.test,
-					this.props.afterTest && this.props.afterTest.testId && this.props.afterTest.url ? " (Before)" : ""
-				)}
-				{this.renderHeaderBlock(this.props.afterTest, " (After)")}
-			</div>
-		);
-	}
+  /**
+   * React lifecycle method.
+   *
+   * @returns {object}
+   * @memberof TestResultHeaderDescription
+   */
+  render() {
+    return (
+      <div className="TestResultHeaderDescriptionContainer">
+        {this.renderHeaderBlock(
+          this.props.test,
+          this.props.afterTest &&
+            this.props.afterTest.testId &&
+            this.props.afterTest.url
+            ? " (Before)"
+            : ""
+        )}
+        {this.renderHeaderBlock(this.props.afterTest, " (After)")}
+      </div>
+    );
+  }
 }
 
 TestResultHeaderDescription.propTypes = {
-	test: PropTypes.object.isRequired,
-	afterTest: PropTypes.object,
+  test: PropTypes.object.isRequired,
+  afterTest: PropTypes.object,
 };
 
 export default TestResultHeaderDescription;

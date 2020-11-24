@@ -5,21 +5,21 @@
  *
  * @returns {array}
  */
-export const getUniqueURLs = testArray => {
-	let returnArray = [];
-	if (testArray && testArray.length) {
-		testArray.forEach((test, idx) => {
-			if (idx === 0) {
-				returnArray.push(test.url);
-			} else {
-				if (test.url !== testArray[idx - 1].url) {
-					returnArray.push(test.url);
-				}
-			}
-		});
-	}
+export const getUniqueURLs = (testArray) => {
+  let returnArray = [];
+  if (testArray && testArray.length) {
+    testArray.forEach((test, idx) => {
+      if (idx === 0) {
+        returnArray.push(test.url);
+      } else {
+        if (test.url !== testArray[idx - 1].url) {
+          returnArray.push(test.url);
+        }
+      }
+    });
+  }
 
-	return returnArray;
+  return returnArray;
 };
 
 /**
@@ -29,9 +29,9 @@ export const getUniqueURLs = testArray => {
  *
  * @returns {string}
  */
-export const getUniqueURLsString = testArray => {
-	const testsArray = getUniqueURLs(testArray);
-	return testsArray.join(", ");
+export const getUniqueURLsString = (testArray) => {
+  const testsArray = getUniqueURLs(testArray);
+  return testsArray.join(", ");
 };
 
 /**
@@ -41,6 +41,6 @@ export const getUniqueURLsString = testArray => {
  *
  * @return {array}
  */
-export const getActiveResultOptions = resultOptions => {
-	return resultOptions.filter(resultOption => resultOption.active);
+export const getActiveResultOptions = (resultOptions) => {
+  return resultOptions.filter((resultOption) => resultOption.active);
 };

@@ -7,8 +7,8 @@ const Dotenv = require("dotenv-webpack");
 
 const withSass = require("@zeit/next-sass");
 module.exports = withSass({
-	/* config options here */
-	/*
+  /* config options here */
+  /*
 	cssModules: true,
 	cssLoaderOptions: {
 		importLoaders: 1,
@@ -16,19 +16,19 @@ module.exports = withSass({
 	}
 	*/
 
-	webpack: config => {
-		config.plugins = config.plugins || [];
+  webpack: (config) => {
+    config.plugins = config.plugins || [];
 
-		config.plugins = [
-			...config.plugins,
+    config.plugins = [
+      ...config.plugins,
 
-			// Read the .env file
-			new Dotenv({
-				path: path.join(__dirname, ".env"),
-				systemvars: true
-			})
-		];
+      // Read the .env file
+      new Dotenv({
+        path: path.join(__dirname, ".env"),
+        systemvars: true,
+      }),
+    ];
 
-		return config;
-	}
+    return config;
+  },
 });

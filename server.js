@@ -13,29 +13,29 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-	const server = express();
+  const server = express();
 
-	//Logging
-	server.use(logger);
+  //Logging
+  server.use(logger);
 
-	//Body Parser
-	server.use(express.json());
-	server.use(express.urlencoded({ extended: false }));
+  //Body Parser
+  server.use(express.json());
+  server.use(express.urlencoded({ extended: false }));
 
-	router.use("/api/getLocations", apiGetLocations);
-	router.use("/api/submitTests", apiSubmitTests);
-	router.use("/api/getTestResults", apiGetTestResults);
+  router.use("/api/getLocations", apiGetLocations);
+  router.use("/api/submitTests", apiSubmitTests);
+  router.use("/api/getTestResults", apiGetTestResults);
 
-	router.use("/download/downloadCSV", downloadCSV);
+  router.use("/download/downloadCSV", downloadCSV);
 
-	server.use(router);
+  server.use(router);
 
-	server.all("*", (req, res) => {
-		return handle(req, res);
-	});
+  server.all("*", (req, res) => {
+    return handle(req, res);
+  });
 
-	server.listen(port, (err) => {
-		if (err) throw err;
-		console.log(`> Ready on http://localhost:${port}`);
-	});
+  server.listen(port, (err) => {
+    if (err) throw err;
+    console.log(`> Ready on http://localhost:${port}`);
+  });
 });

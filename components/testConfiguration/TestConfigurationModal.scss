@@ -1,26 +1,26 @@
 .TestConfigurationModalContainer {
-	.modal {
-		position: absolute;
-		top: 125px;
+  .modal {
+    position: absolute;
+    top: 125px;
 
-		.modal-dialog {
-			max-width: 1000px;
+    .modal-dialog {
+      max-width: 1000px;
 
-			.modal-content {
-				background-color: #2b3e50;
+      .modal-content {
+        background-color: #2b3e50;
 
-				.modal-header {
-					border: none;
-				}
-				.modal-body {
-					border-left: 15px solid rgba(255, 255, 255, 0.075);
-					border-right: 15px solid rgba(255, 255, 255, 0.075);
-				}
+        .modal-header {
+          border: none;
+        }
+        .modal-body {
+          border-left: 15px solid rgba(255, 255, 255, 0.075);
+          border-right: 15px solid rgba(255, 255, 255, 0.075);
+        }
 
-				.modal-footer {
-					border: none;
-				}
-			}
-		}
-	}
+        .modal-footer {
+          border: none;
+        }
+      }
+    }
+  }
 }
