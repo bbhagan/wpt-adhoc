@@ -1,9 +1,9 @@
 import React from "react";
-import TestResultTableHeader from "./resultsTable/TestResultTableHeader.js";
-import TestResultsLine from "./resultsTable/TestResultLine.js";
-import TestResultAverageLine from "./resultsTable/TestResultAverageLine.js";
-import TestResultHeaderDescription from "./TestResultHeaderDescription.js";
-import TestResultDifferenceLine from "./resultsTable/TestResultDifferenceLine.js";
+import TestResultTableHeader from "./resultsTable/TestResultTableHeader";
+import TestResultsLine from "./resultsTable/TestResultLine";
+import TestResultAverageLine from "./resultsTable/TestResultAverageLine";
+import TestResultHeaderDescription from "./TestResultHeaderDescription";
+import TestResultDifferenceLine from "./resultsTable/TestResultDifferenceLine";
 import PropTypes from "prop-types";
 
 /**
@@ -73,7 +73,7 @@ class TestResultMobileVsDesktop extends React.Component {
 TestResultMobileVsDesktop.propTypes = {
 	test1: PropTypes.object.isRequired,
 	test2: PropTypes.object.isRequired,
-	resultOptions: PropTypes.array.isRequired
+	resultOptions: PropTypes.array.isRequired,
 };
 
 export default TestResultMobileVsDesktop;

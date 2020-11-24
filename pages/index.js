@@ -1,15 +1,15 @@
 import React from "react";
-import TestConfiguration from "../components/testConfiguration/TestConfiguration.js";
-import StandardLayout from "../layouts/StandardLayout.js";
-import TestResults from "../components/results/TestResults.js";
-import TestsInProgress from "../components/results/TestsInProgress.js";
-import { resultsOptions } from "../data/resultsOptionsData.js";
+import TestConfiguration from "../components/testConfiguration/TestConfiguration";
+import StandardLayout from "../layouts/StandardLayout";
+import TestResults from "../components/results/TestResults";
+import TestsInProgress from "../components/results/TestsInProgress";
+import { resultsOptions } from "../data/resultsOptionsData";
 import moment from "moment";
-import { fetchTestResults } from "../public/static/js/wptInterface.js";
-import { fetchLocations } from "../public/static/js/wptInterface.js";
-import { submitTests as APISubmitTests } from "../public/static/js/wptInterface.js";
-import { addPreviousTest } from "../public/static/js/localStorageInterface.js";
-import { getPreviousTest } from "../public/static/js/localStorageInterface.js";
+import { fetchTestResults } from "../public/static/js/wptInterface";
+import { fetchLocations } from "../public/static/js/wptInterface";
+import { submitTests as APISubmitTests } from "../public/static/js/wptInterface";
+import { addPreviousTest } from "../public/static/js/localStorageInterface";
+import { getPreviousTest } from "../public/static/js/localStorageInterface";
 
 const SERVER_URL = process.env.SERVER_URL;
 const SERVER_PORT = process.env.SERVER_PORT;
@@ -46,7 +46,7 @@ class Index extends React.Component {
 			resultOptions: resultsOptions,
 			grouping: "",
 			sorting: "",
-			numberOfRuns: 0
+			numberOfRuns: 0,
 		};
 		this.inProgress = React.createRef();
 		//This will limit number of watches so server doesn't get bogged down
@@ -58,7 +58,7 @@ class Index extends React.Component {
 	 *
 	 * @param {object} props -- props object
 	 */
-	populateStateFromInitialProps = props => {
+	populateStateFromInitialProps = (props) => {
 		if (props.previousTestId) {
 			const previousTest = getPreviousTest(props.previousTestId);
 			//Maybe we don't have a previous test to lookup?
@@ -70,12 +70,12 @@ class Index extends React.Component {
 					resultOptions: previousTest.testConfig.resultOptions,
 					grouping: previousTest.testConfig.grouping,
 					sorting: previousTest.testConfig.sorting,
-					numberOfRuns: previousTest.testConfig.numberOfRuns
+					numberOfRuns: previousTest.testConfig.numberOfRuns,
 				});
-				previousTest.testConfig.tests.forEach(test => {
+				previousTest.testConfig.tests.forEach((test) => {
 					this.watchTest(test);
 				});
-				previousTest.testConfig.afterTests.forEach(test => {
+				previousTest.testConfig.afterTests.forEach((test) => {
 					this.watchTest(test);
 				});
 			}
@@ -98,7 +98,7 @@ class Index extends React.Component {
 			tests: [],
 			afterTests: [],
 			resultOptions: resultsOptions,
-			testLocations: this.props.testLocations.testLocations
+			testLocations: this.props.testLocations.testLocations,
 		});
 	};
 
@@ -142,7 +142,7 @@ class Index extends React.Component {
 	 *
 	 * @param {array} urls -- URL array to test
 	 */
-	handleUpdateURLs = urls => {
+	handleUpdateURLs = (urls) => {
 		this.setState({ urls: urls });
 	};
 
@@ -151,7 +151,7 @@ class Index extends React.Component {
 	 *
 	 * @param {string} grouping -- The grouping value
 	 */
-	handleUpdateGrouping = grouping => {
+	handleUpdateGrouping = (grouping) => {
 		this.setState({ grouping });
 	};
 
@@ -160,7 +160,7 @@ class Index extends React.Component {
 	 *
 	 * @param {string} sorting -- The sorting value
 	 */
-	handleUpdateSorting = sorting => {
+	handleUpdateSorting = (sorting) => {
 		this.setState({ sorting });
 	};
 
@@ -169,7 +169,7 @@ class Index extends React.Component {
 	 *
 	 * @param {number} numberOfRuns -- Number of tests to run
 	 */
-	handleUpdateNumberOfRuns = numberOfRuns => {
+	handleUpdateNumberOfRuns = (numberOfRuns) => {
 		this.setState({ numberOfRuns });
 	};
 
@@ -178,7 +178,7 @@ class Index extends React.Component {
 	 *
 	 * @param {array} options -- Array of test result options
 	 */
-	handleUpdateResultOptions = options => {
+	handleUpdateResultOptions = (options) => {
 		this.setState({ resultOptions: options });
 	};
 
@@ -188,7 +188,7 @@ class Index extends React.Component {
 	 * @param {array} locations -- Locations to test against
 	 *
 	 */
-	handleUpdateTestLocations = testLocations => {
+	handleUpdateTestLocations = (testLocations) => {
 		this.setState({ testLocations });
 	};
 
@@ -213,14 +213,14 @@ class Index extends React.Component {
 	 *
 	 * @param {boolean} afterTest -- Trigger to re-run tests as afterTests (comparison to previous tests)
 	 */
-	submitTests = async afterTest => {
+	submitTests = async (afterTest) => {
 		try {
 			const tests = await APISubmitTests(
 				//filter the tests for populated URLs and active locations
 				{
-					testUrls: this.state.urls.filter(url => url),
-					testLocations: this.state.testLocations.filter(location => location.active),
-					numberOfRuns: this.state.numberOfRuns
+					testUrls: this.state.urls.filter((url) => url),
+					testLocations: this.state.testLocations.filter((location) => location.active),
+					numberOfRuns: this.state.numberOfRuns,
 				},
 				UI_SUBMIT_TESTS_TIMEOUT
 			);
@@ -235,14 +235,14 @@ class Index extends React.Component {
 			addPreviousTest(moment().format(), JSON.parse(JSON.stringify(this.state)));
 
 			//Start watching tests for completion
-			tests.forEach(test => {
+			tests.forEach((test) => {
 				this.watchTest(test, afterTest);
 			});
 
 			//Scroll page to in progress section
 			this.inProgress.current.scrollIntoView({
 				behavior: "smooth",
-				block: "start"
+				block: "start",
 			});
 		} catch (e) {
 			console.log(`index:handleSubmitTests Failure submitting tests. ${e}`);
@@ -278,7 +278,7 @@ class Index extends React.Component {
 					srcTests = this.state.tests;
 				}
 
-				const updatedTests = srcTests.map(test => {
+				const updatedTests = srcTests.map((test) => {
 					//not the test we are looking for
 					if (test.testId !== testToWatch.testId) return test;
 
@@ -315,13 +315,13 @@ class Index extends React.Component {
 		let numberOfAfterTests = 0;
 
 		if (this.state.tests) {
-			testsInProgress = this.state.tests.filter(test => !test.completed);
-			testsCompleted = this.state.tests.filter(test => test.completed);
+			testsInProgress = this.state.tests.filter((test) => !test.completed);
+			testsCompleted = this.state.tests.filter((test) => test.completed);
 			numberOfTests = this.state.tests.length;
 		}
 		if (this.state.afterTests) {
-			afterTestsInProgress = this.state.afterTests.filter(test => test.completed === false);
-			afterTestsCompleted = this.state.afterTests.filter(test => test.completed === true);
+			afterTestsInProgress = this.state.afterTests.filter((test) => test.completed === false);
+			afterTestsCompleted = this.state.afterTests.filter((test) => test.completed === true);
 			numberOfAfterTests = this.state.afterTests.length;
 		}
 

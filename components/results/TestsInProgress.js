@@ -1,5 +1,6 @@
-import TestResultHeaderDescription from "./TestResultHeaderDescription.js";
-import TestResultsProgressBar from "./TestResultsProgressBar.js";
+import React from "react";
+import TestResultHeaderDescription from "./TestResultHeaderDescription";
+import TestResultsProgressBar from "./TestResultsProgressBar";
 import PropTypes from "prop-types";
 
 /**
@@ -28,7 +29,7 @@ class TestsInProgress extends React.Component {
 							backgroundColor: "#5cb85c",
 							borderRadius: "50%",
 							padding: "0 .3rem",
-							fontSize: "1.6rem"
+							fontSize: "1.6rem",
 						}}
 					>
 						&#x2713;
@@ -75,7 +76,7 @@ TestsInProgress.propTypes = {
 	testsInProgress: PropTypes.array.isRequired,
 	afterTestsInProgress: PropTypes.array,
 	totalNumberOfTests: PropTypes.number.isRequired,
-	totalNumberOfAfterTests: PropTypes.number
+	totalNumberOfAfterTests: PropTypes.number,
 };
 
 export default TestsInProgress;

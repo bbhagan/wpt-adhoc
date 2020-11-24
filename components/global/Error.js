@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 
 /**
@@ -26,12 +27,7 @@ class Error extends React.Component {
 		return (
 			<div className="ErrorContainer">
 				<div className="alert alert-dismissible alert-danger">
-					<button
-						type="button"
-						className="close"
-						data-dismiss="alert"
-						onClick={this.closeError}
-					>
+					<button type="button" className="close" data-dismiss="alert" onClick={this.closeError}>
 						×
 					</button>
 					{this.props.children}
@@ -43,7 +39,7 @@ class Error extends React.Component {
 
 Error.propTypes = {
 	children: PropTypes.array.isRequired,
-	closeError: PropTypes.func.isRequired
+	closeError: PropTypes.func.isRequired,
 };
 
 export default Error;

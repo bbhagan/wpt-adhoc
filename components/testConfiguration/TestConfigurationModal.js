@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import TestConfigurationTabs from "./TestConfigurationTabs.js";
-import TestConfigurationBasic from "./TestConfigurationBasic.js";
-import TestConfigurationResults from "./TestConfigurationResults.js";
+import TestConfigurationTabs from "./TestConfigurationTabs";
+import TestConfigurationBasic from "./TestConfigurationBasic";
+import TestConfigurationResults from "./TestConfigurationResults";
 import "./TestConfigurationModal.scss";
 
 /**
@@ -20,7 +20,7 @@ class TestConfigurationModal extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			selectedTab: "basic"
+			selectedTab: "basic",
 		};
 	}
 
@@ -103,7 +103,7 @@ TestConfigurationModal.propTypes = {
 	resultOptions: PropTypes.array.isRequired,
 	handleUpdateResultOptions: PropTypes.func.isRequired,
 	openClose: PropTypes.bool.isRequired,
-	handleClose: PropTypes.func.isRequired
+	handleClose: PropTypes.func.isRequired,
 };
 
 export default TestConfigurationModal;

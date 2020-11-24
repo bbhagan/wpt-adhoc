@@ -1,11 +1,6 @@
-import { getTestSet } from "./wptInterface.js";
-import { sortTestsByURL } from "./sortTests.js";
-import { sortTestsByLocation } from "./sortTests.js";
-import { sortTestsByField } from "./sortTests.js";
-import { calcUOMPrecision } from "./mathUtils.js";
-import { determineWinner } from "./mathUtils.js";
-import { calcDiffFromRank1 } from "./mathUtils.js";
-import { calcPercentFromRank1 } from "./mathUtils.js";
+import { getTestSet } from "./wptInterface";
+import { sortTestsByURL, sortTestsByLocation, sortTestsByField } from "./sortTests";
+import { calcUOMPrecision, determineWinner, calcDiffFromRank1, calcPercentFromRank1 } from "./mathUtils";
 
 require("dotenv").config();
 const SERVER_URL = process.env.SERVER_URL;
@@ -17,7 +12,7 @@ const SERVER_PORT = process.env.SERVER_PORT;
  * @param {string} location -- Test location (should include "desktop" or "mobile")
  * @returns {string}
  */
-const mobDeskLabel = location => {
+const mobDeskLabel = (location) => {
 	return location.indexOf("mobile") > -1 ? "Mob" : "Desk";
 };
 
@@ -42,21 +37,21 @@ const getCompAnalysisTextHeader = (test, resultOption) => {
  * @param {object} resultOptions -- Result options that are shown
  * @returns {string}
  */
-const getTableHeader = resultOptions => {
+const getTableHeader = (resultOptions) => {
 	return [" "].concat(
-		resultOptions.map(requestOption => {
+		resultOptions.map((requestOption) => {
 			return `${requestOption.name} (${requestOption.uom})`;
 		})
 	);
 };
 
-const getCompAnalysisTableHeader = resultOption => {
+const getCompAnalysisTableHeader = (resultOption) => {
 	return [
 		"Rank",
 		"URL",
 		`${resultOption.name} (${resultOption.uom})`,
 		`Difference from Lead  (${resultOption.uom})`,
-		"Percentage from Lead"
+		"Percentage from Lead",
 	];
 };
 
@@ -71,7 +66,7 @@ const getCompAnalysisTableHeader = resultOption => {
  */
 const getRunRow = (run, index, resultOptions, mobDesk) => {
 	return [`${mobDesk} Run ${index + 1}`].concat(
-		resultOptions.map(requestOption => {
+		resultOptions.map((requestOption) => {
 			return calcUOMPrecision(
 				run.firstView[requestOption.wptField],
 				requestOption.uom,
@@ -106,7 +101,7 @@ const formatCompAnalysisRow = (test, rowNum, resultOption, bestValue) => {
  */
 const getAvgRow = (test, resultOptions, mobDesk) => {
 	return [`${mobDesk} Avg.`].concat(
-		resultOptions.map(requestOption => {
+		resultOptions.map((requestOption) => {
 			return calcUOMPrecision(
 				test.data.average.firstView[requestOption.wptField],
 				requestOption.uom,
@@ -126,7 +121,7 @@ const getAvgRow = (test, resultOptions, mobDesk) => {
  */
 const getDifferenceRow = (test1, test2, resultOptions) => {
 	return [`Difference`].concat(
-		resultOptions.map(requestOption => {
+		resultOptions.map((requestOption) => {
 			return calcUOMPrecision(
 				test1.data.average.firstView[requestOption.wptField] - test2.data.average.firstView[requestOption.wptField],
 				requestOption.uom,
@@ -148,7 +143,7 @@ const getDifferenceRow = (test1, test2, resultOptions) => {
  */
 const getWinnerRow = (test1, test2, resultOptions, test1Label, test2Label) => {
 	return [`Winner`].concat(
-		resultOptions.map(requestOption => {
+		resultOptions.map((requestOption) => {
 			return determineWinner(
 				test1.data.average.firstView[requestOption.wptField],
 				test2.data.average.firstView[requestOption.wptField],
@@ -166,13 +161,13 @@ const getWinnerRow = (test1, test2, resultOptions, test1Label, test2Label) => {
  * @param {object} testConfig -- WPT Test config (contains result options)
  * @returns {array}
  */
-export const generateNoGroupingData = async testConfig => {
+export const generateNoGroupingData = async (testConfig) => {
 	const csvData = [];
 	try {
 		const tests = sortTestsByURL(
 			await getTestSet(testConfig.testIds, {
 				SERVER_URL,
-				SERVER_PORT
+				SERVER_PORT,
 			}),
 			testConfig.sorting
 		);
@@ -180,16 +175,16 @@ export const generateNoGroupingData = async testConfig => {
 		if (testConfig.afterTestIds && testConfig.afterTestIds.length) {
 			(afterTests = await getTestSet(testConfig.afterTestIds, {
 				SERVER_URL,
-				SERVER_PORT
+				SERVER_PORT,
 			})),
 				testConfig.sorting;
 		}
 
-		tests.forEach(test => {
+		tests.forEach((test) => {
 			//Do we have a corresponding afterTest?
 			let matchingAfterTest = {};
 			if (afterTests.length) {
-				afterTests.forEach(afterTest => {
+				afterTests.forEach((afterTest) => {
 					if (test.data.url === afterTest.data.url && test.data.location === afterTest.data.location) {
 						matchingAfterTest = afterTest;
 					}
@@ -241,13 +236,13 @@ export const generateNoGroupingData = async testConfig => {
  * @param {object} testConfig -- WPT Test config (contains result options)
  * @returns {array}
  */
-export const generateMobVsDeskGroupingData = async testConfig => {
+export const generateMobVsDeskGroupingData = async (testConfig) => {
 	const csvData = [];
 	try {
 		const tests = sortTestsByURL(
 			await getTestSet(testConfig.testIds, {
 				SERVER_URL,
-				SERVER_PORT
+				SERVER_PORT,
 			}),
 			testConfig.sorting
 		);
@@ -299,17 +294,17 @@ export const generateMobVsDeskGroupingData = async testConfig => {
  * @param {object} testConfig -- WPT Test config (contains result options)
  * @returns {array}
  */
-export const generateCompetativeAnalysisGroupingData = async testConfig => {
+export const generateCompetativeAnalysisGroupingData = async (testConfig) => {
 	const csvData = [];
 	try {
 		let tests = await getTestSet(testConfig.testIds, {
 			SERVER_URL,
-			SERVER_PORT
+			SERVER_PORT,
 		});
 		//Array of two arrays of tests, mob and desktop
 		const testSets = sortTestsByLocation(tests);
-		testSets.forEach(testSet => {
-			testConfig.resultOptions.forEach(resultOption => {
+		testSets.forEach((testSet) => {
+			testConfig.resultOptions.forEach((resultOption) => {
 				const testsSortedByField = sortTestsByField(testSet, resultOption.wptField);
 				//This value is the "best" value that the others will be ranked against in their tests
 				const bestResult = testSet[0].data.average.firstView[resultOption.wptField];

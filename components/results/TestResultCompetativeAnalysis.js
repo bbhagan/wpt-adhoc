@@ -1,8 +1,6 @@
 import React from "react";
-import { calcUOMPrecision } from "../../public/static/js/mathUtils.js";
-import { sortTestsByField } from "../../public/static/js/sortTests.js";
-import { calcPercentFromRank1 } from "../../public/static/js/mathUtils.js";
-import { calcDiffFromRank1 } from "../../public/static/js/mathUtils.js";
+import { calcUOMPrecision, calcPercentFromRank1, calcDiffFromRank1 } from "../../public/static/js/mathUtils";
+import { sortTestsByField } from "../../public/static/js/sortTests";
 import PropTypes from "prop-types";
 
 /**
@@ -27,7 +25,7 @@ class TestResultCompetativeAnalysis extends React.Component {
 	 *
 	 * @memberof TestResultCompetativeAnalysis
 	 */
-	setRank1Value = value => {
+	setRank1Value = (value) => {
 		if (!this.rank1Value || value < this.rank1Value) this.rank1Value = value;
 	};
 
@@ -39,7 +37,7 @@ class TestResultCompetativeAnalysis extends React.Component {
 	 *
 	 * @memberof TestResultCompetativeAnalysis
 	 */
-	getRowClass = fieldValue => {
+	getRowClass = (fieldValue) => {
 		const percent = calcPercentFromRank1(fieldValue, this.rank1Value);
 
 		if (percent === 0) return "table-active";
@@ -124,7 +122,7 @@ class TestResultCompetativeAnalysis extends React.Component {
 
 TestResultCompetativeAnalysis.propTypes = {
 	tests: PropTypes.array.isRequired,
-	resultOption: PropTypes.object.isRequired
+	resultOption: PropTypes.object.isRequired,
 };
 
 export default TestResultCompetativeAnalysis;

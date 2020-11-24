@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { getActiveResultOptions } from "../../../public/static/js/filterUtils.js";
+import { getActiveResultOptions } from "../../../public/static/js/filterUtils";
 
 /**
  * Renders the table header (column description) (row) for each test
@@ -15,7 +15,7 @@ class TestResultTableHeader extends React.Component {
 	 * @return {object}
 	 * @memberof TestResultTableHeader
 	 */
-	renderCopy = resultOption => {
+	renderCopy = (resultOption) => {
 		let copy = resultOption.name;
 		if (resultOption.uom) copy += " (" + resultOption.uom + ")";
 		return copy;
@@ -45,7 +45,7 @@ class TestResultTableHeader extends React.Component {
 }
 
 TestResultTableHeader.propTypes = {
-	resultOptions: PropTypes.array.isRequired
+	resultOptions: PropTypes.array.isRequired,
 };
 
 export default TestResultTableHeader;

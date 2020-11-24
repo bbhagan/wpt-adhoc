@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { calcUOMPrecision } from "../../../public/static/js/mathUtils.js";
-import { getActiveResultOptions } from "../../../public/static/js/filterUtils.js";
+import { calcUOMPrecision } from "../../../public/static/js/mathUtils";
+import { getActiveResultOptions } from "../../../public/static/js/filterUtils";
 
 /**
  * Renders the result table average line (row)
@@ -45,7 +45,7 @@ TestResultAverageLine.propTypes = {
 	data: PropTypes.object.isRequired,
 	resultOptions: PropTypes.array.isRequired,
 	mobDesk: PropTypes.string.isRequired,
-	beforeAfterLabel: PropTypes.string
+	beforeAfterLabel: PropTypes.string,
 };
 
 export default TestResultAverageLine;

@@ -1,4 +1,4 @@
-import timeoutFetch from "./timeoutFetch.js";
+import timeoutFetch from "./timeoutFetch";
 import moment from "moment";
 
 const SERVER_GET_TEST_RESULTS_TIMEOUT = process.env.SERVER_GET_TEST_RESULTS_TIMEOUT;
@@ -18,20 +18,20 @@ export const fetchLocations = async (timeout, FQDN) => {
 		const response = await timeoutFetch(`${FQDN}/api/getLocations`, timeout);
 		if (response.ok) {
 			const data = await response.json();
-			let testLocations = [];
+			const testLocations = [];
 			if (data.statusCode === 200) {
 				if (data.locations.desktop.length > 0) {
 					testLocations.push({
 						location: data.locations.desktop[0].location,
 						label: "Desktop",
-						active: true
+						active: true,
 					});
 				}
 				if (data.locations.mobile.length > 0) {
 					testLocations.push({
 						location: data.locations.mobile[0].location,
 						label: "Mobile",
-						active: true
+						active: true,
 					});
 				}
 				return { testLocations: testLocations };
@@ -100,7 +100,7 @@ export const submitTests = async (testsConfig, timeout) => {
 	const fetchInit = {
 		headers: { "Content-Type": "application/json" },
 		method: "POST",
-		body: JSON.stringify(testsConfig)
+		body: JSON.stringify(testsConfig),
 	};
 
 	try {
@@ -108,7 +108,7 @@ export const submitTests = async (testsConfig, timeout) => {
 		const data = await res.json();
 		//add some artificial data onto each test
 		if (data.statusCode === 200) {
-			const tests = data.tests.map(test => {
+			const tests = data.tests.map((test) => {
 				test.completed = false;
 				test.elapsedSeconds = 0;
 				return test;
@@ -145,7 +145,7 @@ export const getTestSet = (testIds, serverConfig) => {
 				SERVER_GET_TEST_RESULTS_TIMEOUT,
 				`${serverConfig.SERVER_URL}:${serverConfig.SERVER_PORT}`
 			)
-				.then(test => {
+				.then((test) => {
 					returnTests.push(test);
 					//Remove test that we just got from the array
 					reverseTestIds.pop();
@@ -156,7 +156,7 @@ export const getTestSet = (testIds, serverConfig) => {
 						resolve(returnTests);
 					}
 				})
-				.catch(error => {
+				.catch((error) => {
 					console.log(`wptInterface.getTestSet Promise rejected: ${error}`);
 					reject(error);
 				});

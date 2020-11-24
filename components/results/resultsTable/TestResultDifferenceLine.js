@@ -1,7 +1,7 @@
 import React from "react";
-import { calcUOMPrecision } from "../../../public/static/js/mathUtils.js";
-import { determineWinner } from "../../../public/static/js/mathUtils.js";
-import { getActiveResultOptions } from "../../../public/static/js/filterUtils.js";
+import { calcUOMPrecision } from "../../../public/static/js/mathUtils";
+import { determineWinner } from "../../../public/static/js/mathUtils";
+import { getActiveResultOptions } from "../../../public/static/js/filterUtils";
 import PropTypes from "prop-types";
 
 /**
@@ -55,7 +55,7 @@ TestResultDifferenceLine.propTypes = {
 	test1Label: PropTypes.string.isRequired,
 	test2Data: PropTypes.object.isRequired,
 	test2Label: PropTypes.string.isRequired,
-	resultOptions: PropTypes.array.isRequired
+	resultOptions: PropTypes.array.isRequired,
 };
 
 export default TestResultDifferenceLine;

@@ -1,10 +1,9 @@
 import React from "react";
 import Link from "next/link";
-import StandardLayout from "../layouts/StandardLayout.js";
-import { getAllPreviousTests } from "../public/static/js/localStorageInterface.js";
-import { getReadableDateFromMoment } from "../public/static/js/dateUtil.js";
-import { getUniqueURLs } from "../public/static/js/filterUtils.js";
-import { deletePreviousTest } from "../public/static/js/localStorageInterface.js";
+import StandardLayout from "../layouts/StandardLayout";
+import { getAllPreviousTests, deletePreviousTest } from "../public/static/js/localStorageInterface";
+import { getReadableDateFromMoment } from "../public/static/js/dateUtil";
+import { getUniqueURLs } from "../public/static/js/filterUtils";
 
 class PreviousTests extends React.Component {
 	constructor(props) {
@@ -22,7 +21,7 @@ class PreviousTests extends React.Component {
 	 *
 	 * @returns {string}
 	 */
-	getMobDeskFlag = testArray => {
+	getMobDeskFlag = (testArray) => {
 		let foundMob = false;
 		let foundDesk = false;
 		let returnString = "";
@@ -43,13 +42,13 @@ class PreviousTests extends React.Component {
 		return returnString;
 	};
 
-	handleDeletePreviousTest = testId => e => {
+	handleDeletePreviousTest = (testId) => (e) => {
 		const filteredTests = deletePreviousTest(testId);
 		this.setState({ previousTests: filteredTests.reverse() });
 	};
 
-	renderURLBlock = tests => {
-		return getUniqueURLs(tests).map(URL => {
+	renderURLBlock = (tests) => {
+		return getUniqueURLs(tests).map((URL) => {
 			return (
 				<span>
 					{URL}

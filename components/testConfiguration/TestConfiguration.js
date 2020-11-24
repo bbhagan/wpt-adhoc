@@ -1,9 +1,9 @@
 import React from "react";
-import TestConfigurationURLs from "./TestConfigurationURLs.js";
-import TestConfigurationSubmitTests from "./TestConfigurationSubmitTests.js";
-import TestConfigurationModal from "./TestConfigurationModal.js";
+import TestConfigurationURLs from "./TestConfigurationURLs";
+import TestConfigurationSubmitTests from "./TestConfigurationSubmitTests";
+import TestConfigurationModal from "./TestConfigurationModal";
 
-import TestConfigurationAddMoreURLs from "./TestConfigurationAddMoreURLs.js";
+import TestConfigurationAddMoreURLs from "./TestConfigurationAddMoreURLs";
 
 import Error from "../global/Error";
 
@@ -26,7 +26,7 @@ class TestConfiguration extends React.Component {
 		super(props);
 		this.state = {
 			advancedConfigOpen: false,
-			showTestLocationFetchError: true
+			showTestLocationFetchError: true,
 		};
 	}
 
@@ -145,7 +145,7 @@ TestConfiguration.propTypes = {
 	resetTests: PropTypes.func.isRequired,
 	testLocationFetchError: PropTypes.string,
 	testLocations: PropTypes.array,
-	handleUpdateTestLocations: PropTypes.func.isRequired
+	handleUpdateTestLocations: PropTypes.func.isRequired,
 };
 
 export default TestConfiguration;

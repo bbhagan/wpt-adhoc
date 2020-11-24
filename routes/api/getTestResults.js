@@ -1,6 +1,6 @@
 import { Router as _Router } from "express";
-import timeoutFetch from "../../public/static/js/timeoutFetch.js";
-import { syntheticTests } from "../../data/syntheticTestsData.js";
+import timeoutFetch from "../../public/static/js/timeoutFetch";
+import { syntheticTests } from "../../data/syntheticTestsData";
 import moment from "moment";
 require("dotenv").config();
 const router = _Router();
@@ -27,20 +27,20 @@ router.get("/:testId", async (req, res) => {
 				return res.json({
 					statusCode: 100,
 					statusMsg: "Not complete",
-					testElapsedSeconds: resJSON.data.elapsed
+					testElapsedSeconds: resJSON.data.elapsed,
 				});
 			//Waiting behind other tests in the queue
 			case 101:
 				return res.json({
 					statusCode: 101,
 					statusMsg: "Waiting behind other tests",
-					behindCount: resJSON.data.behindCount
+					behindCount: resJSON.data.behindCount,
 				});
 			//Something else
 			default:
 				return res.json({
 					statusCode: 400,
-					statusMsg: `Error: WPT statusCode: ${resJSON.statusCode}, WPT statusText: ${resJSON.statusText}`
+					statusMsg: `Error: WPT statusCode: ${resJSON.statusCode}, WPT statusText: ${resJSON.statusText}`,
 				});
 		}
 	} catch (e) {
@@ -59,7 +59,7 @@ router.get("/:testId", async (req, res) => {
 		for (var node in data) {
 			if (data.hasOwnProperty(node)) {
 				if (typeof data[node] === "string" || typeof data[node] === "number") {
-					syntheticTests.forEach(syntheticTest => {
+					syntheticTests.forEach((syntheticTest) => {
 						if (node === syntheticTest.origWptField) {
 							data[syntheticTest.wptField] = data[node] - data.TTFB;
 						}

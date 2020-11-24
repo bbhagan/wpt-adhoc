@@ -1,5 +1,5 @@
 import { Router as _Router } from "express";
-import timeoutFetch from "../../public/static/js/timeoutFetch.js";
+import timeoutFetch from "../../public/static/js/timeoutFetch";
 import moment from "moment";
 require("dotenv").config();
 const router = _Router();
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 			returnJSON = {
 				statusCode: 200,
 				statusMsg: "Ok",
-				locations: { desktop: [], mobile: [] }
+				locations: { desktop: [], mobile: [] },
 			};
 			//Iterate over the received data and attach it to the response data
 			Object.keys(resJSON.data).forEach((location, index) => {
@@ -33,7 +33,7 @@ router.get("/", async (req, res) => {
 			res.status = resJSON.statusCode;
 			returnJSON = {
 				statusCode: resJSON.statusCode,
-				statusMsg: resJSON.statusText
+				statusMsg: resJSON.statusText,
 			};
 		}
 
@@ -45,7 +45,7 @@ router.get("/", async (req, res) => {
 		res.status(503); // TODO: should this be 503 on timeout (Service Unavailable?)
 		return res.json({
 			statusCode: 400,
-			statusMsg
+			statusMsg,
 		});
 	}
 });

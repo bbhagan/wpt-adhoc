@@ -1,10 +1,10 @@
 import React from "react";
-import TestResultNoGrouping from "./TestResultNoGrouping.js";
-import TestResultMobileVsDesktop from "./TestResultMobileVsDesktop.js";
-import TestResultCompetativeAnalysis from "./TestResultCompetativeAnalysis.js";
-import { sortTestsByURL } from "../../public/static/js/sortTests.js";
-import { sortTestsByLocation } from "../../public/static/js/sortTests.js";
-import { getActiveResultOptions } from "../../public/static/js/filterUtils.js";
+import TestResultNoGrouping from "./TestResultNoGrouping";
+import TestResultMobileVsDesktop from "./TestResultMobileVsDesktop";
+import TestResultCompetativeAnalysis from "./TestResultCompetativeAnalysis";
+import { sortTestsByURL } from "../../public/static/js/sortTests";
+import { sortTestsByLocation } from "../../public/static/js/sortTests";
+import { getActiveResultOptions } from "../../public/static/js/filterUtils";
 import PropTypes from "prop-types";
 
 /**
@@ -28,8 +28,8 @@ class TestResults extends React.Component {
 	 * Sets up a hidden form and submits it to backend for download of CSV data
 	 */
 	downloadCSV = () => {
-		const testIds = this.props.tests.map(test => test.testId);
-		const afterTestIds = this.props.afterTests.map(test => test.testId);
+		const testIds = this.props.tests.map((test) => test.testId);
+		const afterTestIds = this.props.afterTests.map((test) => test.testId);
 		const activeResultOptions = getActiveResultOptions(this.props.resultOptions);
 
 		let postBody = {
@@ -37,7 +37,7 @@ class TestResults extends React.Component {
 			afterTestIds,
 			resultOptions: activeResultOptions,
 			grouping: this.props.grouping,
-			sorting: this.props.sorting
+			sorting: this.props.sorting,
 		};
 
 		let hiddenForm = document.createElement("form");
@@ -96,7 +96,7 @@ class TestResults extends React.Component {
 				//need to see if we have a corresponding afterTest
 				let returnAfterTest = {};
 				if (this.props.afterTests) {
-					this.props.afterTests.forEach(afterTest => {
+					this.props.afterTests.forEach((afterTest) => {
 						if (test.url === afterTest.url && test.location === afterTest.location) {
 							returnAfterTest = afterTest;
 						}
@@ -143,7 +143,7 @@ class TestResults extends React.Component {
 		} else if (this.props.grouping === "competative") {
 			const locSortTests = sortTestsByLocation(this.props.tests);
 
-			locSortTests.forEach(testSet => {
+			locSortTests.forEach((testSet) => {
 				if (testSet.length > 0) {
 					this.props.resultOptions.map((resultOption, idx) => {
 						result.push(
@@ -177,7 +177,7 @@ TestResults.propTypes = {
 	sorting: PropTypes.string.isRequired,
 	totalNumberOfTests: PropTypes.number.isRequired,
 	totalNumberOfAfterTests: PropTypes.number,
-	handleResubmitTests: PropTypes.func.isRequired
+	handleResubmitTests: PropTypes.func.isRequired,
 };
 
 export default TestResults;

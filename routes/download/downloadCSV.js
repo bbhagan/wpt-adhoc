@@ -1,7 +1,9 @@
 import { Router as _Router } from "express";
-import { generateNoGroupingData } from "../../public/static/js/generateCSVData.js";
-import { generateMobVsDeskGroupingData } from "../../public/static/js/generateCSVData.js";
-import { generateCompetativeAnalysisGroupingData } from "../../public/static/js/generateCSVData.js";
+import {
+	generateNoGroupingData,
+	generateMobVsDeskGroupingData,
+	generateCompetativeAnalysisGroupingData,
+} from "../../public/static/js/generateCSVData";
 import stringify from "csv-stringify";
 
 const router = _Router();

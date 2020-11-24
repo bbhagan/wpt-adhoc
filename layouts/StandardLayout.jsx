@@ -1,3 +1,4 @@
+import React from "react";
 import Masthead from "../components/global/Masthead";
 import Footer from "../components/global/Footer";
 import Head from "next/head";

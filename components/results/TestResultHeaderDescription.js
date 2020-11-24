@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 const WPTSERVER = process.env.WPTSERVER;
 
@@ -8,7 +9,7 @@ const WPTSERVER = process.env.WPTSERVER;
  * @extends {React.Component}
  */
 class TestResultHeaderDescription extends React.Component {
-	renderTestId = test => {
+	renderTestId = (test) => {
 		return (
 			<a href={WPTSERVER + "/result/" + test.testId} target="_blank" rel="noopener noreferrer">
 				{test.testId}
@@ -16,7 +17,7 @@ class TestResultHeaderDescription extends React.Component {
 		);
 	};
 
-	renderTestURL = test => {
+	renderTestURL = (test) => {
 		return (
 			<a href={test.url} target="_blank" rel="noopener noreferrer">
 				{test.url}
@@ -24,11 +25,11 @@ class TestResultHeaderDescription extends React.Component {
 		);
 	};
 
-	renderElapsedSeconds = test => {
+	renderElapsedSeconds = (test) => {
 		return test.elapsedSeconds && !test.data ? ", Elapsed Time: " + test.elapsedSeconds + " seconds" : "";
 	};
 
-	renderBehindCount = test => {
+	renderBehindCount = (test) => {
 		return (test.behindCount || test.behindCount === 0) && !test.data ? ", Behind Count: " + test.behindCount : "";
 	};
 
@@ -66,7 +67,7 @@ class TestResultHeaderDescription extends React.Component {
 
 TestResultHeaderDescription.propTypes = {
 	test: PropTypes.object.isRequired,
-	afterTest: PropTypes.object
+	afterTest: PropTypes.object,
 };
 
 export default TestResultHeaderDescription;
