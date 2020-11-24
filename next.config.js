@@ -1,6 +1,7 @@
 // next.config.js
 
 require("dotenv").config();
+let magicImporter = require("node-sass-magic-importer");
 
 const path = require("path");
 const Dotenv = require("dotenv-webpack");
@@ -14,7 +15,11 @@ module.exports = withSass({
 		importLoaders: 1,
 		localIdentName: "[local]___[hash:base64:5]"
 	}
-	*/
+  */
+
+  sassLoaderOptions: {
+    importer: magicImporter(),
+  },
 
   webpack: (config) => {
     config.plugins = config.plugins || [];

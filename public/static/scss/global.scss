@@ -1,9 +1,9 @@
 // Your variable overrides can go here, e.g.:
 // $h1-font-size: 3rem;
 
-@import "./bootswatch/theme/Superhero/variables";
-@import "./bootstrap4.0.0/bootstrap.scss";
-@import "./bootswatch/theme/Superhero/bootswatch";
+@import "~bootswatch/dist/Superhero/variables";
+@import "~bootstrap";
+@import "~bootswatch/dist/Superhero/bootswatch";
 
 .wptah-section {
   margin-top: 4rem;
