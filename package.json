@@ -54,7 +54,7 @@
     "eslint-plugin-standard": "^4.1.0",
     "husky": "^4.3.6",
     "jest": "^26.6.3",
-    "node-sass": "^4.14.1",
+    "node-sass": "^5.0.0",
     "node-sass-magic-importer": "^5.3.2",
     "nodemon": "^2.0.6",
     "prettier": "^2.2.1",
